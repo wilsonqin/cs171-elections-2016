@@ -1,0 +1,10 @@
+/*Choropleth Vis 1*/
+.counties {
+    fill: black;
+}
+
+.states {
+    fill: none;
+    stroke: #fff;
+    stroke-linejoin: round;
+}
