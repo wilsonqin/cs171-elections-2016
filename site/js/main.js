@@ -1,1 +1,1 @@
-// test to explain git.. hi
+// test to explain git merge conflicts
