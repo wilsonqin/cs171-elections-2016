@@ -1,10 +1,30 @@
 /*Choropleth Vis 1*/
-.counties {
-    fill: black;
+
+path {
+    fill: grey;
+    stroke: #fff;
+}
+path:hover {
+    fill:#48494b;
+    cursor:pointer;
 }
 
-.states {
-    fill: none;
-    stroke: #fff;
-    stroke-linejoin: round;
+#tooltip {
+    width: 150px;
+    height: auto;
+    padding: 5px;
+    background-color: #fff;
+    color: #000;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    -webkit-box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.4);
+    -moz-box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.4);
+    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.4);
+    pointer-events: none;
+    position: absolute;
+}
+
+#tooltip.hidden {
+    display: none;
 }
