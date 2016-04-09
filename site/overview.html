@@ -1,4 +1,4 @@
-<!--	
+<!--
 
 TEAM NAME:		Data, Inc.
 
@@ -9,17 +9,17 @@ TEAM MEMBERS:	James Curtin
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
     <meta charset="UTF-8">
     <title>Data, Inc. Final Project</title>
     <link rel="stylesheet" href="css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css" type="text/css" media="all">
 </head>
 <body>
 
-
 <!-- top banner -->
-<div id="header-wrapper">
+<div id="header-wrapper" class="subpage">
 
     <div id="header" class="container">
         <div id="top_banner">
@@ -32,8 +32,8 @@ TEAM MEMBERS:	James Curtin
             <!-- top right menu -- leads to videos / motivation description /etc. -->
             <div id="menu">
                 <ul>
-                    <li class="active"><a href="index.html" title="">Home</a></li>
-                    <li><a href="overview.html" title="">Project Overview</a></li>
+                    <li><a href="index.html" title="">Home</a></li>
+                    <li class="active"><a href="overview.html" title="">Project Overview</a></li>
                     <li><a href="sources.html" title="">Sources</a></li>
                     <li><a href="aboutus.html" title="">About Us</a></li>
                 </ul>
@@ -47,28 +47,20 @@ TEAM MEMBERS:	James Curtin
             <h2>The 2016 Presidential Elections</h2>
             <span class="byline">More complex relationships in elections data.</span>
         </div>
-        <!-- these should not take user to different page but rather to the appropriate visualization -->
-        <a href="#" class="button">County Level Voting</a>
-        <a href="#" class="button">Polls vs. Google Trends</a>
-        <a href="#" class="button">What's Next?</a>
     </div>
 
 </div>
 <!-- end banner -->
 
-<!-- begin body -->
+<!-- begin body - this will include motivation for project + project video -->
 <div class="container-fluid">
 
-    <!-- FIRST VISUALIZATION - CHOROPLETH -->
+    <!-- MOTIVATION -->
     <div class="row">
+        <h1 class="section_title">Motivation</h1>
         <!-- Column 1 -->
         <div class="col-md-6">
-            <h1>Choropleth</h1>
-            <!-- Visualization placeholders -->
-            <div id="choropleth1"></div>
-            <div id="tooltip" class="hidden">
-                <p>County: <span id="county">County Name</span></p>
-            </div>
+            <p>Hi! Motivation behind project will be here! This part will look prettier soon.</p>
         </div>
         <!-- Column 2 -->
         <div class="col-md-6">
@@ -77,44 +69,28 @@ TEAM MEMBERS:	James Curtin
 
     <hr>
 
-    <!-- SECOND VISUALIZATION - POLLS / TRENDS -->
+    <!-- VIDEO -->
     <div class="row">
+        <h1 class="section_title">Video</h1>
         <!-- Column 1 -->
         <div class="col-md-6">
-            <h1>Polls vs. Google Trends</h1>
-            <!-- Visualization placeholders -->
-            <div id="polls_trends"></div>
+            <p>Video will be here!</p>
         </div>
         <!-- Column 2 -->
         <div class="col-md-6">
         </div>
     </div>
+
 
     <hr>
-
-    <!-- THIRD VISUALIZATION - PREDICTION - OPTIONAL! -->
-    <div class="row">
-        <!-- Column 1 -->
-        <div class="col-md-6">
-            <h1></h1>
-            <!-- Visualization placeholders -->
-            <div id="prediction"></div>
-        </div>
-        <!-- Column 2 -->
-        <div class="col-md-6">
-        </div>
-    </div>
-
 </div>
-<!-- end body -->
 
-<!-- copyright:)  -->
+<!-- copyright, to seem fancy :)  -->
 <div id="copyright" class="container">
     <p>&copy; Data, Inc. All rights reserved.</p>
 </div>
-<!-- end copyright -->
 
-
+<!-- all the javascript stuff -->
 <script src="js/d3.min.js"></script>
 <script src="js/jquery.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
@@ -125,5 +101,6 @@ TEAM MEMBERS:	James Curtin
 <script src="js/choropleth.js"></script>
 <script src="js/poll_trends.js"></script>
 <script src="js/prediction.js"></script>
+
 </body>
 </html>

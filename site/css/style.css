@@ -28,3 +28,264 @@ path:hover {
 #tooltip.hidden {
     display: none;
 }
+
+
+
+/*********************************************************************************/
+/* CSS STYLING FOR WEBSITE IN GENERAL
+     Colors - use these / or change everything accordingly:
+     Dark blue: #061727
+     Dark red: #830d19
+                                                              */
+/*********************************************************************************/
+
+/*********************************************************************************/
+/* Body                                                                  */
+/*********************************************************************************/
+
+
+html, body
+{
+    height: 100%;
+}
+
+body
+{
+    margin: 0;
+    padding: 0;
+    font-family: "Helvetica Neue";
+    font-size: 12pt;
+    font-weight: 200;
+    color: #061727;
+}
+
+h1, h2, h3
+{
+    margin: 0;
+    padding: 0;
+}
+
+p, ol, ul
+{
+    margin-top: 0;
+}
+
+ol, ul
+{
+    padding: 0;
+    list-style: none;
+}
+
+p
+{
+    line-height: 150%;
+}
+
+a:hover
+{
+    text-decoration: none;
+}
+
+.container
+{
+    overflow: hidden;
+    margin: 0 auto;
+    width: auto;
+
+}
+
+/*********************************************************************************/
+/* Section Titles                                                                       */
+/*********************************************************************************/
+
+h1.section_title
+{
+    text-align: center;
+    padding: 0.5em 0.5em 0.5em 0.5em;
+}
+
+/*********************************************************************************/
+/* Button                                                                       */
+/*********************************************************************************/
+
+.button
+{
+    display: inline-block;
+    padding: 1em 1em 1em 1em;
+    letter-spacing: 0.15em;
+    margin-top: 2em;
+    border: 1px solid #830d19;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1em;
+    color: #830d19;
+}
+
+/*********************************************************************************/
+/* Heading Titles                                                                */
+/*********************************************************************************/
+
+.title
+{
+    margin-bottom: 2em;
+}
+
+.title h2
+{
+    font-size: 2.7em;
+}
+
+.title .byline
+{
+    font-size: 1.7em;
+    color: #830d19;
+}
+
+/*********************************************************************************/
+/* Header                                                                        */
+/*********************************************************************************/
+
+#header-wrapper
+{
+    position: relative;
+    height: 550px;
+    padding: 0 0 0 0;
+    background: #ffffff url("http://s14.postimg.org/98gur8j35/lightbanner.jpg") no-repeat center;
+    background-size: cover;
+    display:block;
+    width: auto;
+}
+
+#header
+{
+    position: relative;
+    padding: 5em 0;
+}
+
+#header-wrapper.subpage
+{
+    height: 450px;
+}
+
+/*********************************************************************************/
+/* Logo                                                                          */
+/*********************************************************************************/
+
+#logo
+{
+    position: absolute;
+    top: 2em;
+    left: 1em;
+}
+
+#logo h1
+{
+    font-size: 2em;
+}
+
+/*********************************************************************************/
+/* Menu                                                                          */
+/*********************************************************************************/
+
+#menu
+{
+    position: absolute;
+    top: 2.9em;
+    right: 1em;
+}
+
+#menu ul
+{
+    display: inline-block;
+}
+
+#menu li
+{
+    display: block;
+    float: left;
+    text-align: center;
+}
+
+#menu li a, #menu li span
+{
+    padding: 1em 1em;
+    letter-spacing: 1px;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 0.8em;
+    color: #061727;
+}
+
+#menu li:hover a
+{
+    border-radius: 6px;
+    opacity: .5;
+}
+
+#menu .active a
+{
+    color: #830d19;
+}
+
+
+/*********************************************************************************/
+/* Banner                                                                        */
+/*********************************************************************************/
+
+#banner
+{
+    padding-top: 2em;
+    text-align: center;
+}
+
+#banner .title h2
+{
+    font-size: 4em;
+}
+
+#banner .title .byline
+{
+    font-size: 2em;
+}
+
+#banner .button
+{
+    width: 300px;
+    margin-top: 2em;
+    padding: 1em 1em;
+    font-weight: 700;
+    font-size: 1em;
+}
+
+#banner a:hover
+{
+    opacity: .5;
+}
+
+/*********************************************************************************/
+/* Copyright                                                                     */
+/*********************************************************************************/
+
+#copyright
+{
+    overflow: hidden;
+    padding: 3em 0;
+}
+
+#copyright p
+{
+    text-align: center;
+    font-size: 1em;
+    color:  #830d19;
+}
+
+#copyright a
+{
+    text-decoration: none;
+    color:  #830d19;
+}
+
+/*******************************/
+/* end CSS styling for website */
+/*******************************/
