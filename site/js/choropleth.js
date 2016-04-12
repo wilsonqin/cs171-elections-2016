@@ -89,7 +89,7 @@ function updateChoropleth(us, stateNames, countyNames) {
         .enter().append("path")
         .attr("d", path)
         .attr("class", "state")
-        .on("click", clicked)
+        // .on("click", )
         .on("click", gennewstate)
         .on("mouseover", function (d) {
             var boundaries = this.getBoundingClientRect();
@@ -117,6 +117,7 @@ function updateChoropleth(us, stateNames, countyNames) {
 
 
 function clicked(d) {
+
     // console.log(d);
     var x, y, k;
 
@@ -147,6 +148,7 @@ function countyclicked(d) {
 }
 
 function gennewstate(datum) {
+    clicked(datum);
     var states = topojson.feature(testdata, testdata.objects.states),
         state = states.features.filter(function(d) {return d.id === datum.id; })[0];
     console.log(state);
