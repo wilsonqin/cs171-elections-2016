@@ -10,8 +10,6 @@ var _ = require('underscore');
 var countyFacts = processCSV("vis1_county_facts.csv");
 var primaryResults = processCSV("vis1_primary_results.csv");
 
-processNestData(countyFacts, primaryResults);
-
 function processCSV(path){
   var data = fs.readFileSync(path).toString();
   return d3.csv.parse(data);
@@ -63,16 +61,38 @@ function processCountyFacts(countyFacts){
 
   var factsMap = d3.map(facts, function(d){ return d.fips; });
 
+  countyFacts.forEach(function(d,i){
+    record = {};
+
+    vitalFields.forEach(function(field,ii){
+      record[field] = d[field];
+    });
+
+    numberFields.forEach(function(field,ii){
+      record[field] = Number(d[field]);
+    });
+
+    results.push(record);
+  });
+
   return factsMap;
 }
 
-countyFacts = processCountyFacts(countyFacts);
+function formatPrimaryData(primaryResults){
+  var numberFields = [
+    'votes', 'fraction_votes'
+  ];
 
-console.log(countyFacts);
+  primaryResults.forEach(function(d,i){
+    numberFields.forEach(function(field,ii){
+      d[field] = Number(d[field]);
+    });
+  });
 
-function processNestData(countyFacts, primaryResults){
-  var factMap = d3.map(countyFacts, function(d){ return d.fips; });
+  return primaryResults;
+}
 
+function processPrimaryData(primaryResults){
   //console.log(factMap.get('51650'));
 
   // groupBy fips
@@ -103,3 +123,11 @@ function processNestData(countyFacts, primaryResults){
 
   return groupByFipsParty;
 }
+
+countyFacts = formatCountyFacts(countyFacts);
+
+primaryResults = formatPrimaryData(primaryResults);
+
+console.log(JSON.stringify(primaryResults));
+
+// console.log(primaryResults);
