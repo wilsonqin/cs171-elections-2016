@@ -17,6 +17,9 @@
 
       var factMap = d3.map(countyFacts, function(d){ return d.fips; });
 
+      // TODO
+      // Add a map similar to factMap that takes a state ID and returns a list of county objects
+
       dataset = {
         countyFacts: factMap,
         stateNames: stateNames,
