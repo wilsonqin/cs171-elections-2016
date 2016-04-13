@@ -48,8 +48,8 @@ TEAM MEMBERS:	James Curtin
             <span class="byline">More complex relationships in elections data.</span>
         </div>
         <!-- these should not take user to different page but rather to the appropriate visualization -->
-        <a href="#" class="button">County Level Voting</a>
-        <a href="#" class="button">Polls vs. Google Trends</a>
+        <a href="#countyLevelVoting" class="button">County Level Voting</a>
+        <a href="#pollsTrends" class="button">Polls vs. Google Trends</a>
         <a href="#" class="button">What's Next?</a>
     </div>
 
@@ -60,12 +60,32 @@ TEAM MEMBERS:	James Curtin
 <div class="container-fluid">
 
     <!-- FIRST VISUALIZATION - CHOROPLETH -->
+    <div class="row" style="padding-top: 15px" id="countyLevelVoting">
+        <!-- Column 1 -->
+        <div class="col-md-6">
+            <div>
+                <h1 align="center">Primary Election Winners</h1>
+                <div align="center" style="padding-top: 10px">
+                    Select Party:
+                    <input type="radio" name="republican" id="republican" value="republican" checked/>
+                    <label for="republican">Republican</label>
+
+                    <input type="radio" name="democrat" id="democrat" value="democrat"/>
+                    <label for="democrat">Democratic</label><br>
+                    <button onclick="clicked()">Reset Map</button>
+                </div>
+            </div>
+        </div>
+        <!-- Column 2 -->
+        <div class="col-md-6">
+            <h1 align="center">Demographic Data</h1>
+            <h3 id="stateText"></h3>
+        </div>
+    </div>
     <div class="row">
         <!-- Column 1 -->
         <div class="col-md-6">
-            <h1 align="center">Choropleth</h1>
             <!-- Visualization placeholders -->
-            <button onclick="clicked()">Reset</button>
             <div id="choropleth1"></div>
             <div id="tooltip" class="hidden">
                 <p><span id="county">County Name</span></p>
@@ -73,8 +93,6 @@ TEAM MEMBERS:	James Curtin
         </div>
         <!-- Column 2 -->
         <div class="col-md-6">
-            <h1 align="center">Demographic Data</h1>
-            <h3 id="stateText"></h3>
             <div id="choropleth2"></div>
         </div>
     </div>
@@ -82,7 +100,7 @@ TEAM MEMBERS:	James Curtin
     <hr>
 
     <!-- SECOND VISUALIZATION - POLLS / TRENDS -->
-    <div class="row">
+    <div class="row" id="pollsTrends">
         <!-- Column 1 -->
         <div class="col-md-6">
             <h1>Polls vs. Google Trends</h1>
@@ -125,6 +143,8 @@ TEAM MEMBERS:	James Curtin
 <script src="js/d3-queue.min.js"></script>
 <script src="js/queue.min.js"></script>
 <script src="js/topojson.js"></script>
+<script src="js/colorbrewer.js"></script>
+<script src="js/smoothScroll.js"></script>
 <script src="js/main.js"></script>
 <script src="js/choropleth.js"></script>
 <script src="js/poll_trends.js"></script>

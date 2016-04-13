@@ -34,6 +34,8 @@ var svg2 = d3.select("#choropleth2")
 var g = svg.append("g"),
     g2 = svg2.append("g");
 
+demographicPlaceholderText();
+
 
 loadData();
 function loadData() {
@@ -107,10 +109,14 @@ function clicked(d) {
     if (d && centered !== d) {
         centered = d;
     } else {
+        var stateText = $("#stateText");
+        stateText.text("");
         centered = null;
         scale = 1;
         translate = 0,0;
         g2.selectAll('path').remove();
+        demographicPlaceholderText();
+
     }
     g.selectAll("path")
         .classed("active", centered && function(d) { return d === centered; });
@@ -169,10 +175,9 @@ function genNewState(d) {
         });
     g2.selectAll('path').remove();
     g2.selectAll('g').remove();
-    g2.selectAll('text').remove();
+    svg2.selectAll('text').remove();
 
     var stateText = $("#stateText");
-
     stateText.text(stateList[d.id]);
 
     g2.append("path")
@@ -204,3 +209,12 @@ function genNewState(d) {
         .style("stroke-width", 1.5 / scale + "px")
         .attr("transform", "translate(" + translate + ")scale(" + scale + ")");
 };
+
+function demographicPlaceholderText(){
+    svg2.append("text")
+        .attr("id", "placeholderText")
+        .attr("x", width2/2)
+        .attr("y", height/2)
+        .attr("text-anchor", "middle")
+        .text("Select a state to the left to display more information");
+}

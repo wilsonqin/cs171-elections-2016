@@ -66,6 +66,11 @@
     fill: orange;
 }
 
+#placeholderText{
+    font-size: 1.7em;
+    color: #830d19;
+}
+
 /*********************************************************************************/
 /* CSS STYLING FOR WEBSITE IN GENERAL
      Colors - use these / or change everything accordingly:
