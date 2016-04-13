@@ -31,6 +31,10 @@ var svg2 = d3.select("#choropleth2")
     .attr("height", height)
     .attr("id", "choropleth-svg2");
 
+var tooltip = d3.select("body").append("div")
+    .attr("class", "tooltip")
+    .style("opacity", 0);
+
 var g = svg.append("g"),
     g2 = svg2.append("g");
 
@@ -132,30 +136,27 @@ function countyclicked(d) {
 }
 
 function showCountyTooltip (d) {
-
-    var boundaries = this.getBoundingClientRect();
-    d3.select("#tooltip")
-        .style("left", (boundaries.right + 10) + "px")
-        .style("top", (boundaries.top + 10) + "px");
-    d3.select("#county")
-        .text("County: " + countiesList[d.id]);
-    d3.select("#tooltip")
-        .classed("hidden", false);
+    tooltip.transition()
+        .duration(200)
+        .style("opacity", .9);
+    tooltip.html("County: " + countiesList[d.id])
+        .style("left", (d3.event.pageX) +25 + "px")
+        .style("top", (d3.event.pageY - 40) + "px");
 }
 
 function showStateTooltip (d) {
-    var boundaries = this.getBoundingClientRect();
-    d3.select("#tooltip")
-        .style("left", (boundaries.right + 10) + "px")
-        .style("top", (boundaries.top + 10) + "px");
-    d3.select("#county")
-        .text(stateList[d.id]);
-    d3.select("#tooltip")
-        .classed("hidden", false);
+    tooltip.transition()
+        .duration(200)
+        .style("opacity", .9);
+    tooltip.html(stateList[d.id])
+        .style("left", (d3.event.pageX) +25 + "px")
+        .style("top", (d3.event.pageY - 40) + "px");
 }
 
 function hideTooltip() {
-    d3.select("#tooltip").classed("hidden", true);
+    tooltip.transition()
+        .duration(500)
+        .style("opacity", 0);
 }
 
 function genNewState(d) {
