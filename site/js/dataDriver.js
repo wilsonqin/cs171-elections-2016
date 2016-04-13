@@ -15,8 +15,10 @@
     .defer(d3.tsv, "data/us-county-names.tsv")
     .await(function(err, countyFacts, usTOPOJSON, stateNames, countyNames){
 
+      var factMap = d3.map(countyFacts, function(d){ return d.fips; });
+
       dataset = {
-        countyFacts: countyFacts,
+        countyFacts: factMap,
         stateNames: stateNames,
         countyNames: countyNames,
         usTOPOJSON: usTOPOJSON,
