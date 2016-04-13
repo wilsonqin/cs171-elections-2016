@@ -43,21 +43,21 @@ demographicPlaceholderText();
 
 loadData();
 function loadData() {
-    // Use the Queue.js library to read two files
-    queue()
-        .defer(d3.json, "data/us.json")
-        .defer(d3.tsv, "data/us-state-names.tsv")
-        .defer(d3.tsv, "data/us-county-names.tsv")
-        .await(function(error, usTOPOJSON, stateNames, countyNames) {
-            // --> PROCESS DATA
-            // cleandata();
-            // Update choropleth
-            // selection = d3.select("#some-id).property("value");
-            allData = usTOPOJSON;
-            console.log(allData);
-            mapNames(stateNames, countyNames);
-            updateChoropleth(allData);
-        });
+
+
+    $.when(window.dataReady).then(function(){
+        console.log('data ready in chloro');
+        var data = window.data;
+
+        console.log(data.stateNames);
+
+        allData = data.usTOPOJSON;
+        console.log(allData);
+        mapNames(data.stateNames, data.countyNames);
+        updateChoropleth(allData);
+    });
+
+    console.log('data not yet ready in chloro');
 }
 
 function mapNames(stateNames, countyNames){
