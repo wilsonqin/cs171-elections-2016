@@ -3,8 +3,8 @@ var width1 = $("#choropleth1").parent().width(),
     height = 500,
     centered,
     allData,
-    states = {},
-    counties = {};
+    stateList = {},
+    countiesList = {};
 
 var projection = d3.geo.albersUsa()
     .scale(800)
@@ -57,10 +57,10 @@ function loadData() {
 function mapNames(stateNames, countyNames){
 
     stateNames.forEach(function (d) {
-        states[d.id] = d.name;
+        stateList[d.id] = d.name;
     });
     countyNames.forEach(function (d) {
-        counties[d.id] = d.name;
+        countiesList[d.id] = d.name;
     });
 }
 
@@ -126,12 +126,13 @@ function countyclicked(d) {
 }
 
 function showCountyTooltip (d) {
+
     var boundaries = this.getBoundingClientRect();
     d3.select("#tooltip")
         .style("left", (boundaries.right + 10) + "px")
         .style("top", (boundaries.top + 10) + "px");
     d3.select("#county")
-        .text("County: " + counties[d.id]);
+        .text("County: " + countiesList[d.id]);
     d3.select("#tooltip")
         .classed("hidden", false);
 }
@@ -142,7 +143,7 @@ function showStateTooltip (d) {
         .style("left", (boundaries.right + 10) + "px")
         .style("top", (boundaries.top + 10) + "px");
     d3.select("#county")
-        .text(states[d.id]);
+        .text(stateList[d.id]);
     d3.select("#tooltip")
         .classed("hidden", false);
 }
@@ -168,6 +169,11 @@ function genNewState(d) {
         });
     g2.selectAll('path').remove();
     g2.selectAll('g').remove();
+    g2.selectAll('text').remove();
+
+    var stateText = $("#stateText");
+
+    stateText.text(stateList[d.id]);
 
     g2.append("path")
         .datum(state)
