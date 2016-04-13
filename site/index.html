@@ -91,8 +91,10 @@ TEAM MEMBERS:	James Curtin
                     </select>
                 </div>
                 <div class="col-md-8">
-                    <input type="checkbox"> Population
-                    <input type="checkbox"> Some other Data we have<br>
+                    <form action="">
+                        <input type="radio" name="demographics" value="POP010210" checked/> Population
+                        <input type="radio" name="demographics" value="something else"/> Something Else<br>
+                    </form>
                 </div>
             </div>
             <h3 align="center" style="font-weight: bold; padding-top: 10px" id="stateText"></h3>
@@ -160,7 +162,7 @@ TEAM MEMBERS:	James Curtin
 <script src="js/smoothScroll.js"></script>
 <script src="js/dataDriver.js"></script>
 <script src="js/main.js"></script>
-<script src="js/choropleth.js"></script>
+<script src="js/maps.js"></script>
 <script src="js/poll_trends.js"></script>
 <script src="js/prediction.js"></script>
 </body>
