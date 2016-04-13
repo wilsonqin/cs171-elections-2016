@@ -127,7 +127,7 @@ function clicked(d) {
 
     g.transition()
         .duration(750)
-        .style("stroke-width", 1.5 / scale + "px")
+        .style("stroke-width", .75 / scale + "px")
         .attr("transform", "translate(" + translate + ")scale(" + scale + ")");
 }
 
@@ -207,7 +207,7 @@ function genNewState(d) {
         translate = [width2 / 2 - scale * x, height / 2 - scale * y];
     g2.transition()
         .duration(750)
-        .style("stroke-width", 1.5 / scale + "px")
+        .style("stroke-width", .75 / scale + "px")
         .attr("transform", "translate(" + translate + ")scale(" + scale + ")");
 };
 
