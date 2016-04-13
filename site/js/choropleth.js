@@ -7,7 +7,7 @@ var width1 = $("#choropleth1").parent().width(),
     counties = {};
 
 var projection = d3.geo.albersUsa()
-    .scale(1000)
+    .scale(800)
     .translate([width1 / 2, height / 2]);
 
 var path = d3.geo.path()
@@ -48,6 +48,7 @@ function loadData() {
             // Update choropleth
             // selection = d3.select("#some-id).property("value");
             allData = usTOPOJSON;
+            console.log(allData);
             mapNames(stateNames, countyNames);
             updateChoropleth(allData);
         });
@@ -154,15 +155,36 @@ function genNewState(d) {
     clicked(d);
     var states = topojson.feature(allData, allData.objects.states),
         state = states.features.filter(function(datum) {return datum.id === d.id; })[0];
-    console.log(state);
+    var allCounties = topojson.feature(allData, allData.objects.counties),
+        filterCounties = allCounties.features.filter(function(datum) {
+            if (String(d.id).length === 1){
+                if(String(datum.id).length === 4) {
+                    return String(datum.id).substring(0, 1) === String(d.id);
+                }
+            }
+            else{
+                return String(datum.id).substring(0, 2)=== String(d.id);
+            }
+        });
     g2.selectAll('path').remove();
+    g2.selectAll('g').remove();
+
     g2.append("path")
         .datum(state)
         .attr("d", path)
         .attr("class", "state")
         .attr("id", "focusState");
 
-    var focusState = d3.select("#focusState");
+    g2.append("g")
+        .attr("id", "selectedCounties")
+        .selectAll("path")
+        .data(filterCounties)
+        .enter().append("path")
+        .attr("d", path)
+        .attr("class", "countyInset")
+        .on("click", countyclicked);
+
+
 
     var bounds = path.bounds(d),
         dx = bounds[1][0] - bounds[0][0],
@@ -171,7 +193,7 @@ function genNewState(d) {
         y = (bounds[0][1] + bounds[1][1]) / 2,
         scale = .9 / Math.max(dx / width2, dy / height),
         translate = [width2 / 2 - scale * x, height / 2 - scale * y];
-    focusState.transition()
+    g2.transition()
         .duration(750)
         .style("stroke-width", 1.5 / scale + "px")
         .attr("transform", "translate(" + translate + ")scale(" + scale + ")");

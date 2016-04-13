@@ -52,7 +52,19 @@
     display: none;
 }
 
+#focusState{
+    fill: lightgrey;
+}
 
+.countyInset {
+    fill: lightgrey;
+    stroke: #fff;
+    stroke-width: .5px;
+}
+
+.countyInset:hover {
+    fill: orange;
+}
 
 /*********************************************************************************/
 /* CSS STYLING FOR WEBSITE IN GENERAL
