@@ -1,11 +1,15 @@
+// Sets width and height elements of maps
 var width1 = $("#choropleth1").parent().width(),
     width2 = $("#choropleth2").parent().width(),
-    height = 500,
-    centered,
-    allData,
+    height = 500;
+
+// Create a number of global variables
+var centered,
+    topoJSONdata,
     stateList = {},
     countiesList = {};
 
+// Create projection for map of USA
 var projection = d3.geo.albersUsa()
     .scale(800)
     .translate([width1 / 2, height / 2]);
@@ -13,12 +17,14 @@ var projection = d3.geo.albersUsa()
 var path = d3.geo.path()
     .projection(projection);
 
+// Initialize SVG elements
 var svg = d3.select("#choropleth1")
     .append("svg")
     .attr("width", width1)
     .attr("height", height)
     .attr("id", "choropleth-svg");
 
+// Allows user to click background of map to zoom out
 svg.append("rect")
     .attr("class", "background")
     .attr("width", width1)
@@ -38,26 +44,46 @@ var tooltip = d3.select("body").append("div")
 var g = svg.append("g"),
     g2 = svg2.append("g");
 
+
+// Create variables that hold values of selected elements
+var selectedDemographicVal = "",
+    selectedPartyVal = "";
+var selectedDemographic = $("input[type='radio'][name='demographics']:checked");
+var selectedParty = $("input[type='radio'][name='party']:checked");
+
+// Set placeholder message on SVG2
 demographicPlaceholderText();
 
-
 loadData();
+
 function loadData() {
-
-
     $.when(window.dataReady).then(function(){
-        console.log('data ready in chloro');
+        // console.log('data ready in chloro');
         var data = window.data;
+        console.log(data);
 
-        console.log(data.stateNames);
+        topoJSONdata = data.usTOPOJSON;
+        // console.log(topoJSONdata);
 
-        allData = data.usTOPOJSON;
-        console.log(allData);
         mapNames(data.stateNames, data.countyNames);
-        updateChoropleth(allData);
+
+        updateChoropleth(topoJSONdata);
     });
 
-    console.log('data not yet ready in chloro');
+    // console.log('data not yet ready in chloro');
+}
+
+// Enter FIPS code and get object with data for the selected county
+function getCountyData(fips){
+    var fips_data = data.countyFacts.get(fips);
+    return fips_data;
+}
+
+// TODO
+// Enter State ID and get list of county objects associated with the state
+function getStateData(stateCode){
+    var state_data = data.stateFacts.get(stateCode);
+    return state_data;
 }
 
 function mapNames(stateNames, countyNames){
@@ -78,6 +104,7 @@ function updateChoropleth(us) {
         .enter().append("path")
         .attr("d", path)
         .attr("class", "county-boundary")
+        .attr("id", function (d) { return String(d.id);})
         .on("click", countyclicked)
         .on("mouseover", showCountyTooltip)
         .on("mouseout", hideTooltip);
@@ -129,13 +156,18 @@ function clicked(d) {
         .duration(750)
         .style("stroke-width", .75 / scale + "px")
         .attr("transform", "translate(" + translate + ")scale(" + scale + ")");
+
 }
 
 function countyclicked(d) {
+    console.log(getCountyData(d.id));
     alert(d.id);
 }
 
 function showCountyTooltip (d) {
+    $("#" + d.id).css("fill", "orange");
+    $("#" + d.id + "inset").css("fill", "orange");
+
     tooltip.transition()
         .duration(200)
         .style("opacity", .9);
@@ -153,7 +185,9 @@ function showStateTooltip (d) {
         .style("top", (d3.event.pageY - 40) + "px");
 }
 
-function hideTooltip() {
+function hideTooltip(d) {
+    $("#" + d.id).css("fill", "#aaa");
+    $("#" + d.id + "inset").css("fill", "lightgrey");
     tooltip.transition()
         .duration(500)
         .style("opacity", 0);
@@ -161,9 +195,21 @@ function hideTooltip() {
 
 function genNewState(d) {
     clicked(d);
-    var states = topojson.feature(allData, allData.objects.states),
+
+    if (selectedDemographic.length > 0) {
+        selectedDemographicVal = selectedDemographic.val();
+    }
+
+    // TODO
+    // var stateFacts = getStateData(d.id);
+    // var extent = d3.extent(stateFacts, function(d) { return +d[selectedVal]; });
+    // var quantize = d3.scale.quantize()
+    //     .domain(extent)
+    //     .range(colorbrewer.Blues["8"]);
+
+    var states = topojson.feature(topoJSONdata, topoJSONdata.objects.states),
         state = states.features.filter(function(datum) {return datum.id === d.id; })[0];
-    var allCounties = topojson.feature(allData, allData.objects.counties),
+    var allCounties = topojson.feature(topoJSONdata, topoJSONdata.objects.counties),
         filterCounties = allCounties.features.filter(function(datum) {
             if (String(d.id).length === 1){
                 if(String(datum.id).length === 4) {
@@ -192,8 +238,12 @@ function genNewState(d) {
         .selectAll("path")
         .data(filterCounties)
         .enter().append("path")
+        // .attr("class", function(d) { return quantize(stateFacts[d.id][selectedDemographicVal]); })
         .attr("d", path)
+        .attr("id", function (d) {return String(d.id) + "inset";})
         .attr("class", "countyInset")
+        .on("mouseover", showCountyTooltip)
+        .on("mouseout", hideTooltip)
         .on("click", countyclicked);
 
 

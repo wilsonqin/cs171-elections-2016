@@ -5,7 +5,7 @@
     pointer-events: all;
 }
 
-#states {
+.state {
     fill: #aaa;
 }
 
