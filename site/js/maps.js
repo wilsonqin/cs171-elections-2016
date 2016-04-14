@@ -161,11 +161,12 @@ function showCountyTooltip (d) {
 
     var results = d.properties.election.get(selectedParty.val());
     var winner = results ? results[0].candidate : "No winner / Data Missing";
+    var pop = d.properties.census ? d.properties.census[selectedDemographic.val()] : "no population data available";
 
     tooltip.transition()
         .duration(200)
         .style("opacity", .9);
-    tooltip.html("<p>County: " + d.properties.name +"</p>" + "<p>"+ winner +"</p>")
+    tooltip.html("<p>County: " + d.properties.name +"</p>" + "<p>"+ winner +"</p>" + "<p>Population: <span>"+pop+"</span></p>")
         .style("left", (d3.event.pageX) +25 + "px")
         .style("top", (d3.event.pageY - 40) + "px");
 }
