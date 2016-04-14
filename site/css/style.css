@@ -114,7 +114,7 @@ p
     line-height: 150%;
 }
 
-a:hover
+a:hover, a:visited, a:active
 {
     text-decoration: none;
 }
@@ -154,6 +154,13 @@ h1.section_title
     font-size: 1em;
     color: #830d19;
 }
+
+.button a:visited, a:active, a:link
+{
+    text-decoration: none;
+    color: #830d19;
+}
+
 
 /*********************************************************************************/
 /* Heading Titles                                                                */
@@ -254,11 +261,13 @@ h1.section_title
 {
     border-radius: 6px;
     opacity: .5;
+    text-decoration: none;
 }
 
 #menu .active a
 {
     color: #830d19;
+    text-decoration: none;
 }
 
 
@@ -284,7 +293,7 @@ h1.section_title
 
 #banner .button
 {
-    width: 300px;
+    width: 350px;
     margin-top: 2em;
     padding: 1em 1em;
     font-weight: 700;
@@ -294,6 +303,17 @@ h1.section_title
 #banner a:hover
 {
     opacity: .5;
+    text-decoration: none;
+}
+
+#banner a:active
+{
+    text-decoration: none;
+}
+
+#banner a:visited
+{
+    text-decoration: none;
 }
 
 /*********************************************************************************/
