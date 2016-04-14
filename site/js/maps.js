@@ -7,8 +7,8 @@ var width1 = $("#choropleth1").parent().width(),
 var centered,
     topoJSONdata,
     focusState,
-    focusCounty,
-    focusStateFacts,
+    demographicMap,
+    key,
     lastCountyColor;
 
 // Create projection for map of USA
@@ -46,6 +46,7 @@ var tooltip = d3.select("body").append("div")
 var g = svg.append("g"),
     g2 = svg2.append("g");
 
+
 // data to be populated by loadData
 //var data;
 
@@ -65,6 +66,7 @@ function loadData() {
         if(!vis1 || !window.vis1) console.log("error: dataDriver not intialized before maps.js");
 
         topoJSONdata = vis1.topoJSONdata;
+        demographicMap = vis1.demographics;
 
         updateChoropleth(topoJSONdata);
     });
@@ -122,7 +124,7 @@ function clicked(d) {
         dy = bounds[1][1] - bounds[0][1],
         x = (bounds[0][0] + bounds[1][0]) / 2,
         y = (bounds[0][1] + bounds[1][1]) / 2,
-        scale = .6 / Math.max(dx / width1, dy / height),
+        scale = .5 / Math.max(dx / width1, dy / height),
         translate = [width1 / 2 - scale * x, height / 2 - scale * y];
 
     if (d && centered !== d) {
@@ -134,6 +136,7 @@ function clicked(d) {
         scale = 1;
         translate = 0,0;
         g2.selectAll('path').remove();
+        d3.selectAll('.key').remove();
         demographicPlaceholderText();
 
     }
@@ -211,10 +214,27 @@ function genNewState(d) {
 
     // Calculate domain for the selected demographic census property for state's counties
     // Then we set a color scale
-    var extent = d3.extent(filterCounties, function(d) { return d.properties.census[selectedDemographic.val()]; });
-    var quantize = d3.scale.linear()
+    var extent = d3.extent(filterCounties, function(d) { return d.properties.census[selectedDemographicVal]; });
+
+    var quantize = d3.scale.quantize()
         .domain(extent)
-        .range(colorbrewer.Blues[8]);
+        .range(colorbrewer.Blues[9]);
+
+    var x = d3.scale.linear()
+        .domain(extent)
+        .range([0, 300]);
+
+    var qrange = function(max, num) {
+        var a = [];
+        for (var i=0; i<num; i++) {
+            a.push(i*max/num);
+        }
+        return a;
+    };
+    d3.selectAll('.key').remove();
+    key = svg2.append("g")
+        .attr("class", "key")
+        .attr("transform", "translate(" + 50 + "," + height / 10 * 9 + ")");
 
     g2.selectAll('path').remove();
     g2.selectAll('g').remove();
@@ -222,6 +242,41 @@ function genNewState(d) {
 
     var stateText = $("#stateText");
     stateText.text(d.properties.name);
+
+    var xAxis = d3.svg.axis()
+        .scale(x)
+        .orient("bottom")
+        .tickSize(14)
+        .tickValues(qrange(quantize.domain()[1], quantize.range().length))
+        .tickFormat(function(d) {
+            var prefix = d3.formatPrefix(d);
+            return Math.round(prefix.scale(d)) + prefix.symbol;
+        });
+
+    key.selectAll("rect")
+        .data(quantize.range().map(function(color) {
+            var d = quantize.invertExtent(color);
+            if (d[0] == null) d[0] = x.domain()[0];
+            if (d[1] == null) d[1] = x.domain()[1];
+            return d;
+        }))
+        .enter().append("rect")
+        .attr("height", 10)
+        .attr("x", function(d) { return x(d[0]); })
+        .attr("width", function(d) { return x(d[1]) - x(d[0]); })
+        .style("fill", function(d) { return quantize(d[0]); });
+
+
+    key.call(xAxis)
+        .selectAll("text")
+        .attr("transform", "rotate(-45)")
+        .style("text-anchor", "end");
+    // demographicMap[selectedDemographicVal]
+    key.append("text")
+        .attr("class", "caption")
+        .attr("y", -6)
+        .text(demographicMap[selectedDemographicVal]);
+
 
     g2.append("path")
         .datum(d)
@@ -239,11 +294,10 @@ function genNewState(d) {
         })
         .attr("d", path)
         .attr("id", function (d) {return String(d.id) + "inset";})
-        //.attr("class", "countyInset")
+        .attr("class", "countyInset")
         .on("mouseover", showCountyTooltip)
         .on("mouseout", hideTooltip)
         .on("click", countyclicked);
-
 
 
     var bounds = path.bounds(d),

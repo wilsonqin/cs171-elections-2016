@@ -23,14 +23,12 @@
     .defer(d3.json, "data/primary_results.json")
     .defer(d3.tsv, "data/us-state-names.tsv")
     .defer(d3.tsv, "data/us-county-names.tsv")
-    .await(function(err, countyFacts, usTOPOJSON, primaryResults, stateNames, countyNames){
+    .defer(d3.csv, "data/demographics.csv")
+    .await(function(err, countyFacts, usTOPOJSON, primaryResults, stateNames, countyNames, demographics){
 
       var factMap = d3.map(countyFacts, function(d){ return d.fips; });
 
       // init state and county name structures
-
-      // TODO
-      // Add a map similar to factMap that takes a state ID and returns a list of county objects
 
       // primaryResults groupBy fips then party
       var primaryResultsFipsParty = d3.nest()
@@ -55,6 +53,13 @@
         })
         .map(primaryResults, d3.map);
 
+        var demoraphicLabels = {};
+        demographics.forEach(function (d) {
+            // console.log(d);
+            demoraphicLabels[d.id] = d.name;
+        });
+
+
       dataset = {
         countyFacts: factMap,
         primaryResults: primaryResultsStateFipsParty,
@@ -69,11 +74,12 @@
 
 
       window.vis1 = {
-        topoJSONdata: usTOPOJSON,
-        getCountyData: getCountyData,
-        getStateData: getStateData,
-        stateNames: stateNames,
-        countyNames: countyNames
+          topoJSONdata: usTOPOJSON,
+          getCountyData: getCountyData,
+          getStateData: getStateData,
+          stateNames: stateNames,
+          countyNames: countyNames,
+          demographics: demoraphicLabels
       };
 
       // attach completed dataset to the window for global access
