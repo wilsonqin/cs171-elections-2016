@@ -81,6 +81,11 @@ div.tooltip {
     left: 50%
 }
 
+.image_button:hover
+{
+    opacity: 0.7;
+}
+
 /* search select */
 .search_select
 {
