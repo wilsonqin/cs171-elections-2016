@@ -71,13 +71,15 @@ div.tooltip {
     shape-rendering: crispEdges;
 }
 
+/***********************/
 /* Polls and Trends CSS*/
+/**********************/
 
 /* candidate buttons */
 .image_button
 {
-    width: 50%;
-    margin: 0 0 0 50px;
+    width: 103px;
+    margin: 0 0 0 30px;
     left: 50%
 }
 
@@ -97,6 +99,23 @@ div.tooltip {
 {
     text-align: center;
     font-size: 10pt;
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: #061727;
+    shape-rendering: crispEdges;
+}
+.axis text {
+    font-size: 12px;
+    color: #061727;
+}
+
+.line {
+    fill: none;
+    stroke: #E96523;
+    stroke-width: 1.5px;
 }
 
 /*********************************************************************************/

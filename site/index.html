@@ -116,98 +116,81 @@ TEAM MEMBERS:	James Curtin
 
     <!-- SECOND VISUALIZATION - POLLS / TRENDS -->
     <div class="row" id="pollsTrends">
-        <!-- Column 1 -->
-        <div class="col-md-5">
-            <h1 align="center">Polls</h1>
-            <!-- Visualization placeholders -->
-            <div id="polls"></div>
-        </div>
-        <!-- Column 2 -->
-        <div class="col-md-2">
-            <br><br>
+        <h1 align="center">Polls and Google Searches</h1>
+
+        <!-- Row 1 - explanations -->
+        <div class="row">
+
+            <!-- Polls + Trends explanations -->
+            <div class="col-md-9">
+            </div>
+
+            <!-- Select Candidate + search terms explanation-->
+            <div class="col-md-3">
             <h3 align="center">Select Candidate</h3>
-            <br>
-            <img class="image_button" src="images/hillary_button.jpg">
-            <br>
-            <img class="image_button" src="images/bernie_button.jpg">
-            <br>
-            <img class="image_button" src="images/trump_button.jpg">
-            <br>
-            <img class="image_button" src="images/cruz_button.jpg">
-            <br>
-            <img class="image_button" src="images/kasich_button.jpg">
+            <p>Paragraph explaining how to use this visualization.</p>
+            </div>
         </div>
 
+        <!-- Row 2 - visualizations -->
+        <div class="row">
 
-        <!-- Column 3 -->
-        <div class="col-md-5">
-            <h1 align="center">Google Trends</h1>
-            <!-- Visualization placeholders -->
-            <div class="row search_select">
-
-                <div class="col-md-4">
-                    <form action="" method="get">
-                        <h5>Ted Cruz: </h5>
-                        <input type="checkbox" name="vehicle" value=""> Canada<br>
-                        <input type="checkbox" name="vehicle" value=""> Immigration<br>
-                        <input type="checkbox" name="vehicle" value=""> Wife<br>
-                        <input type="checkbox" name="vehicle" value=""> Zodiac Killer<br>
-                    </form>
-                </div>
-
-                <div class="col-md-4">
-                    <form action="" method="get">
-                        <h5>Donald Trump: </h5>
-                        <input type="checkbox" name="vehicle" value=""> "Make America Great Again"<br>
-                        <input type="checkbox" name="vehicle" value=""> Immigration<br>
-                        <input type="checkbox" name="vehicle" value=""> Wife<br>
-                        <input type="checkbox" name="vehicle" value=""> Wall<br>
-                    </form>
-                </div>
-
-                <div class="col-md-4">
-                    <form action="" method="get">
-                        <h5>John Kasich: </h5>
-                        <input type="checkbox" name="vehicle" value=""> Ohio<br>
-                        <input type="checkbox" name="vehicle" value=""> Abortion<br>
-                        <input type="checkbox" name="vehicle" value=""> Wife<br>
-                        <input type="checkbox" name="vehicle" value=""> Family<br>
-                    </form>
-                </div>
-
+            <!-- Column 1 - visualizations -->
+            <div class="col-md-9">
+                <!-- Visualization placeholders -->
+                <div id="polls"></div>
+                <div id="trends"></div>
             </div>
 
-            <br>
+            <!-- Column 2 select candidate / searchbox-->
+            <div class="col-md-3">
+                <div class="row">
 
-            <div class="row search_select">
+                    <div class="col-md-5">
+                        <br>
+                        <img class="image_button" src="images/hillary_button.jpg"><br><br>
+                        <img class="image_button" src="images/bernie_button.jpg"><br><br>
+                        <img class="image_button" src="images/trump_button.jpg"><br><br>
+                        <img class="image_button" src="images/cruz_button.jpg"><br><br>
+                        <img class="image_button" src="images/kasich_button.jpg">
+                    </div>
 
-                <div class="col-md-3"></div>
-
-                <div class="col-md-3">
-                    <form action="" method="get">
-                        <h5>Hillary Clinton: </h5>
-                        <input type="checkbox" name="vehicle" value=""> "Hillary for America"<br>
-                        <input type="checkbox" name="vehicle" value=""> E-mail <br>
-                        <input type="checkbox" name="vehicle" value=""> Benghazi <br>
-                        <input type="checkbox" name="vehicle" value=""> SNL <br>
-                    </form>
+                    <div class="col-md-7 search_select">
+                        <form action="" method="get">
+                            <br>
+                            <h5>Hillary Clinton: </h5>
+                            <input type="checkbox" name="vehicle" value=""> "Hillary for America"<br>
+                            <input type="checkbox" name="vehicle" value=""> E-mail <br>
+                            <input type="checkbox" name="vehicle" value=""> Benghazi <br>
+                            <input type="checkbox" name="vehicle" value=""> SNL <br>
+                            <br>
+                            <h5>Bernie Sanders: </h5>
+                            <input type="checkbox" name="vehicle" value=""> "Feel the Bern" <br>
+                            <input type="checkbox" name="vehicle" value=""> Socialist <br>
+                            <input type="checkbox" name="vehicle" value=""> Old <br>
+                            <input type="checkbox" name="vehicle" value=""> Bird <br>
+                            <br>
+                            <h5>Donald Trump: </h5>
+                            <input type="checkbox" name="vehicle" value=""> "Make America Great Again"<br>
+                            <input type="checkbox" name="vehicle" value=""> Immigration<br>
+                            <input type="checkbox" name="vehicle" value=""> Wife<br>
+                            <input type="checkbox" name="vehicle" value=""> Wall<br>
+                            <br>
+                            <h5>Ted Cruz: </h5>
+                            <input type="checkbox" name="vehicle" value=""> Canada<br>
+                            <input type="checkbox" name="vehicle" value=""> Immigration<br>
+                            <input type="checkbox" name="vehicle" value=""> Wife<br>
+                            <input type="checkbox" name="vehicle" value=""> Zodiac Killer<br>
+                            <br>
+                            <h5>John Kasich: </h5>
+                            <input type="checkbox" name="vehicle" value=""> Ohio<br>
+                            <input type="checkbox" name="vehicle" value=""> Abortion<br>
+                            <input type="checkbox" name="vehicle" value=""> Wife<br>
+                            <input type="checkbox" name="vehicle" value=""> Family<br>
+                        </form>
+                    </div>
                 </div>
-
-                <div class="col-md-3">
-                    <form action="" method="get">
-                        <h5>Bernie Sanders: </h5>
-                        <input type="checkbox" name="vehicle" value=""> "Feel the Bern" <br>
-                        <input type="checkbox" name="vehicle" value=""> Socialist <br>
-                        <input type="checkbox" name="vehicle" value=""> Old <br>
-                        <input type="checkbox" name="vehicle" value=""> Bird <br>
-                    </form>
-                </div>
-
-                <div class="col-md-3"></div>
-
             </div>
-
-            <div id="trends"></div>
         </div>
     </div>
 
@@ -247,7 +230,8 @@ TEAM MEMBERS:	James Curtin
 <script src="js/dataDriver.js"></script>
 <script src="js/main.js"></script>
 <script src="js/maps.js"></script>
-<script src="js/poll_trends.js"></script>
+<script src="js/polls.js"></script>
+<script src="js/trends.js"></script>
 <script src="js/prediction.js"></script>
 </body>
 </html>
