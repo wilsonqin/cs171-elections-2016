@@ -71,7 +71,8 @@
         countyNames: countyNames,
         usTOPOJSON: usTOPOJSON,
         getCountyData: getCountyData,
-        countyNameLookup: countyNameLookup
+        countyNameLookup: countyNameLookup,
+        stateWinners: getStateAggregateMap(primaryResults)
       };
 
       usTOPOJSON = populateTopoAttr(usTOPOJSON, stateNames, countyNames, factMap);
@@ -90,6 +91,23 @@
       // signal that the global data is ready to be accessed
       datasetReady.resolve();
     });
+
+  function getStateAggregateMap(primaryResults){
+    return d3.nest()
+      .key(function(d){ return d.state_abbreviation; })
+      .key(function(d){ return d.party; })
+      .key(function(d){ return d.candidate; })
+      .rollup(function(counties){ return {
+        "popular_vote": d3.sum(counties, function(d){ return d.votes; }),
+        "percentage_of_vote": 33.3
+      }; })
+      .sortValues(function descending(a, b) {
+          a = a.popular_vote;
+          b = b.popular_vote;
+          return b < a ? -1 : b > a ? 1 : b >= a ? 0 : NaN;
+        })
+      .map(primaryResults, d3.map);
+  }
   
   /********** DATA MODEL METHODS *********/
   /* pre-req: these should only be called when window.dataReady is resolved! **/
@@ -108,9 +126,8 @@
 
   // TODO
   // Enter State ID and get list of county objects associated with the state
-  function getStateData(stateCode){
-    
-    var state_data = dataset.primaryResults.get(stateCode);
+  function getStateData(stateCode, party){
+    var state_data = dataset.stateWinners.get(stateCode).get(party);
     return state_data;
   }
 
@@ -130,6 +147,7 @@
 
     usTOPOJSON.objects.states.geometries.forEach(function(state,i){
       state.properties = stateById.get(state.id);
+      state.properties.election = dataset.stateWinners.get(state.id);
     });
 
     usTOPOJSON.objects.counties.geometries.filter(function(county, i){
@@ -152,7 +170,7 @@
         $.extend(county.properties, countyData, basicCountyIdentity);
       }
     });
-    
+
     return usTOPOJSON;
   }
 
