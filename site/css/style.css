@@ -6,7 +6,6 @@
 }
 
 .state {
-    fill: #aaa;
 }
 
 #states .active {
@@ -23,12 +22,11 @@
 }
 
 .county-boundary {
-    fill: #aaa;
     stroke: lightgrey;
     stroke-width: .25px;
 }
 
-.county-boundary:hover, .state:hover {
+.state:hover {
     fill: orange;
 }
 

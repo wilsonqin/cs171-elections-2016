@@ -10,7 +10,10 @@ var centered,
     focusState,
     demographicMap,
     key,
-    lastCountyColor;
+    lastCountyColor = {
+        L: null,
+        R: null
+    };
 
 // Create projection for map of USA
 var projection = d3.geo.albersUsa()
@@ -119,11 +122,12 @@ function updateChoropleth(us) {
         .attr("d", path)
         .attr("class", "county-boundary")
         .attr("id", function (d) { return String(d.id);})
-        // .attr('fill', function(d, i) {
-        //     var results = d.properties.election.get(selectedPartyVal);
-        //     var winner = results ? results[0].candidate : "No winner / Data Missing";
-        //     return ordinalScale(winner);
-        // })
+        .attr('fill', function(d, i) {
+            var results = d.properties.election.get(selectedPartyVal);
+            // if there is a winner, render its color, otherwise missing color is some set default TODO
+            var color = results ? ordinalScale(results[0].candidate) : "#aaa";
+            return color;
+        })
         .on("click", countyclicked)
         .on("mouseover", showCountyTooltip)
         .on("mouseout", hideTooltip);
@@ -135,6 +139,13 @@ function updateChoropleth(us) {
         .enter().append("path")
         .attr("d", path)
         .attr("class", "state")
+        .attr("fill", function(d,i){
+            console.log(d, selectedPartyVal);
+            var results = d.properties.election ? d.properties.election.get(selectedPartyVal) : undefined;
+            // if there is a winner, render its color, otherwise missing color is some set default TODO
+            var color = results ? ordinalScale(results.values()[0].candidate) : "#aaa";
+            return color;
+        })
         .on("click", genNewState)
         .on("mouseover", showStateTooltip)
         .on("mouseout", hideTooltip);
@@ -187,8 +198,10 @@ function countyclicked(d) {
 }
 
 function showCountyTooltip (d) {
+
     // track former county color to restore when tooltip leaves
-    lastCountyColor = $("#" + d.id + "inset").css("fill");
+    lastCountyColor.R = $("#" + d.id + "inset").css("fill");
+    lastCountyColor.L = $("#" + d.id).css('fill');
 
     $("#" + d.id).css("fill", "orange");
     $("#" + d.id + "inset").css("fill", "orange");
@@ -216,7 +229,8 @@ function showStateTooltip (d) {
 
 function hideTooltip(d) {
     $("#" + d.id).css("fill", "#aaa");
-    $("#" + d.id + "inset").css("fill", lastCountyColor);
+    $("#" + d.id + "inset").css("fill", lastCountyColor.R);
+    $("#" + d.id).css("fill", lastCountyColor.L);
     tooltip.transition()
         .duration(500)
         .style("opacity", 0);

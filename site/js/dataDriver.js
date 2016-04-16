@@ -97,10 +97,14 @@
       .key(function(d){ return d.state_abbreviation; })
       .key(function(d){ return d.party; })
       .key(function(d){ return d.candidate; })
-      .rollup(function(counties){ return {
-        "popular_vote": d3.sum(counties, function(d){ return d.votes; }),
-        "percentage_of_vote": 33.3
-      }; })
+      .rollup(function(counties){ 
+        var candidate = counties[0].candidate;
+        return {
+          "popular_vote": d3.sum(counties, function(d){ return d.votes; }),
+          "percentage_of_vote": 33.3,
+          "candidate": candidate
+        }; 
+      })
       .sortValues(function descending(a, b) {
           a = a.popular_vote;
           b = b.popular_vote;
@@ -131,8 +135,12 @@
     return state_data;
   }
 
-  function fipsNonState(fips){
+  function fipsNonStateCounty(fips){
     return fips >= 60000;
+  }
+
+  function fipsNonState(fips){
+    return fips >= 60;
   }
 
   
@@ -145,14 +153,20 @@
       return d.id;
     });
 
-    usTOPOJSON.objects.states.geometries.forEach(function(state,i){
-      state.properties = stateById.get(state.id);
-      state.properties.election = dataset.stateWinners.get(state.id);
+    usTOPOJSON.objects.states.geometries = usTOPOJSON.objects.states.geometries.filter(function(state,i){
+      return !fipsNonState(state.id);
     });
 
-    usTOPOJSON.objects.counties.geometries.filter(function(county, i){
-      return !fipsNonState(county.id);
-    }).forEach(function(county,i){
+    usTOPOJSON.objects.states.geometries.forEach(function(state,i){
+      state.properties = stateById.get(state.id);
+      state.properties.election = dataset.stateWinners.get(state.properties.code);
+    });
+
+    usTOPOJSON.objects.counties.geometries = usTOPOJSON.objects.counties.geometries.filter(function(county, i){
+      return !fipsNonStateCounty(county.id);
+    });
+
+    usTOPOJSON.objects.counties.geometries.forEach(function(county,i){
       county.properties = {};
 
       var countyData = getCountyData(county.id);
