@@ -59,6 +59,9 @@
             demoraphicLabels[d.id] = d.name;
         });
 
+      // fips to countyname lookup
+      var countyNameLookup = d3.map(primaryResults, function(d){ return d.fips; });
+
 
       dataset = {
         countyFacts: factMap,
@@ -67,7 +70,8 @@
         stateNames: stateNames,
         countyNames: countyNames,
         usTOPOJSON: usTOPOJSON,
-        getCountyData: getCountyData
+        getCountyData: getCountyData,
+        countyNameLookup: countyNameLookup
       };
 
       usTOPOJSON = populateTopoAttr(usTOPOJSON, stateNames, countyNames, factMap);
@@ -77,8 +81,6 @@
           topoJSONdata: usTOPOJSON,
           getCountyData: getCountyData,
           getStateData: getStateData,
-          stateNames: stateNames,
-          countyNames: countyNames,
           demographics: demoraphicLabels
       };
 
@@ -112,6 +114,10 @@
     return state_data;
   }
 
+  function fipsNonState(fips){
+    return fips >= 60000;
+  }
+
   
   function populateTopoAttr(usTOPOJSON, stateNames, countyNames, countyFacts){
     var stateById = d3.map(stateNames, function(d){
@@ -126,11 +132,27 @@
       state.properties = stateById.get(state.id);
     });
 
-    usTOPOJSON.objects.counties.geometries.forEach(function(county,i){
+    usTOPOJSON.objects.counties.geometries.filter(function(county, i){
+      return !fipsNonState(county.id);
+    }).forEach(function(county,i){
       county.properties = {};
-      $.extend(county.properties, getCountyData(county.id), countyNameById.get(county.id));
-    });
 
+      var countyData = getCountyData(county.id);
+
+      if(countyData){
+        var basicCountyIdentity = countyNameById.get(county.id);
+
+        // if basicCountyIdentity can't be found on county id table, get it from demographics data
+        if(!basicCountyIdentity){
+          basicCountyIdentity = {
+            name: countyData.census.area_name.split(" County")[0]
+          }
+        }
+
+        $.extend(county.properties, countyData, basicCountyIdentity);
+      }
+    });
+    
     return usTOPOJSON;
   }
 
