@@ -23,7 +23,7 @@
     .defer(d3.json, "data/primary_results.json")
     .defer(d3.tsv, "data/us-state-names.tsv")
     .defer(d3.tsv, "data/us-county-names.tsv")
-    .defer(d3.csv, "data/demographics.csv")
+    .defer(d3.csv, "data/vis1_county_facts_dictionary.csv")
     .await(function(err, countyFacts, usTOPOJSON, primaryResults, stateNames, countyNames, demographics){
 
       var factMap = d3.map(countyFacts, function(d){ return d.fips; });
