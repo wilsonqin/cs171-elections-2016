@@ -117,14 +117,97 @@ TEAM MEMBERS:	James Curtin
     <!-- SECOND VISUALIZATION - POLLS / TRENDS -->
     <div class="row" id="pollsTrends">
         <!-- Column 1 -->
-        <div class="col-md-6">
-            <h1 align="center">Polls vs. Google Trends</h1>
+        <div class="col-md-5">
+            <h1 align="center">Polls</h1>
             <!-- Visualization placeholders -->
-            <div id="polls_trends"></div>
+            <div id="polls"></div>
         </div>
         <!-- Column 2 -->
-        <div class="col-md-6">
+        <div class="col-md-2">
+            <br><br>
+            <h3 align="center">Select Candidate</h3>
+            <br>
+            <img class="image_button" src="images/hillary_button.jpg">
+            <br>
+            <img class="image_button" src="images/bernie_button.jpg">
+            <br>
+            <img class="image_button" src="images/trump_button.jpg">
+            <br>
+            <img class="image_button" src="images/cruz_button.jpg">
+            <br>
+            <img class="image_button" src="images/kasich_button.jpg">
+        </div>
 
+
+        <!-- Column 3 -->
+        <div class="col-md-5">
+            <h1 align="center">Google Trends</h1>
+            <!-- Visualization placeholders -->
+            <div class="row search_select">
+
+                <div class="col-md-4">
+                    <form action="" method="get">
+                        <h5>Ted Cruz: </h5>
+                        <input type="checkbox" name="vehicle" value=""> Canada<br>
+                        <input type="checkbox" name="vehicle" value="Car"> Immigration<br>
+                        <input type="checkbox" name="vehicle" value=""> Wife<br>
+                        <input type="checkbox" name="vehicle" value="Car"> Zodiac Killer<br>
+                    </form>
+                </div>
+
+                <div class="col-md-4">
+                    <form action="" method="get">
+                        <h5>Donald Trump: </h5>
+                        <input type="checkbox" name="vehicle" value=""> "Make America Great Again"<br>
+                        <input type="checkbox" name="vehicle" value="Car"> Immigration<br>
+                        <input type="checkbox" name="vehicle" value=""> Wife<br>
+                        <input type="checkbox" name="vehicle" value="Car"> Wall<br>
+                    </form>
+                </div>
+
+                <div class="col-md-4">
+                    <form action="" method="get">
+                        <h5>John Kasich: </h5>
+                        <input type="checkbox" name="vehicle" value=""> Ohio<br>
+                        <input type="checkbox" name="vehicle" value="Car"> Abortion<br>
+                        <input type="checkbox" name="vehicle" value=""> Wife<br>
+                        <input type="checkbox" name="vehicle" value="Car"> Family<br>
+                    </form>
+                </div>
+
+            </div>
+
+            <br>
+
+            <div class="row search_select">
+
+                <div class="col-md-3"></div>
+
+                <div class="col-md-3">
+                    <form action="" method="get">
+                        <h5>Hillary Clinton: </h5>
+                        <input type="checkbox" name="vehicle" value=""> "Hillary for America"<br>
+                        <input type="checkbox" name="vehicle" value="Car"> E-mail <br>
+                        <input type="checkbox" name="vehicle" value=""> Benghazi <br>
+                        <input type="checkbox" name="vehicle" value="Car"> SNL <br>
+                    </form>
+                </div>
+
+                <div class="col-md-3">
+                    <form action="" method="get">
+                        <h5>Bernie Sanders: </h5>
+                        <input type="checkbox" name="vehicle" value=""> "Feel the Bern" <br>
+                        <input type="checkbox" name="vehicle" value="Car"> Socialist <br>
+                        <input type="checkbox" name="vehicle" value=""> Old <br>
+                        <input type="checkbox" name="vehicle" value="Car"> Bird <br>
+                    </form>
+                </div>
+
+                <div class="col-md-3"></div>
+
+            </div>
+
+            <div id="trends"></div>
         </div>
     </div>
 
