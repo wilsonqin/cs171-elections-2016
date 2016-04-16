@@ -119,11 +119,11 @@ function updateChoropleth(us) {
         .attr("d", path)
         .attr("class", "county-boundary")
         .attr("id", function (d) { return String(d.id);})
-        .attr('fill', function(d, i) {
-            var results = d.properties.election.get(selectedPartyVal);
-            var winner = results ? results[0].candidate : "No winner / Data Missing";
-            return ordinalScale(winner);
-        })
+        // .attr('fill', function(d, i) {
+        //     var results = d.properties.election.get(selectedPartyVal);
+        //     var winner = results ? results[0].candidate : "No winner / Data Missing";
+        //     return ordinalScale(winner);
+        // })
         .on("click", countyclicked)
         .on("mouseover", showCountyTooltip)
         .on("mouseout", hideTooltip);
