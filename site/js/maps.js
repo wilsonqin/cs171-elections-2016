@@ -1,7 +1,8 @@
 // Sets width and height elements of maps
-var width1 = $("#choropleth1").parent().width(),
+var margin = {top: 0, right: 0, bottom: 50, left: 0},
+    width1 = $("#choropleth1").parent().width(),
     width2 = $("#choropleth2").parent().width(),
-    height = 500;
+    height = 500 - margin.bottom;
 
 // Create a number of global variables
 var centered,
@@ -9,7 +10,10 @@ var centered,
     focusState,
     demographicMap,
     key,
-    lastCountyColor;
+    lastCountyColor = {
+        L: null,
+        R: null
+    };
 
 // Create projection for map of USA
 var projection = d3.geo.albersUsa()
@@ -22,9 +26,12 @@ var path = d3.geo.path()
 // Initialize SVG elements
 var svg = d3.select("#choropleth1")
     .append("svg")
-    .attr("width", width1)
-    .attr("height", height)
+    .attr("width", width1 + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
     .attr("id", "choropleth-svg");
+
 
 // Allows user to click background of map to zoom out
 svg.append("rect")
@@ -35,8 +42,10 @@ svg.append("rect")
 
 var svg2 = d3.select("#choropleth2")
     .append("svg")
-    .attr("width", width2)
-    .attr("height", height)
+    .attr("width", width2 + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
     .attr("id", "choropleth-svg2");
 
 var tooltip = d3.select("body").append("div")
@@ -55,6 +64,12 @@ var selectedDemographicVal = "",
     selectedPartyVal = "";
 var selectedDemographic = $("input[type='radio'][name='demographics']:checked");
 var selectedParty = $("input[type='radio'][name='party']:checked");
+if (selectedDemographic.length > 0) {
+    selectedDemographicVal = selectedDemographic.val();
+}
+if (selectedParty.length > 0) {
+    selectedPartyVal = selectedParty.val();
+}
 
 // Set placeholder message on SVG2
 demographicPlaceholderText();
@@ -85,8 +100,20 @@ function getResultsByState(stateCode){
 var results = window.primaryResults.get(stateCode);
 return results;
 }
+var ordinalScale = d3.scale.category10();
+
+// var x = d3.scale.ordinal()
+//     .domain(["apple", "orange", "banana", "grapefruit"])
+//     .rangePoints([0, width]);
 
 function updateChoropleth(us) {
+    // if(selectedDemographicVal === "Republican"){
+    // x.domain(["apple", "orange", "banana", "grapefruit"]);
+    // }
+    // else{
+    //     x.domain(["Clinton, Sanders"]);
+    // }
+
     g.append("g")
         .attr("id", "counties")
         .selectAll("path")
@@ -95,6 +122,12 @@ function updateChoropleth(us) {
         .attr("d", path)
         .attr("class", "county-boundary")
         .attr("id", function (d) { return String(d.id);})
+        .attr('fill', function(d, i) {
+            var results = d.properties.election.get(selectedPartyVal);
+            // if there is a winner, render its color, otherwise missing color is some set default TODO
+            var color = results ? ordinalScale(results[0].candidate) : "#aaa";
+            return color;
+        })
         .on("click", countyclicked)
         .on("mouseover", showCountyTooltip)
         .on("mouseout", hideTooltip);
@@ -106,6 +139,13 @@ function updateChoropleth(us) {
         .enter().append("path")
         .attr("d", path)
         .attr("class", "state")
+        .attr("fill", function(d,i){
+            console.log(d, selectedPartyVal);
+            var results = d.properties.election ? d.properties.election.get(selectedPartyVal) : undefined;
+            // if there is a winner, render its color, otherwise missing color is some set default TODO
+            var color = results ? ordinalScale(results.values()[0].candidate) : "#aaa";
+            return color;
+        })
         .on("click", genNewState)
         .on("mouseover", showStateTooltip)
         .on("mouseout", hideTooltip);
@@ -127,7 +167,8 @@ function clicked(d) {
         scale = .5 / Math.max(dx / width1, dy / height),
         translate = [width1 / 2 - scale * x, height / 2 - scale * y];
 
-    if (d && centered !== d) {
+    if (d) {
+        // Removed from if-statement: '&& centered !== d'
         centered = d;
     } else {
         var stateText = $("#stateText");
@@ -138,6 +179,7 @@ function clicked(d) {
         g2.selectAll('path').remove();
         d3.selectAll('.key').remove();
         demographicPlaceholderText();
+        focusState = undefined;
 
     }
     g.selectAll("path")
@@ -156,8 +198,10 @@ function countyclicked(d) {
 }
 
 function showCountyTooltip (d) {
+
     // track former county color to restore when tooltip leaves
-    lastCountyColor = $("#" + d.id + "inset").css("fill");
+    lastCountyColor.R = $("#" + d.id + "inset").css("fill");
+    lastCountyColor.L = $("#" + d.id).css('fill');
 
     $("#" + d.id).css("fill", "orange");
     $("#" + d.id + "inset").css("fill", "orange");
@@ -185,20 +229,17 @@ function showStateTooltip (d) {
 
 function hideTooltip(d) {
     $("#" + d.id).css("fill", "#aaa");
-    $("#" + d.id + "inset").css("fill", lastCountyColor);
+    $("#" + d.id + "inset").css("fill", lastCountyColor.R);
+    $("#" + d.id).css("fill", lastCountyColor.L);
     tooltip.transition()
         .duration(500)
         .style("opacity", 0);
 }
 
 function genNewState(d) {
-    clicked(d);
+    focusState = d;
+    clicked(focusState);
 
-    if (selectedDemographic.length > 0) {
-        selectedDemographicVal = selectedDemographic.val();
-    }
-
-    focusState = d.properties.code;
 
     var allCounties = topojson.feature(topoJSONdata, topoJSONdata.objects.counties);
     var filterCounties = allCounties.features.filter(function(datum) {
@@ -209,12 +250,14 @@ function genNewState(d) {
                 return false;
             }
 
-            return datum.properties.census.state_abbreviation === focusState;
+            return datum.properties.census.state_abbreviation === focusState.properties.code;
         });
 
     // Calculate domain for the selected demographic census property for state's counties
     // Then we set a color scale
     var extent = d3.extent(filterCounties, function(d) { return d.properties.census[selectedDemographicVal]; });
+
+    console.log(extent);
 
     var quantize = d3.scale.quantize()
         .domain(extent)
@@ -234,7 +277,7 @@ function genNewState(d) {
     d3.selectAll('.key').remove();
     key = svg2.append("g")
         .attr("class", "key")
-        .attr("transform", "translate(" + 50 + "," + height / 10 * 9 + ")");
+        .attr("transform", "translate(" + 50 + "," + ((height + margin.bottom) / 10 * 9) + ")");
 
     g2.selectAll('path').remove();
     g2.selectAll('g').remove();
@@ -320,4 +363,15 @@ function demographicPlaceholderText(){
         .attr("y", height/2)
         .attr("text-anchor", "middle")
         .text("Select a state to the left to display more information");
+}
+
+demographicRadios = $("input[type='radio'][name='demographics']");
+for(var i = 0, max = demographicRadios.length; i < max; i++) {
+    console.log(demographicRadios[i]);
+    demographicRadios[i].onclick = function() {
+        if (focusState){
+            selectedDemographicVal = this.value;
+            genNewState(focusState);
+        }
+    }
 }

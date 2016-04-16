@@ -23,7 +23,7 @@
     .defer(d3.json, "data/primary_results.json")
     .defer(d3.tsv, "data/us-state-names.tsv")
     .defer(d3.tsv, "data/us-county-names.tsv")
-    .defer(d3.csv, "data/demographics.csv")
+    .defer(d3.csv, "data/vis1_county_facts_dictionary.csv")
     .await(function(err, countyFacts, usTOPOJSON, primaryResults, stateNames, countyNames, demographics){
 
       var factMap = d3.map(countyFacts, function(d){ return d.fips; });
@@ -71,7 +71,8 @@
         countyNames: countyNames,
         usTOPOJSON: usTOPOJSON,
         getCountyData: getCountyData,
-        countyNameLookup: countyNameLookup
+        countyNameLookup: countyNameLookup,
+        stateWinners: getStateAggregateMap(primaryResults)
       };
 
       usTOPOJSON = populateTopoAttr(usTOPOJSON, stateNames, countyNames, factMap);
@@ -90,6 +91,27 @@
       // signal that the global data is ready to be accessed
       datasetReady.resolve();
     });
+
+  function getStateAggregateMap(primaryResults){
+    return d3.nest()
+      .key(function(d){ return d.state_abbreviation; })
+      .key(function(d){ return d.party; })
+      .key(function(d){ return d.candidate; })
+      .rollup(function(counties){ 
+        var candidate = counties[0].candidate;
+        return {
+          "popular_vote": d3.sum(counties, function(d){ return d.votes; }),
+          "percentage_of_vote": 33.3,
+          "candidate": candidate
+        }; 
+      })
+      .sortValues(function descending(a, b) {
+          a = a.popular_vote;
+          b = b.popular_vote;
+          return b < a ? -1 : b > a ? 1 : b >= a ? 0 : NaN;
+        })
+      .map(primaryResults, d3.map);
+  }
   
   /********** DATA MODEL METHODS *********/
   /* pre-req: these should only be called when window.dataReady is resolved! **/
@@ -108,14 +130,17 @@
 
   // TODO
   // Enter State ID and get list of county objects associated with the state
-  function getStateData(stateCode){
-    
-    var state_data = dataset.primaryResults.get(stateCode);
+  function getStateData(stateCode, party){
+    var state_data = dataset.stateWinners.get(stateCode).get(party);
     return state_data;
   }
 
-  function fipsNonState(fips){
+  function fipsNonStateCounty(fips){
     return fips >= 60000;
+  }
+
+  function fipsNonState(fips){
+    return fips >= 60;
   }
 
   
@@ -128,13 +153,20 @@
       return d.id;
     });
 
-    usTOPOJSON.objects.states.geometries.forEach(function(state,i){
-      state.properties = stateById.get(state.id);
+    usTOPOJSON.objects.states.geometries = usTOPOJSON.objects.states.geometries.filter(function(state,i){
+      return !fipsNonState(state.id);
     });
 
-    usTOPOJSON.objects.counties.geometries.filter(function(county, i){
-      return !fipsNonState(county.id);
-    }).forEach(function(county,i){
+    usTOPOJSON.objects.states.geometries.forEach(function(state,i){
+      state.properties = stateById.get(state.id);
+      state.properties.election = dataset.stateWinners.get(state.properties.code);
+    });
+
+    usTOPOJSON.objects.counties.geometries = usTOPOJSON.objects.counties.geometries.filter(function(county, i){
+      return !fipsNonStateCounty(county.id);
+    });
+
+    usTOPOJSON.objects.counties.geometries.forEach(function(county,i){
       county.properties = {};
 
       var countyData = getCountyData(county.id);
@@ -152,7 +184,7 @@
         $.extend(county.properties, countyData, basicCountyIdentity);
       }
     });
-    
+
     return usTOPOJSON;
   }
 
