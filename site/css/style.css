@@ -71,6 +71,29 @@ div.tooltip {
     shape-rendering: crispEdges;
 }
 
+/* Polls and Trends CSS*/
+
+/* candidate buttons */
+.image_button
+{
+    width: 50%;
+    margin: 0 0 0 50px;
+    left: 50%
+}
+
+/* search select */
+.search_select
+{
+    font-size: 8.5pt;
+    text-align: left;
+}
+
+.h5
+{
+    text-align: center;
+    font-size: 10pt;
+}
+
 /*********************************************************************************/
 /* CSS STYLING FOR WEBSITE IN GENERAL
      Colors - use these / or change everything accordingly:
