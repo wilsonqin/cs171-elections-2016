@@ -13,9 +13,6 @@ var svg3 = d3.select("#polls")
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-// Date parser (https://github.com/mbostock/d3/wiki/Time-Formatting)
-var formatDate = d3.time.format("%m-%d");
-
 // Scales
 var x = d3.time.scale()
     .range([0, width3]);
@@ -40,49 +37,68 @@ var line = d3.svg.line()
     .y(function(d) { return y(d.rating);});
 
 var data;
-var politician;
+//var politician;
 
 // initialize data
 loadData3();
 
 function loadData3(){
 
-    d3.csv("data/polls_test_data.csv",function(error, csv){
-        csv.forEach(function(d){
-            // convert to time object
-            d.Date = formatDate.parse(d.Date);
-        });
+    $.when(window.dataReady.vis2).then(function(){
+        if(!vis2 || !window.vis2) console.log("error: dataDriver not intialized before maps.js");
 
-        color.domain(d3.keys(csv[0]).filter(function(key) { return key !== "Date"; }));
+        console.log(vis2.polls);
 
-        politician = color.domain().map(function(name){
-            return{
-                name: name,
-                values: csv.map(function(d){
-                    return {date: d.Date, rating: +d[name]};
-                })
-            };
+        var test = vis2.polls;
 
-        });
-        data = csv;
-        console.log(politician);
+        formatData(test);
 
-        updatePolls();
     });
+
+
+
 }
 
-function updatePolls(){
+function formatData(data){
 
     var localData = data;
+
+    var formatDate = d3.time.format("%Y-%m-%d");
+
+    color.domain(["Clinton", "Sanders", "Trump", "Cruz", "Kasich"]);
+
+    var politician2 = color.domain().map(function(name){
+        return{
+            name: name,
+            values: localData[name].map(function(d){
+                return {date: formatDate.parse(d.date), rating: d.value}
+            })
+        }
+    });
+
+    updatePolls(politician2);
+
+}
+
+function updatePolls(data2){
+
+    var formatDate = d3.time.format("%Y-%m-%d");
+
+    politician = data2;
+    console.log(politician);
+
+    var data3 = data;
 
     // get input value from selected candidate
 
     // max and min time
-    var max_date = d3.max(localData, function(d){return d.Date;});
-    var min_date =  d3.min(localData, function(d){return d.Date;});
+    //var max_date = d3.max(data3, function(d){return d.date;});
+    //var min_date =  d3.min(data3, function(d){return d.date;});
+    var max_date = formatDate.parse("2016-04-01");
+    var min_date = formatDate.parse("2016-01-03");
 
     // update domains
-    x.domain(d3.extent(localData, function(d){return d.Date;}));
+    x.domain([min_date, max_date]);
     y.domain([
         d3.min(politician, function(p) { return d3.min(p.values, function(v) { return v.rating; }); }),
         d3.max(politician, function(p) { return d3.max(p.values, function(v) { return v.rating; }); })
@@ -123,7 +139,4 @@ function updatePolls(){
 
 }
 
-function test()
-{
-    console.log("hi");
-}
+
