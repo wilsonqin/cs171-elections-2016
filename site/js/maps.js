@@ -229,11 +229,6 @@ function countyclicked(d) {
 }
 
 function showCountyTooltip (d) {
-
-    // track former county color to restore when tooltip leaves
-    lastCountyColor.R = $("#" + d.id + "inset").css("fill");
-    lastCountyColor.L = $("#" + d.id).css('fill');
-
     $("#" + d.id).css("opacity", ".5");
     $("#" + d.id).css("stroke", "black");
     $("#" + d.id + "inset").css("opacity", ".5");
@@ -246,9 +241,27 @@ function showCountyTooltip (d) {
     tooltip.transition()
         .duration(200)
         .style("opacity", .9);
-    tooltip.html("<p>County: " + d.properties.name +"</p>" + "<p>"+ winner +"</p>" + "<p>Population: <span>"+pop+"</span></p>")
+
+    tooltip.html("<h4>County: <b>" + d.properties.name +"</b></h4>" +
+        "<div id='parent'><table class='hover-table' id='names-list'></table></div>")
         .style("left", (d3.event.pageX) +25 + "px")
         .style("top", (d3.event.pageY - 40) + "px");
+
+    var list = $("#names-list");
+    var parent = list.parent();
+    if (results){
+        list.detach().empty().each(function(i){
+            for (var x = 0; x < results.length; x++){
+                $(this).append('<tr><th>' + results[x].candidate + '</th><td>' + formatPercent(results[x].fraction_votes) + '</td></tr>');
+                if (x == results.length - 1){
+                    $(this).appendTo(parent);
+                }
+            }
+        });
+    }
+    else {
+        list.append("<p align='center'>No election data to display. :(</p>");
+    }
 }
 
 function showStateTooltip (d) {
@@ -424,4 +437,10 @@ for(var i = 0, max = partyRadios.length; i < max; i++) {
             genNewState(focusState);
         }
     }
+}
+
+function formatPercent(number){
+    number *= 100;
+    var arr = number.toFixed(1);
+    return String(arr)+"%";
 }
