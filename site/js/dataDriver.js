@@ -210,14 +210,16 @@
   queue()
     //.defer(d3.tsv, "data/vis2_contests.tsv")
     //.defer(d3.tsv, "data/vis2_debates.tsv")
-    //.defer(d3.tsv, "data/vis2_events.tsv")
-    .defer(d3.json, "data/vis2_search.tsv")
+    .defer(d3.csv, "data/vis2_events.csv")
+    .defer(d3.json, "data/vis2_search.json")
     .defer(d3.json, "data/vis2_polls.json")
-    .await(function(err, search, polls){
+    .await(function(err, events, search, polls){
+      console.log(events, search, polls);
     
       window.vis2 = {
         polls: polls,
-        search: search
+        search: search,
+        events: events
       };
 
       datasetReady.resolve();

@@ -22,7 +22,7 @@ nested.keys().forEach(function(term){
   results[term] = nested.get(term);
 });
 
-console.log(results);
+console.log(JSON.stringify(results));
 
 function processCSV(path){
   var data = fs.readFileSync(path).toString();
