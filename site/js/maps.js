@@ -140,7 +140,6 @@ function updateChoropleth(us) {
         .attr("d", path)
         .attr("class", "state")
         .attr("fill", function(d,i){
-            console.log(d, selectedPartyVal);
             var results = d.properties.election ? d.properties.election.get(selectedPartyVal) : undefined;
             // if there is a winner, render its color, otherwise missing color is some set default TODO
             var color = results ? ordinalScale(results.values()[0].candidate) : "#aaa";
