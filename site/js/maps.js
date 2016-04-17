@@ -10,6 +10,7 @@ var centered,
     focusState,
     demographicMap,
     key,
+    legend,
     lastCountyColor = {
         L: null,
         R: null
@@ -154,6 +155,11 @@ function updateChoropleth(us) {
             var color = results ? ordinalScale(results.values()[0].candidate) : "#aaa";
             return color;
         })
+        .attr("data-legend", function(d,i){
+            var results = d.properties.election ? d.properties.election.get(selectedPartyVal) : undefined;
+            var winner = results ? results.values()[0].candidate : "N/A";
+            return winner;
+        })
         .on("click", genNewState)
         .on("mouseover", showStateTooltip)
         .on("mouseout", hideTooltip);
@@ -164,6 +170,13 @@ function updateChoropleth(us) {
         }))
         .attr("id", "state-borders")
         .attr("d", path);
+
+    d3.selectAll('.legend').remove();
+    legend = svg.append("g")
+        .attr("class","legend")
+        .attr("transform","translate(50,30)")
+        .style("font-size","12px")
+        .call(d3.legend)
 }
 
 function clicked(d) {
