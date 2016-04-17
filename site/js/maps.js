@@ -113,9 +113,16 @@ function updateChoropleth(us) {
     // else{
     //     x.domain(["Clinton, Sanders"]);
     // }
+    g.selectAll('path').remove();
+    g.selectAll('g').remove();
+    svg.selectAll('text').remove();
 
     g.append("g")
-        .attr("id", "counties")
+        .attr("id", "counties");
+    g.append("g")
+        .attr("id", "states");
+    
+    d3.select("#counties")
         .selectAll("path")
         .data(topojson.feature(us, us.objects.counties).features)
         .enter().append("path")
@@ -131,13 +138,15 @@ function updateChoropleth(us) {
         .on("click", countyclicked)
         .on("mouseover", showCountyTooltip)
         .on("mouseout", hideTooltip);
-
-    g.append("g")
-        .attr("id", "states")
+    
+    d3.select("#states")
         .selectAll("path")
         .data(topojson.feature(us, us.objects.states).features)
         .enter().append("path")
         .attr("d", path)
+        .attr("id", function (d) {
+            return "state-" + d.id;
+        })
         .attr("class", "state")
         .attr("fill", function(d,i){
             var results = d.properties.election ? d.properties.election.get(selectedPartyVal) : undefined;
@@ -158,18 +167,25 @@ function updateChoropleth(us) {
 }
 
 function clicked(d) {
+console.log(d);
     var bounds = path.bounds(d),
         dx = bounds[1][0] - bounds[0][0],
         dy = bounds[1][1] - bounds[0][1],
         x = (bounds[0][0] + bounds[1][0]) / 2,
         y = (bounds[0][1] + bounds[1][1]) / 2,
-        scale = .5 / Math.max(dx / width1, dy / height),
+        scale = 1 / Math.max(dx / width1, dy / height),
         translate = [width1 / 2 - scale * x, height / 2 - scale * y];
 
     if (d) {
         // Removed from if-statement: '&& centered !== d'
+        console.log("enter the d===true loop");
         centered = d;
+        console.log(d.id);
+        d3.select('#state-' + d.id)
+            .classed("active", false);
     } else {
+        g.selectAll("path")
+            .classed("active", false);
         var stateText = $("#stateText");
         stateText.text("");
         centered = null;
@@ -181,8 +197,11 @@ function clicked(d) {
         focusState = undefined;
 
     }
+    // console.log(d, centered);
     g.selectAll("path")
-        .classed("active", centered && function(d) { return d === centered; });
+        .classed("active", function(d) {
+                // console.log(d === centered);
+                return d === centered; });
 
     g.transition()
         .duration(750)
@@ -202,8 +221,10 @@ function showCountyTooltip (d) {
     lastCountyColor.R = $("#" + d.id + "inset").css("fill");
     lastCountyColor.L = $("#" + d.id).css('fill');
 
-    $("#" + d.id).css("fill", "orange");
-    $("#" + d.id + "inset").css("fill", "orange");
+    $("#" + d.id).css("opacity", ".5");
+    $("#" + d.id).css("stroke", "black");
+    $("#" + d.id + "inset").css("opacity", ".5");
+    $("#" + d.id + "inset").css("stroke", "black");
 
     var results = d.properties.election.get(selectedParty.val());
     var winner = results ? results[0].candidate : "No winner / Data Missing";
@@ -221,15 +242,17 @@ function showStateTooltip (d) {
     tooltip.transition()
         .duration(200)
         .style("opacity", .9);
+
     tooltip.html(d.properties.name)
         .style("left", (d3.event.pageX) +25 + "px")
         .style("top", (d3.event.pageY - 40) + "px");
 }
 
 function hideTooltip(d) {
-    $("#" + d.id).css("fill", "#aaa");
-    $("#" + d.id + "inset").css("fill", lastCountyColor.R);
-    $("#" + d.id).css("fill", lastCountyColor.L);
+    $("#" + d.id).css("opacity", "1");
+    $("#" + d.id).css("stroke", "lightgrey");
+    $("#" + d.id + "inset").css("opacity", "1");
+    $("#" + d.id + "inset").css("stroke", "lightgrey");
     tooltip.transition()
         .duration(500)
         .style("opacity", 0);
@@ -256,8 +279,6 @@ function genNewState(d) {
     // Then we set a color scale
     var extent = d3.extent(filterCounties, function(d) { return d.properties.census[selectedDemographicVal]; });
 
-    console.log(extent);
-
     var quantize = d3.scale.quantize()
         .domain(extent)
         .range(colorbrewer.Blues[9]);
@@ -274,13 +295,16 @@ function genNewState(d) {
         return a;
     };
     d3.selectAll('.key').remove();
-    key = svg2.append("g")
-        .attr("class", "key")
-        .attr("transform", "translate(" + 50 + "," + ((height + margin.bottom) / 10 * 9) + ")");
-
     g2.selectAll('path').remove();
     g2.selectAll('g').remove();
     svg2.selectAll('text').remove();
+
+    key = svg2.append("g")
+        .attr("class", "key")
+        .attr("transform", "translate(" + 50 + "," + ((height + margin.bottom) / 10 * 9) + ")");
+    key.append("text")
+        .attr("class", "caption")
+        .attr("y", -6);
 
     var stateText = $("#stateText");
     stateText.text(d.properties.name);
@@ -310,13 +334,16 @@ function genNewState(d) {
 
 
     key.call(xAxis)
+        .transition()
+        .duration(750)
         .selectAll("text")
         .attr("transform", "rotate(-45)")
         .style("text-anchor", "end");
-    // demographicMap[selectedDemographicVal]
-    key.append("text")
-        .attr("class", "caption")
-        .attr("y", -6)
+
+
+    key.selectAll(".caption")
+        .transition()
+        .duration(750)
         .text(demographicMap[selectedDemographicVal]);
 
 
@@ -331,12 +358,12 @@ function genNewState(d) {
         .selectAll("path")
         .data(filterCounties)
         .enter().append("path")
-        .attr("fill", function(d) {
-            return d.properties.census ? quantize(d.properties.census[selectedDemographic.val()]) : "gray"; 
-        })
         .attr("d", path)
         .attr("id", function (d) {return String(d.id) + "inset";})
         .attr("class", "countyInset")
+        .attr("fill", function(d) {
+            return d.properties.census ? quantize(d.properties.census[selectedDemographic.val()]) : "gray";
+        })
         .on("mouseover", showCountyTooltip)
         .on("mouseout", hideTooltip)
         .on("click", countyclicked);
@@ -366,10 +393,21 @@ function demographicPlaceholderText(){
 
 demographicRadios = $("input[type='radio'][name='demographics']");
 for(var i = 0, max = demographicRadios.length; i < max; i++) {
-    console.log(demographicRadios[i]);
     demographicRadios[i].onclick = function() {
         if (focusState){
             selectedDemographicVal = this.value;
+            genNewState(focusState);
+        }
+    }
+}
+
+partyRadios = $("input[type='radio'][name='party']");
+for(var i = 0, max = partyRadios.length; i < max; i++) {
+    partyRadios[i].onclick = function() {
+        selectedPartyVal = this.value;
+        updateChoropleth(topoJSONdata);
+        if (focusState){
+            console.log("there was a focus state");
             genNewState(focusState);
         }
     }

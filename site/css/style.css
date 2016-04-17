@@ -6,6 +6,8 @@
 }
 
 .state {
+    stroke: black;
+    stroke-width: 0.5px;
 }
 
 #states .active {
@@ -27,7 +29,8 @@
 }
 
 .state:hover {
-    fill: orange;
+    stroke:black;
+    stroke-width: 2px;
 }
 
 #focusState{
@@ -67,6 +70,11 @@ div.tooltip {
 .key line {
     stroke: #000;
     shape-rendering: crispEdges;
+}
+
+.selected-county{
+    stroke: black;
+    stroke-width: 1px;
 }
 
 /***********************/
