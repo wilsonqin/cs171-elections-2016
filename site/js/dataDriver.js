@@ -211,12 +211,13 @@
     //.defer(d3.tsv, "data/vis2_contests.tsv")
     //.defer(d3.tsv, "data/vis2_debates.tsv")
     //.defer(d3.tsv, "data/vis2_events.tsv")
+    .defer(d3.json, "data/vis2_search.tsv")
     .defer(d3.json, "data/vis2_polls.json")
-    .await(function(err, polls){
-      console.log(polls);
+    .await(function(err, search, polls){
     
       window.vis2 = {
-        polls: polls
+        polls: polls,
+        search: search
       };
 
       datasetReady.resolve();
