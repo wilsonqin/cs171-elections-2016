@@ -3,6 +3,7 @@
  * and does initial first level d3 data manipulation
  */
 
+// visualization 1 handling
 (function(){
   if(!d3) console.log("we need d3 before dataDriver!");
   if(!queue) console.log("we need d3-queue before dataDriver!");
@@ -14,7 +15,9 @@
 
   // a jQuery Deferred synchronization variable available globally
   // this is resolved in the queue callback when all data is ready
-  window.dataReady = window.dataReady ? window.dataReady : datasetReady;
+  window.dataReady = {};
+
+  window.dataReady.vis1 = window.dataReady.vis1 ? window.dataReady.vis1 : datasetReady;
 
   // load data files async and converge
   queue()
@@ -187,7 +190,35 @@
 
     return usTOPOJSON;
   }
+}());
 
+// visualization 2 handling
+(function(){
+  if(!d3) console.log("we need d3 before dataDriver!");
+  if(!queue) console.log("we need d3-queue before dataDriver!");
+  if(!$) console.log("we need jquery before dataDriver!");
+
+  var dataset = {};
+
+  var datasetReady = $.Deferred();
+
+  // a jQuery Deferred synchronization variable available globally
+  // this is resolved in the queue callback when all data is ready
+  window.dataReady.vis2 = window.dataReady.vis2 ? window.dataReady.vis2 : datasetReady;
+
+  // load data files async and converge
+  queue()
+    //.defer(d3.tsv, "data/vis2_contests.tsv")
+    //.defer(d3.tsv, "data/vis2_debates.tsv")
+    //.defer(d3.tsv, "data/vis2_events.tsv")
+    .defer(d3.json, "data/vis2_polls.json")
+    .await(function(err, polls){
+      console.log(polls);
+    
+      window.vis2 = {
+        polls: polls
+      };
+    });
 
 }());
 

@@ -92,6 +92,29 @@ function formatPrimaryData(primaryResults){
   return primaryResults;
 }
 
+function processAggregatePrimaryData(primaryResults){
+  primaryResults = formatPrimaryData(primaryResults);
+
+  return d3.nest()
+    .key(function(d){ return d.state_abbreviation; })
+    .key(function(d){ return d.party; })
+    .key(function(d){ return d.candidate; })
+    .rollup(function(counties){ return {
+      "total_votes": d3.sum(counties, function(d){ return d.votes; })
+    }; })
+    .map(primaryResults, d3.map);
+}
+
+function totalVotes(primaryResults){
+  primaryResults = formatPrimaryData(primaryResults);
+
+  return d3.nest()
+    .rollup(function(counties){ return {
+      "total_votes": d3.sum(counties, function(d){ return d.votes; })
+    }; })
+    .entries(primaryResults);
+}
+
 function processPrimaryData(primaryResults){
   //console.log(factMap.get('51650'));
 
@@ -124,10 +147,18 @@ function processPrimaryData(primaryResults){
   return groupByFipsParty;
 }
 
-countyFacts = formatCountyFacts(countyFacts);
 
-primaryResults = formatPrimaryData(primaryResults);
 
-console.log(JSON.stringify(primaryResults));
+//countyFacts = formatCountyFacts(countyFacts);
+
+//primaryResults = formatPrimaryData(primaryResults);
+
+//primaryResults = processAggregatePrimaryData(primaryResults);
+
+//var tot = processAggregatePrimaryData(primaryResults);
+
+//console.log(primaryResults.get("VT").get("Democrat"));
+
+//console.log(tot.get("VA").get("Democrat").get("Bernie Sanders"));
 
 // console.log(primaryResults);

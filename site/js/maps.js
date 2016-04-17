@@ -77,7 +77,7 @@ demographicPlaceholderText();
 loadData();
 
 function loadData() {
-    $.when(window.dataReady).then(function(){
+    $.when(window.dataReady.vis1).then(function(){
         if(!vis1 || !window.vis1) console.log("error: dataDriver not intialized before maps.js");
 
         topoJSONdata = vis1.topoJSONdata;
