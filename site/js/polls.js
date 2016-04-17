@@ -14,9 +14,9 @@ var svg3 = d3.select("#polls")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 // Scales
-var x = d3.time.scale()
+var x1 = d3.time.scale()
     .range([0, width3]);
-var y = d3.scale.linear()
+var y1 = d3.scale.linear()
     .range([height3, 0]);
 
 // color scale
@@ -24,20 +24,14 @@ var color = d3.scale.category10();
 
 // Initialize Axes for both graphs
 var xAxis3 = d3.svg.axis()
-    .scale(x)
+    .scale(x1)
     .orient("bottom");
 var yAxis3 = d3.svg.axis()
-    .scale(y)
+    .scale(y1)
     .orient("left");
 
 // initialize line graph
-var line = d3.svg.line()
-    .interpolate("interpolate")
-    .x(function(d) { return x(d.date); })
-    .y(function(d) { return y(d.rating);});
-
-var data;
-//var politician;
+var line;
 
 // initialize data
 loadData3();
@@ -47,27 +41,22 @@ function loadData3(){
     $.when(window.dataReady.vis2).then(function(){
         if(!vis2 || !window.vis2) console.log("error: dataDriver not intialized before maps.js");
 
-        console.log(vis2.polls);
-
         var test = vis2.polls;
 
         formatData(test);
 
     });
 
-
-
 }
 
 function formatData(data){
 
     var localData = data;
-
     var formatDate = d3.time.format("%Y-%m-%d");
 
     color.domain(["Clinton", "Sanders", "Trump", "Cruz", "Kasich"]);
 
-    var politician2 = color.domain().map(function(name){
+    var politicians = color.domain().map(function(name){
         return{
             name: name,
             values: localData[name].map(function(d){
@@ -76,51 +65,62 @@ function formatData(data){
         }
     });
 
-    updatePolls(politician2);
+    console.log(politicians);
+    updatePolls(politicians);
 
 }
 
 function updatePolls(data2){
-
     var formatDate = d3.time.format("%Y-%m-%d");
 
-    politician = data2;
-    console.log(politician);
+    var politician = data2;
 
-    var data3 = data;
+    updateDomain(politician);
 
-    // get input value from selected candidate
 
-    // max and min time
-    //var max_date = d3.max(data3, function(d){return d.date;});
-    //var min_date =  d3.min(data3, function(d){return d.date;});
-    var max_date = formatDate.parse("2016-04-01");
-    var min_date = formatDate.parse("2016-01-03");
+}
 
-    // update domains
-    x.domain([min_date, max_date]);
-    y.domain([
+function updateDomain(politician){
+
+
+    x1.domain(d3.extent(politician[2].values, function(d){return d.date;}));
+    y1.domain([
         d3.min(politician, function(p) { return d3.min(p.values, function(v) { return v.rating; }); }),
         d3.max(politician, function(p) { return d3.max(p.values, function(v) { return v.rating; }); })
     ]);
 
+    updateAxes(politician);
+}
+
+function updateAxes(politician){
+
     // Axis Groups
-    var xAxisGroup = svg3.append("g")
-        .attr("class", "x-axis axis");
-    var yAxisGroup = svg3.append("g")
-        .attr("class", "y-axis axis");
+    var xAxisGroup3 = svg3.append("g")
+        .attr("class", "x-axis1 axis");
+    var yAxisGroup3 = svg3.append("g")
+        .attr("class", "y-axis1 axis");
 
     // call axes
-    svg3.select(".x-axis")
+    svg3.select(".x-axis1")
         .attr("transform", "translate(0, "+ height3 + ")")
         .transition()
         .call(xAxis3);
-    svg3.select(".y-axis")
+    svg3.select(".y-axis1")
         .transition()
         .call(yAxis3);
 
+    drawLines(politician);
+}
+
+function drawLines(data){
+
+    line = d3.svg.line()
+        .interpolate("linear")
+        .x(function(d) { return x1(d.date); })
+        .y(function(d) { return y1(d.rating);});
+
     var politicians = svg3.selectAll(".politician")
-        .data(politician)
+        .data(data)
         .enter().append("g")
         .attr("class", "politician");
 
@@ -129,14 +129,12 @@ function updatePolls(data2){
         .attr("d", function(d){return line(d.values);})
         .style("stroke", function(d) { return color(d.name); });
 
-    politicians.append("text")
-        .datum(function(d) { return {name: d.name, value: d.values[d.values.length - 1]}; })
-        .attr("transform", function(d) { return "translate(" + x(d.value.date) + "," + y(d.value.rating) + ")"; })
-        .attr("x", 3)
-        .attr("dy", ".35em")
-        .text(function(d) { return d.name;});
-
+    /*politicians.append("text")
+     .datum(function(d) { return {name: d.name, value: d.values[d.values.length - 1]}; })
+     .attr("transform", function(d) { return "translate(" + x(d.value.date) + "," + y(d.value.rating) + ")"; })
+     .attr("x", 3)
+     .attr("dy", ".35em")
+     .text(function(d) { return d.name;});*/
 
 }
-
 
