@@ -32,6 +32,7 @@ var yAxis4 = d3.svg.axis()
 
 // initialize line graph
 var line;
+var legend2;
 
 // initialize data
 loadData4();
@@ -55,6 +56,7 @@ function getCheckboxSelection(data)
 {
     svg4.selectAll("path").remove();
     svg4.selectAll("g").remove();
+    svg4.selectAll('.legend2').remove();
 
     var localData = data;
     console.log(data);
@@ -143,7 +145,6 @@ function updateTrendsAxes(data) {
 
 function drawTrendsLines(data){
 
-
     line = d3.svg.line()
         .interpolate("linear")
         .x(function (d) {
@@ -158,11 +159,17 @@ function drawTrendsLines(data){
         .enter().append("g")
         .attr("class", "politician");
 
-
     politicians.append("path")
         .attr("class", "line")
         .attr("d", function(d){return line(d.values);})
+        .attr("data-legend", function(d){return d.name;})
         .style("stroke", function(d) { return color(d.name); });
+
+    legend2 = svg4.append("g")
+        .attr("class", "legend2")
+        .attr("transform","translate(50,30)")
+        .style("font-size","12px")
+        .call(d3.legend);
 
     /*politicians.append("text")
         .datum(function(d) { return {name: d.name, value: d.values[d.values.length - 1]}; })
@@ -172,4 +179,3 @@ function drawTrendsLines(data){
         .text(function(d) { return d.name;});*/
 
 }
-
