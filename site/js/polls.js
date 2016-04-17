@@ -22,6 +22,9 @@ var x = d3.time.scale()
 var y = d3.scale.linear()
     .range([height3, 0]);
 
+// color scale
+var color = d3.scale.category10();
+
 // Initialize Axes for both graphs
 var xAxis3 = d3.svg.axis()
     .scale(x)
@@ -30,20 +33,17 @@ var yAxis3 = d3.svg.axis()
     .scale(y)
     .orient("left");
 
-// Axis Groups
-var xAxisGroup = svg3.append("g")
-    .attr("class", "x-axis axis");
-var yAxisGroup = svg3.append("g")
-    .attr("class", "y-axis axis");
+// initialize line graph
+var line = d3.svg.line()
+    .interpolate("interpolate")
+    .x(function(d) { return x(d.date); })
+    .y(function(d) { return y(d.rating);});
 
+var data;
+var politician;
 
 // initialize data
 loadData3();
-
-var data;
-
-// initialize line graph
-var lineGraph = svg3.append("path");
 
 function loadData3(){
 
@@ -51,26 +51,27 @@ function loadData3(){
         csv.forEach(function(d){
             // convert to time object
             d.Date = formatDate.parse(d.Date);
-
-            // convert to numbers
-            d.Hillary = +d.Hillary;
-            d.Bernie = +d.Bernie;
-            d.Trump = +d.Trump;
-            d.Cruz = +d.Cruz;
-            d.Kasich = +d.Kasich;
-
         });
 
-        data = csv;
+        color.domain(d3.keys(csv[0]).filter(function(key) { return key !== "Date"; }));
 
-        console.log(data);
+        politician = color.domain().map(function(name){
+            return{
+                name: name,
+                values: csv.map(function(d){
+                    return {date: d.Date, rating: +d[name]};
+                })
+            };
+
+        });
+        data = csv;
+        console.log(politician);
 
         updatePolls();
     });
 }
 
 function updatePolls(){
-
 
     var localData = data;
 
@@ -81,8 +82,17 @@ function updatePolls(){
     var min_date =  d3.min(localData, function(d){return d.Date;});
 
     // update domains
-    x.domain([min_date, max_date]);
-    y.domain([0, d3.max(localData, function(d){return d.Hillary;})]);
+    x.domain(d3.extent(localData, function(d){return d.Date;}));
+    y.domain([
+        d3.min(politician, function(p) { return d3.min(p.values, function(v) { return v.rating; }); }),
+        d3.max(politician, function(p) { return d3.max(p.values, function(v) { return v.rating; }); })
+    ]);
+
+    // Axis Groups
+    var xAxisGroup = svg3.append("g")
+        .attr("class", "x-axis axis");
+    var yAxisGroup = svg3.append("g")
+        .attr("class", "y-axis axis");
 
     // call axes
     svg3.select(".x-axis")
@@ -93,25 +103,27 @@ function updatePolls(){
         .transition()
         .call(yAxis3);
 
-    var line = d3.svg.line();
+    var politicians = svg3.selectAll(".politician")
+        .data(politician)
+        .enter().append("g")
+        .attr("class", "politician");
 
-    line
-        .x(function(d){return x(d.Date)})
-        .y(function(d){return y(d.Hillary)})
-        .interpolate("linear");
+    politicians.append("path")
+        .attr("class", "line")
+        .attr("d", function(d){return line(d.values);})
+        .style("stroke", function(d) { return color(d.name); });
 
-    lineGraph
-        .attr("opacity", 1)
-        .transition()
-        .attr("d", line(localData))
-        .attr("fill", "none")
-        .attr("class", "line");
-
-
-
+    politicians.append("text")
+        .datum(function(d) { return {name: d.name, value: d.values[d.values.length - 1]}; })
+        .attr("transform", function(d) { return "translate(" + x(d.value.date) + "," + y(d.value.rating) + ")"; })
+        .attr("x", 3)
+        .attr("dy", ".35em")
+        .text(function(d) { return d.name;});
 
 
 }
 
-
-
+function test()
+{
+    console.log("hi");
+}

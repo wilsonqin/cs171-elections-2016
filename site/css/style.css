@@ -76,10 +76,16 @@ div.tooltip {
 /* candidate buttons */
 .image_button
 {
-    width: 103px;
+    width: 100px;
     margin: 0 0 0 30px;
     left: 50%
 }
+
+.image_button:checked
+{
+    opacity: 0.3;
+}
+
 
 .image_button:hover
 {
