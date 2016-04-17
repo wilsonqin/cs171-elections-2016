@@ -236,7 +236,6 @@ function showCountyTooltip (d) {
 
     var results = d.properties.election.get(selectedParty.val());
     var winner = results ? results[0].candidate : "No winner / Data Missing";
-    var pop = d.properties.census ? d.properties.census[selectedDemographic.val()] : "no population data available";
 
     tooltip.transition()
         .duration(200)
@@ -254,6 +253,41 @@ function showCountyTooltip (d) {
             for (var x = 0; x < results.length; x++){
                 $(this).append('<tr><th>' + results[x].candidate + '</th><td>' + formatPercent(results[x].fraction_votes) + '</td></tr>');
                 if (x == results.length - 1){
+                    $(this).appendTo(parent);
+                }
+            }
+        });
+    }
+    else {
+        list.append("<p align='center'>No election data to display. :(</p>");
+    }
+}
+function showCountyTooltipRight (d) {
+    $("#" + d.id).css("opacity", ".5");
+    $("#" + d.id).css("stroke", "black");
+    $("#" + d.id + "inset").css("opacity", ".5");
+    $("#" + d.id + "inset").css("stroke", "black");
+
+    var censusData = (d.properties.census);
+    var censusKeys = Object.keys(censusData);
+    console.log(censusKeys.length);
+
+    tooltip.transition()
+        .duration(200)
+        .style("opacity", .9);
+
+    tooltip.html("<h4>County: <b>" + d.properties.name +"</b></h4>" +
+            "<div id='parent'><table class='hover-table' id='names-list'></table></div>")
+        .style("left", (d3.event.pageX) +25 + "px")
+        .style("top", (d3.event.pageY - 40) + "px");
+
+    var list = $("#names-list");
+    var parent = list.parent();
+    if (censusData){
+        list.detach().empty().each(function(i){
+            for (var x = 0; x < censusKeys.length; x++){
+                $(this).append('<tr><th>' + censusKeys[x] + '</th><td>' + censusData[censusKeys[x]] + '</td></tr>');
+                if (x == censusKeys.length - 1){
                     $(this).appendTo(parent);
                 }
             }
@@ -390,7 +424,7 @@ function genNewState(d) {
         .attr("fill", function(d) {
             return d.properties.census ? quantize(d.properties.census[selectedDemographic.val()]) : "gray";
         })
-        .on("mouseover", showCountyTooltip)
+        .on("mouseover", showCountyTooltipRight)
         .on("mouseout", hideTooltip)
         .on("click", countyclicked);
 
