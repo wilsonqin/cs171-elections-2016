@@ -218,6 +218,8 @@
       window.vis2 = {
         polls: polls
       };
+
+      datasetReady.resolve();
     });
 
 }());
