@@ -48,9 +48,9 @@ TEAM MEMBERS:	James Curtin
             <span class="byline">More complex relationships in elections data.</span>
         </div>
         <!-- these should not take user to different page but rather to the appropriate visualization -->
-        <a href="#" class="button">County Level Voting</a>
-        <a href="#" class="button">Polls vs. Google Trends</a>
-        <a href="#" class="button">What's Next?</a>
+        <a href="#countyLevelVoting" class="button">County Level Voting Patterns</a>
+        <a href="#pollsTrends" class="button">Polls vs. Google Trends</a>
+        <!-- <a href="#" class="button">What's Next?</a> -->
     </div>
 
 </div>
@@ -60,16 +60,39 @@ TEAM MEMBERS:	James Curtin
 <div class="container-fluid">
 
     <!-- FIRST VISUALIZATION - CHOROPLETH -->
+    <div class="row" style="padding-top: 15px; padding-bottom: 10px" id="countyLevelVoting">
+        <!-- Column 1 -->
+        <div class="col-md-6">
+            <div>
+                <h1 align="center">Primary Election Winners</h1>
+                <div align="center" style="padding-top: 10px">
+                    <form action="">
+                        Select a party:
+                        <input type="radio" name="party" value="Republican" checked/> Republican
+                        <input type="radio" name="party" value="Democrat"/> Democrat<br>
+                    </form>
+                    <div style="padding-top: 50px;">
+                        <button onclick="clicked()">Reset Map</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Column 2 -->
+        <div class="col-md-6">
+            <h1 align="center">Demographic Data</h1>
+            <h4 style="padding-top: 10px">Select the demographic features you'd like to display:</h4>
+                <form action="">
+                    <input type="radio" name="demographics" value="POP010210" checked/> Population 2010
+                    <input type="radio" name="demographics" value="PST045214"/> Population 2014<br>
+                </form>
+            <h3 align="center" style="font-weight: bold; padding-top: 10px" id="stateText"></h3>
+        </div>
+    </div>
     <div class="row">
         <!-- Column 1 -->
         <div class="col-md-6">
-            <h1>Choropleth</h1>
             <!-- Visualization placeholders -->
-            <button onclick="clicked()">Reset</button>
             <div id="choropleth1"></div>
-            <div id="tooltip" class="hidden">
-                <p><span id="county">County Name</span></p>
-            </div>
         </div>
         <!-- Column 2 -->
         <div class="col-md-6">
@@ -80,15 +103,83 @@ TEAM MEMBERS:	James Curtin
     <hr>
 
     <!-- SECOND VISUALIZATION - POLLS / TRENDS -->
-    <div class="row">
-        <!-- Column 1 -->
-        <div class="col-md-6">
-            <h1>Polls vs. Google Trends</h1>
-            <!-- Visualization placeholders -->
-            <div id="polls_trends"></div>
+    <div class="row" id="pollsTrends">
+        <h1 align="center">Polls and Google Searches</h1>
+
+        <!-- Row 1 - explanations -->
+        <div class="row">
+
+            <!-- Polls + Trends explanations -->
+            <div class="col-md-9">
+            </div>
+
+            <!-- Select Candidate + search terms explanation-->
+            <div class="col-md-3">
+            <h3 align="center">Select Candidate</h3>
+            <p>Paragraph explaining how to use this visualization.</p>
+            </div>
         </div>
-        <!-- Column 2 -->
-        <div class="col-md-6">
+
+        <!-- Row 2 - visualizations -->
+        <div class="row">
+
+            <!-- Column 1 - visualizations -->
+            <div class="col-md-9">
+                <!-- Visualization placeholders -->
+                <div id="polls"></div>
+                <div id="trends"></div>
+            </div>
+
+            <!-- Column 2 select candidate / searchbox-->
+            <div class="col-md-3">
+                <div class="row">
+
+                    <form action="" method="get">
+                    <div class="col-md-5">
+                        <br>
+                        <img onclick="" class="image_button" src="images/hillary_button.jpg"><br><br>
+                        <input type="image" class="image_button" value="bernie" src="images/bernie_button.jpg"><br><br>
+                        <input type="image" class="image_button" value="trump" src="images/trump_button.jpg"><br><br>
+                        <input type="image" class="image_button" value="cruz" src="images/cruz_button.jpg"><br><br>
+                        <input type="image" class="image_button" value="kasich" src="images/kasich_button.jpg">
+                    </div>
+                    </form>
+
+                    <div class="col-md-7 search_select">
+                        <form action="" method="get">
+                            <br>
+                            <h5>Hillary Clinton: </h5>
+                            <input name="checkbox" onclick="loadData4()" type="checkbox" value="hillary for america"> "Hillary for America"<br>
+                            <input name="checkbox" onclick="loadData4()" type="checkbox" value="hillary clinton email"> E-mail <br>
+                            <input name="checkbox" onclick="loadData4()" type="checkbox" value="hillary clinton benghazi"> Benghazi <br>
+                            <input name="checkbox" onclick="loadData4()" type="checkbox" value="hillary clinton snl"> SNL <br>
+                            <br>
+                            <h5>Bernie Sanders: </h5>
+                            <input name="checkbox" onclick="loadData4()" type="checkbox" value="feel the bern"> "Feel the Bern" <br>
+                            <input name="checkbox" onclick="loadData4()" type="checkbox" value="bernie sanders socialist"> Socialist <br>
+                            <input name="checkbox" onclick="loadData4()" type="checkbox" value="bernie sanders old"> Old <br>
+                            <input name="checkbox" onclick="loadData4()" type="checkbox" value="bernie sanders bird"> Bird <br>
+                            <br>
+                            <h5>Donald Trump: </h5>
+                            <input name="checkbox" onclick="loadData4()" type="checkbox" value="make america great again"> "Make America Great Again"<br>
+                            <input name="checkbox" onclick="loadData4()" type="checkbox" value="donald trump immigration"> Immigration<br>
+                            <input name="checkbox" onclick="loadData4()" type="checkbox" value="donald trump wife"> Wife<br>
+                            <input name="checkbox" onclick="loadData4()" type="checkbox" value="donald trump wall"> Wall<br>
+                            <br>
+                            <h5>Ted Cruz: </h5>
+                            <input name="checkbox" onclick="loadData4()" type="checkbox" value="ted cruz canada"> Canada<br>
+                            <input name="checkbox" onclick="loadData4()" type="checkbox" value="ted cruz immigration"> Immigration<br>
+                            <input name="checkbox" onclick="loadData4()" type="checkbox" value="ted cruz wife"> Wife<br>
+                            <input name="checkbox" onclick="loadData4()" type="checkbox" value="ted cruz zodiac killer"> Zodiac Killer<br>
+                            <br>
+                            <h5>John Kasich: </h5>
+                            <input name="checkbox" onclick="loadData4()" type="checkbox" value="john kasich ohio"> Ohio<br>
+                            <input name="checkbox" onclick="loadData4()" type="checkbox" value="john kasich wife"> Wife<br>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -122,10 +213,15 @@ TEAM MEMBERS:	James Curtin
 <script src="js/bootstrap.min.js"></script>
 <script src="js/d3-queue.min.js"></script>
 <script src="js/queue.min.js"></script>
+<script src="js/d3.legend.js"></script>
 <script src="js/topojson.js"></script>
+<script src="js/colorbrewer.js"></script>
+<script src="js/smoothScroll.js"></script>
+<script src="js/dataDriver.js"></script>
 <script src="js/main.js"></script>
-<script src="js/choropleth.js"></script>
-<script src="js/poll_trends.js"></script>
+<script src="js/maps.js"></script>
+<script src="js/polls.js"></script>
+<script src="js/trends.js"></script>
 <script src="js/prediction.js"></script>
 </body>
 </html>
