@@ -66,33 +66,23 @@ function formatData(data){
     });
 
     console.log(politicians);
-    updatePolls(politicians);
+    updatePollsDomain(politicians);
 
 }
 
-function updatePolls(data2){
-    var formatDate = d3.time.format("%Y-%m-%d");
-
-    var politician = data2;
-
-    updateDomain(politician);
+function updatePollsDomain(data){
 
 
-}
-
-function updateDomain(politician){
-
-
-    x1.domain(d3.extent(politician[2].values, function(d){return d.date;}));
+    x1.domain(d3.extent(data[2].values, function(d){return d.date;}));
     y1.domain([
-        d3.min(politician, function(p) { return d3.min(p.values, function(v) { return v.rating; }); }),
-        d3.max(politician, function(p) { return d3.max(p.values, function(v) { return v.rating; }); })
+        d3.min(data, function(p) { return d3.min(p.values, function(v) { return v.rating; }); }),
+        d3.max(data, function(p) { return d3.max(p.values, function(v) { return v.rating; }); })
     ]);
 
-    updateAxes(politician);
+    updatePollsAxes(data);
 }
 
-function updateAxes(politician){
+function updatePollsAxes(data){
 
     // Axis Groups
     var xAxisGroup3 = svg3.append("g")
@@ -109,10 +99,10 @@ function updateAxes(politician){
         .transition()
         .call(yAxis3);
 
-    drawLines(politician);
+    drawPollLines(data);
 }
 
-function drawLines(data){
+function drawPollLines(data){
 
     line = d3.svg.line()
         .interpolate("linear")
@@ -137,4 +127,6 @@ function drawLines(data){
      .text(function(d) { return d.name;});*/
 
 }
+
+
 

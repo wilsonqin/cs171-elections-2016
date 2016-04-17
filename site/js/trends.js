@@ -41,26 +41,46 @@ function loadData4(){
     $.when(window.dataReady.vis2).then(function(){
         if(!vis2 || !window.vis2) console.log("error: dataDriver not intialized before maps.js");
 
-        var test = vis2.search;
-        console.log(test);
+        var data = vis2.search;
+        console.log(data);
 
-        formatData2(test);
+        //formatData2(test);
+        getCheckboxSelection(data);
 
     });
 
 }
 
-function formatData2(data){
+function getCheckboxSelection(data)
+{
+    svg4.selectAll("path").remove();
+    svg4.selectAll("g").remove();
 
     var localData = data;
+    console.log(data);
 
+    //console.log($('input[name=checkbox]:checked').map(function () { return this.value; }).toArray());
+    var checkboxSelection = $('input[name=checkbox]:checked').map(function () { return this.value; }).toArray();
+    console.log(checkboxSelection);
+
+    formatData2(localData, checkboxSelection);
+
+}
+
+function formatData2(data, domain){
+
+    var localData = data;
     var formatDate = d3.time.format("%Y-%m-%d");
 
-    color.domain(["donald trump wife", "donald trump immigration", "make america great again", "donald trump wall",
-        "ted cruz canada", "ted cruz immigration", "ted cruz wife", "ted cruz zodiac killer",
-        "hillary for america", "hillary clinton email", "hillary clinton benghazi", "hillary clinton snl",
-        "feel the bern", "bernie sanders old", "bernie sanders bird", "bernie sanders socialist",
-        "john kasich ohio", "john kasich wife"]);
+    console.log(domain);
+
+    color.domain(domain);
+
+    //color.domain(["donald trump wife", "donald trump immigration", "make america great again", "donald trump wall",
+      //  "ted cruz canada", "ted cruz immigration", "ted cruz wife", "ted cruz zodiac killer",
+      //  "hillary for america", "hillary clinton email", "hillary clinton benghazi", "hillary clinton snl",
+      //  "feel the bern", "bernie sanders old", "bernie sanders bird", "bernie sanders socialist",
+      //  "john kasich ohio", "john kasich wife"]);
 
     var politicians = color.domain().map(function(name){
         return{
@@ -71,16 +91,11 @@ function formatData2(data){
         }
     });
 
-    updateTrends(politicians);
+    updateTrendsDomain(politicians);
 
 }
 
-function updateTrends(data){
-
-    line = d3.svg.line()
-        .interpolate("linear")
-        .x(function(d) { return x2(d.date); })
-        .y(function(d) { return y2(d.search);});
+function updateTrendsDomain(data) {
 
     var formatDate = d3.time.format("%Y-%m-%d");
     var politician = data;
@@ -92,10 +107,22 @@ function updateTrends(data){
     // update domains
     x2.domain([min_date, max_date]);
     y2.domain([
-        d3.min(politician, function(p) { return d3.min(p.values, function(v) { return v.search; }); }),
-        d3.max(politician, function(p) { return d3.max(p.values, function(v) { return v.search; }); })
+        d3.min(politician, function (p) {
+            return d3.min(p.values, function (v) {
+                return v.search;
+            });
+        }),
+        d3.max(politician, function (p) {
+            return d3.max(p.values, function (v) {
+                return v.search;
+            });
+        })
     ]);
 
+   updateTrendsAxes(politician);
+}
+
+function updateTrendsAxes(data) {
     // Axis Groups
     var xAxisGroup4 = svg4.append("g")
         .attr("class", "x-axis axis");
@@ -104,17 +131,33 @@ function updateTrends(data){
 
     // call axes
     svg4.select(".x-axis")
-        .attr("transform", "translate(0, "+ height4 + ")")
+        .attr("transform", "translate(0, " + height4 + ")")
         .transition()
         .call(xAxis4);
     svg4.select(".y-axis")
         .transition()
         .call(yAxis4);
 
+    drawTrendsLines(data);
+}
+
+function drawTrendsLines(data){
+
+
+    line = d3.svg.line()
+        .interpolate("linear")
+        .x(function (d) {
+            return x2(d.date);
+        })
+        .y(function (d) {
+            return y2(d.search);
+        });
+
     var politicians = svg4.selectAll(".politician")
-        .data(politician)
+        .data(data)
         .enter().append("g")
         .attr("class", "politician");
+
 
     politicians.append("path")
         .attr("class", "line")
@@ -127,8 +170,6 @@ function updateTrends(data){
         .attr("x", 3)
         .attr("dy", ".35em")
         .text(function(d) { return d.name;});*/
-
-
 
 }
 
