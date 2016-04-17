@@ -4,16 +4,25 @@
     fill: none;
     pointer-events: all;
 }
-
+.county-boundary {
+    stroke: lightgrey;
+    stroke-width: .25px;
+}
+.countyInset {
+    stroke: lightgrey;
+}
+#focusState{
+    fill: lightgrey;
+    stroke: black;
+}
 .state {
     stroke: black;
     stroke-width: 0.5px;
 }
-
-#states .active {
-    display:none;
+.state:hover {
+    stroke:black;
+    stroke-width: 2px;
 }
-
 #state-borders {
     fill: none;
     stroke: black;
@@ -22,31 +31,13 @@
     stroke-linecap: round;
     pointer-events: none;
 }
-
-.county-boundary {
-    stroke: lightgrey;
-    stroke-width: .25px;
+#states .active {
+    display:none;
 }
-
-.state:hover {
-    stroke:black;
-    stroke-width: 2px;
-}
-
-#focusState{
-    fill: lightgrey;
-    stroke: black;
-}
-
-.countyInset {
-    stroke: lightgrey;
-}
-
 #placeholderText{
     font-size: 1.7em;
     color: #830d19;
 }
-
 div.tooltip {
     position: absolute;
     text-align: center;
@@ -60,35 +51,30 @@ div.tooltip {
 .caption {
     font-weight: bold;
 }
-
 .key path {
     display: none;
 }
-
 .key line {
     stroke: #000;
     shape-rendering: crispEdges;
 }
-
 .selected-county{
     stroke: black;
     stroke-width: 1px;
 }
-
 .legend rect {
     fill:white;
     stroke:black;
-    opacity:0.8;}
-
+    opacity:0.8;
+}
 .legend2 rect {
     fill:white;
     stroke:black;
-    opacity:0.8;}
-
+    opacity:0.8;
+}
 table{
     width:100%;
 }
-
 th, td {
     padding: 10px;
     text-align: left;

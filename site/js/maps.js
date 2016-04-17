@@ -234,7 +234,7 @@ function showCountyTooltip (d) {
     $("#" + d.id + "inset").css("opacity", ".5");
     $("#" + d.id + "inset").css("stroke", "black");
 
-    var results = d.properties.election.get(selectedParty.val());
+    var results = d.properties.election.get(selectedPartyVal);
     var winner = results ? results[0].candidate : "No winner / Data Missing";
 
     tooltip.transition()
