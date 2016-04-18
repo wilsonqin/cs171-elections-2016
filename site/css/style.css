@@ -147,6 +147,11 @@ tr:nth-child(even) {background-color: lightgrey}
     color: #830d19;
 }
 
+a.events
+{
+    margin-left: 20px;
+}
+
 /*********************************************************************************/
 /* CSS STYLING FOR WEBSITE IN GENERAL
      Colors - use these / or change everything accordingly:

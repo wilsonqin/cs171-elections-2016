@@ -49,8 +49,6 @@ function loadData3(domain){
 
         var localDomain = domain;
 
-        console.log(localDomain);
-
         formatData(data, localDomain);
 
     });
@@ -71,7 +69,6 @@ function getCandidateSelection()
     svg3.selectAll("g").remove();
     svg3.selectAll('.legend3').remove();
 
-    console.log(candidateArray2);
     loadData3(candidateArray2);
 
 }
@@ -82,7 +79,6 @@ function formatData(data, domain){
     var localData = data;
     var formatDate = d3.time.format("%Y-%m-%d");
 
-    console.log(domain);
     color2.domain(domain);
 
     // color.domain(["Clinton", "Sanders", "Trump", "Cruz", "Kasich"]);
@@ -96,7 +92,6 @@ function formatData(data, domain){
         }
     });
 
-    console.log(politicians);
     updatePollsDomain(politicians);
 
 }
@@ -134,6 +129,7 @@ function updatePollsAxes(data){
         .transition()
         .call(yAxis3);
 
+
     clip = svg3.append("svg:clipPath")
         .attr("id", "clip")
         .append("svg:rect")
@@ -149,6 +145,7 @@ function updatePollsAxes(data){
         .datum(data)
         .attr("class", "line")
         .attr("d", line);
+
 
     drawPollLines(data);
 }

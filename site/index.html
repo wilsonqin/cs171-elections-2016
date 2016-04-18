@@ -111,6 +111,12 @@ TEAM MEMBERS:	James Curtin
 
             <!-- Polls + Trends explanations -->
             <div class="col-md-9">
+                <!--<img onclick="getDebateSelection()" id="Republican Debate" class="image_button" src="images/republican.jpg">
+                <img onclick="getDebateSelection()" id="Democrat Debate" class="image_button" src="images/democrat.jpg"> -->
+                <p align="center">
+                <a class="button events" onclick="getDebateSelection()" id="Republican Debate" >Show Events</a>
+                <a class="button" onclick="removeEvents()">Remove Events</a>
+                </p>
             </div>
 
             <!-- Select Candidate + search terms explanation-->
@@ -222,6 +228,8 @@ TEAM MEMBERS:	James Curtin
 <script src="js/maps.js"></script>
 <script src="js/polls.js"></script>
 <script src="js/trends.js"></script>
+<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+<script src="js/events.js"></script>
 <script src="js/prediction.js"></script>
 </body>
 </html>

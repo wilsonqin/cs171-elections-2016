@@ -81,8 +81,10 @@ function getCheckboxSelection(data)
     else
     {
         trendsPlaceholderText();
+        svg4.selectAll(".eventsRectangle2").remove();
         indicator = 1;
     }
+
 
     formatData2(localData, checkboxSelection);
 
@@ -92,9 +94,6 @@ function formatData2(data, domain){
 
     var localData = data;
     var formatDate = d3.time.format("%Y-%m-%d");
-
-
-    console.log(domain);
 
     color.domain(domain);
 
