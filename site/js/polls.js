@@ -183,4 +183,35 @@ function drawPollLines(data){
 
 }
 
+function resetVisualization2(){
+    removeEvents();
+    svg3.selectAll("path").remove();
+    svg3.selectAll("g").remove();
+    svg3.selectAll('.legend3').remove();
 
+    loadData3(candidateArray);
+
+    svg4.selectAll(".politician").remove();
+    svg4.selectAll('.legend2').remove();
+    document.getElementById("ch1").checked = false;
+    document.getElementById("ch2").checked = false;
+    document.getElementById("ch3").checked = false;
+    document.getElementById("ch4").checked = false;
+    document.getElementById("ch5").checked = false;
+    document.getElementById("ch6").checked = false;
+    document.getElementById("ch7").checked = false;
+    document.getElementById("ch8").checked = false;
+    document.getElementById("ch9").checked = false;
+    document.getElementById("ch10").checked = false;
+    document.getElementById("ch11").checked = false;
+    document.getElementById("ch12").checked = false;
+    document.getElementById("ch13").checked = false;
+    document.getElementById("ch14").checked = false;
+    document.getElementById("ch15").checked = false;
+    document.getElementById("ch16").checked = false;
+    document.getElementById("ch17").checked = false;
+    document.getElementById("ch18").checked = false;
+    
+    trendsPlaceholderText();
+
+}
