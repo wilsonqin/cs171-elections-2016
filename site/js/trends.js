@@ -45,7 +45,6 @@ function loadData4(){
         var data = vis2.search;
         console.log(data);
 
-        //formatData2(test);
         getCheckboxSelection(data);
 
     });
@@ -59,11 +58,9 @@ function getCheckboxSelection(data)
     svg4.selectAll('.legend2').remove();
 
     var localData = data;
-    console.log(data);
 
     //console.log($('input[name=checkbox]:checked').map(function () { return this.value; }).toArray());
     var checkboxSelection = $('input[name=checkbox]:checked').map(function () { return this.value; }).toArray();
-    console.log(checkboxSelection);
 
     formatData2(localData, checkboxSelection);
 
@@ -73,6 +70,7 @@ function formatData2(data, domain){
 
     var localData = data;
     var formatDate = d3.time.format("%Y-%m-%d");
+
 
     console.log(domain);
 

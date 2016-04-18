@@ -20,7 +20,7 @@ var y1 = d3.scale.linear()
     .range([height3, 0]);
 
 // color scale
-var color = d3.scale.category10();
+var color2 = d3.scale.category10();
 
 // Initialize Axes for both graphs
 var xAxis3 = d3.svg.axis()
@@ -32,31 +32,62 @@ var yAxis3 = d3.svg.axis()
 
 // initialize line graph
 var line;
+var legend3;
+var clip;
+var chartBody;
 
 // initialize data
-loadData3();
+var candidateArray = ["Clinton", "Sanders", "Trump", "Cruz", "Kasich"];
+loadData3(candidateArray);
 
-function loadData3(){
+function loadData3(domain){
 
     $.when(window.dataReady.vis2).then(function(){
         if(!vis2 || !window.vis2) console.log("error: dataDriver not intialized before maps.js");
 
-        var test = vis2.polls;
+        var data = vis2.polls;
 
-        formatData(test);
+        var localDomain = domain;
+
+        console.log(localDomain);
+
+        formatData(data, localDomain);
 
     });
 
 }
 
-function formatData(data){
+function getCandidateSelection()
+{
+    var candidateSelection = $(event.target)[0].id;
+    var candidateArray2;
+
+    if (candidateSelection != undefined) {
+        candidateArray2 = [];
+        candidateArray2.push(candidateSelection);
+    }
+
+    svg3.selectAll("path").remove();
+    svg3.selectAll("g").remove();
+    svg3.selectAll('.legend3').remove();
+
+    console.log(candidateArray2);
+    loadData3(candidateArray2);
+
+}
+
+
+function formatData(data, domain){
 
     var localData = data;
     var formatDate = d3.time.format("%Y-%m-%d");
 
-    color.domain(["Clinton", "Sanders", "Trump", "Cruz", "Kasich"]);
+    console.log(domain);
+    color2.domain(domain);
 
-    var politicians = color.domain().map(function(name){
+    // color.domain(["Clinton", "Sanders", "Trump", "Cruz", "Kasich"]);
+
+    var politicians = color2.domain().map(function(name){
         return{
             name: name,
             values: localData[name].map(function(d){
@@ -72,8 +103,12 @@ function formatData(data){
 
 function updatePollsDomain(data){
 
+    var formatDate = d3.time.format("%Y-%m-%d");
+    var max_date = formatDate.parse("2016-04-01");
+    var min_date = formatDate.parse("2016-01-03");
 
-    x1.domain(d3.extent(data[2].values, function(d){return d.date;}));
+    x1.domain([min_date, max_date]);
+    //x1.domain(d3.extent(data[0].values, function(d){return d.date;}));
     y1.domain([
         d3.min(data, function(p) { return d3.min(p.values, function(v) { return v.rating; }); }),
         d3.max(data, function(p) { return d3.max(p.values, function(v) { return v.rating; }); })
@@ -99,6 +134,22 @@ function updatePollsAxes(data){
         .transition()
         .call(yAxis3);
 
+    clip = svg3.append("svg:clipPath")
+        .attr("id", "clip")
+        .append("svg:rect")
+        .attr("x", 0)
+        .attr("y", 0)
+        .attr("width", width3)
+        .attr("height", height3);
+
+    chartBody = svg3.append("g")
+        .attr("clip-path", "url(#clip)");
+
+    chartBody.append("svg:path")
+        .datum(data)
+        .attr("class", "line")
+        .attr("d", line);
+
     drawPollLines(data);
 }
 
@@ -109,7 +160,7 @@ function drawPollLines(data){
         .x(function(d) { return x1(d.date); })
         .y(function(d) { return y1(d.rating);});
 
-    var politicians = svg3.selectAll(".politician")
+    var politicians = chartBody.selectAll(".politician")
         .data(data)
         .enter().append("g")
         .attr("class", "politician");
@@ -117,7 +168,14 @@ function drawPollLines(data){
     politicians.append("path")
         .attr("class", "line")
         .attr("d", function(d){return line(d.values);})
-        .style("stroke", function(d) { return color(d.name); });
+        .attr("data-legend", function(d){return d.name;})
+        .style("stroke", function(d) { return color2(d.name); });
+
+    legend3 = svg3.append("g")
+        .attr("class", "legend3")
+        .attr("transform","translate(50,30)")
+        .style("font-size","12px")
+        .call(d3.legend);
 
     /*politicians.append("text")
      .datum(function(d) { return {name: d.name, value: d.values[d.values.length - 1]}; })
@@ -127,6 +185,5 @@ function drawPollLines(data){
      .text(function(d) { return d.name;});*/
 
 }
-
 
 
