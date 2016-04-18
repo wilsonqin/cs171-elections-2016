@@ -2,13 +2,6 @@
  * Created by annapapp on 4/17/16.
  */
 
-var eventLines = {
-    'x5':(function(d) { return x1( labl.x ); }),
-    'y5':(function(d) { return y1( maxY ); }),
-    'x6':(function(d) { return x1( labl.x ); }),
-    'y6':(function(d) { return y1( minY) }),
-};
-
 function loadData5(debateSelection){
 
     $.when(window.dataReady.vis2).then(function(){

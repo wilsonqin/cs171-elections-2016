@@ -142,6 +142,12 @@ tr:nth-child(even) {background-color: lightgrey}
     stroke-width: 1.5px;
 }
 
+.line2 {
+    fill: none;
+    stroke: #E96523;
+    stroke-width: 1.5px;
+}
+
 #trendsPlaceholderText{
     font-size: 1.7em;
     color: #830d19;
@@ -151,6 +157,14 @@ a.events
 {
     margin-left: 20px;
 }
+
+
+.brush .extent {
+    stroke: #fff;
+    fill-opacity: .125;
+    shape-rendering: crispEdges;
+}
+
 
 /*********************************************************************************/
 /* CSS STYLING FOR WEBSITE IN GENERAL
