@@ -33,9 +33,19 @@ var yAxis4 = d3.svg.axis()
 // initialize line graph
 var line;
 var legend2;
+var indicator;
 
 // initialize data
 loadData4();
+
+function trendsPlaceholderText(){
+    svg4.append("text")
+        .attr("id", "trendsPlaceholderText")
+        .attr("x", width4/2)
+        .attr("y", height4/2)
+        .attr("text-anchor", "middle")
+        .text("Select search terms on the right to display more information");
+}
 
 function loadData4(){
 
@@ -61,6 +71,18 @@ function getCheckboxSelection(data)
 
     //console.log($('input[name=checkbox]:checked').map(function () { return this.value; }).toArray());
     var checkboxSelection = $('input[name=checkbox]:checked').map(function () { return this.value; }).toArray();
+
+    if (checkboxSelection[0] != undefined)
+    {
+        svg4.selectAll('#trendsPlaceholderText').remove();
+        indicator = 0;
+    }
+
+    else
+    {
+        trendsPlaceholderText();
+        indicator = 1;
+    }
 
     formatData2(localData, checkboxSelection);
 
@@ -163,11 +185,13 @@ function drawTrendsLines(data){
         .attr("data-legend", function(d){return d.name;})
         .style("stroke", function(d) { return color(d.name); });
 
-    legend2 = svg4.append("g")
-        .attr("class", "legend2")
-        .attr("transform","translate(50,30)")
-        .style("font-size","12px")
-        .call(d3.legend);
+    if (indicator != 1) {
+        legend2 = svg4.append("g")
+            .attr("class", "legend2")
+            .attr("transform", "translate(50,30)")
+            .style("font-size", "12px")
+            .call(d3.legend);
+    }
 
     /*politicians.append("text")
         .datum(function(d) { return {name: d.name, value: d.values[d.values.length - 1]}; })

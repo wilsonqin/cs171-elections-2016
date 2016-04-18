@@ -142,6 +142,11 @@ tr:nth-child(even) {background-color: lightgrey}
     stroke-width: 1.5px;
 }
 
+#trendsPlaceholderText{
+    font-size: 1.7em;
+    color: #830d19;
+}
+
 /*********************************************************************************/
 /* CSS STYLING FOR WEBSITE IN GENERAL
      Colors - use these / or change everything accordingly:
