@@ -29,7 +29,7 @@ TEAM MEMBERS:	James Curtin
                 <h1>Data, Inc.</h1>
             </div>
 
-            <!-- top right menu -- leads to videos / motivation description /etc. -->
+            <!-- top right menu - leads to videos / motivation description /etc. -->
             <div id="menu">
                 <ul>
                     <li class="active"><a href="index.html" title="">Home</a></li>
@@ -81,10 +81,18 @@ TEAM MEMBERS:	James Curtin
         <div class="col-md-6">
             <h1 align="center">Demographic Data</h1>
             <h4 style="padding-top: 10px">Select the demographic features you'd like to display:</h4>
-                <form action="">
-                    <input type="radio" name="demographics" value="POP010210" checked/> Population 2010
-                    <input type="radio" name="demographics" value="PST045214"/> Population 2014<br>
-                </form>
+            <div class="row">
+                <div class="col-md-6">
+                    <select id="selectDemographic" class="form-control">
+                      <option value="POP010210">Population 2010</option>
+                      <option value="PST045214">Population 2014</option>
+                    </select>
+                </div>
+            </div>
+<!--                 <form action="">
+                    <input type="radio" name="demographics" value="" checked/> 
+                    <input type="radio" name="demographics" value=""/> <br>
+                </form> -->
             <h3 align="center" style="font-weight: bold; padding-top: 10px" id="stateText"></h3>
         </div>
     </div>
@@ -229,7 +237,7 @@ TEAM MEMBERS:	James Curtin
 <script src="js/maps.js"></script>
 <script src="js/polls.js"></script>
 <script src="js/trends.js"></script>
-<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+<script src="js/d3.tip.v0.6.3.js"></script>
 <script src="js/events.js"></script>
 <script src="js/prediction.js"></script>
 </body>

@@ -63,7 +63,7 @@ var g = svg.append("g"),
 // Create variables that hold values of selected elements
 var selectedDemographicVal = "",
     selectedPartyVal = "";
-var selectedDemographic = $("input[type='radio'][name='demographics']:checked");
+var selectedDemographic = $("#selectDemographic");
 var selectedParty = $("input[type='radio'][name='party']:checked");
 if (selectedDemographic.length > 0) {
     selectedDemographicVal = selectedDemographic.val();
@@ -450,16 +450,14 @@ function demographicPlaceholderText(){
         .attr("text-anchor", "middle")
         .text("Select a state to the left to display more information");
 }
-
-demographicRadios = $("input[type='radio'][name='demographics']");
-for(var i = 0, max = demographicRadios.length; i < max; i++) {
-    demographicRadios[i].onclick = function() {
+$('#selectDemographic').change(
+    function() {
         if (focusState){
-            selectedDemographicVal = this.value;
+            selectedDemographicVal = $('#selectDemographic').val();
             genNewState(focusState);
         }
     }
-}
+);
 
 partyRadios = $("input[type='radio'][name='party']");
 for(var i = 0, max = partyRadios.length; i < max; i++) {
