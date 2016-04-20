@@ -347,13 +347,7 @@ function genNewState(d) {
         .domain(extent)
         .range([0, 300]);
 
-    var qrange = function(max, num) {
-        var a = [];
-        for (var i=0; i<num; i++) {
-            a.push(i*max/num);
-        }
-        return a;
-    };
+
     d3.selectAll('.key').remove();
     g2.selectAll('path').remove();
     g2.selectAll('g').remove();
@@ -369,29 +363,36 @@ function genNewState(d) {
     var stateText = $("#stateText");
     stateText.text(d.properties.name);
 
+    /************** DRAW LEGEND ****************/
+
+    // an array of subranges for dividing our chloropleth legend
+    var rangeThresholds = quantize.range().map(function(color) {
+        var d = quantize.invertExtent(color);
+        if (d[0] == null) d[0] = x.domain()[0];
+        if (d[1] == null) d[1] = x.domain()[1];
+        return d;
+    });
+
+    // minima of the subranges, for purpose of rendering ticks
+    var minRangeThresholds = rangeThresholds.map(function(dom){ return dom[0]; });
+
     var xAxis = d3.svg.axis()
         .scale(x)
         .orient("bottom")
         .tickSize(14)
-        .tickValues(qrange(quantize.domain()[1], quantize.range().length))
+        .tickValues(minRangeThresholds)
         .tickFormat(function(d) {
             var prefix = d3.formatPrefix(d);
             return Math.round(prefix.scale(d)) + prefix.symbol;
         });
 
     key.selectAll("rect")
-        .data(quantize.range().map(function(color) {
-            var d = quantize.invertExtent(color);
-            if (d[0] == null) d[0] = x.domain()[0];
-            if (d[1] == null) d[1] = x.domain()[1];
-            return d;
-        }))
+        .data(rangeThresholds)
         .enter().append("rect")
         .attr("height", 10)
         .attr("x", function(d) { return x(d[0]); })
         .attr("width", function(d) { return x(d[1]) - x(d[0]); })
         .style("fill", function(d) { return quantize(d[0]); });
-
 
     key.call(xAxis)
         .transition()
@@ -400,11 +401,12 @@ function genNewState(d) {
         .attr("transform", "rotate(-45)")
         .style("text-anchor", "end");
 
-
     key.selectAll(".caption")
         .transition()
         .duration(750)
         .text(demographicMap[selectedDemographicVal]);
+
+    /***********************************/
 
 
     g2.append("path")
