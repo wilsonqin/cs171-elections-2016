@@ -101,6 +101,7 @@ function getCandidateSelection()
 
     svg3.selectAll("path").remove();
     //svg3.selectAll("g").remove();
+    context.selectAll("g").remove();
     svg3.selectAll('.legend3').remove();
 
     loadData3(candidateArray2, startDateSpan);
