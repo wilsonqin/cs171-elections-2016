@@ -66,7 +66,7 @@ var candidateArray = ["Clinton", "Sanders", "Trump", "Cruz", "Kasich"];
 
 var formatDate = d3.time.format("%Y-%m-%d");
 var max_date = formatDate.parse("2016-04-01");
-var min_date = formatDate.parse("2016-01-03");
+var min_date = formatDate.parse("2015-10-25");
 var startDateSpan = [min_date, max_date];
 
 loadData3(candidateArray, startDateSpan);
@@ -79,7 +79,6 @@ function loadData3(domain, datedomain){
         var data = vis2.polls;
 
         var localDomain = domain;
-
         formatData(data, localDomain, datedomain);
         showContext(data, candidateArray);
 
@@ -109,7 +108,6 @@ function getCandidateSelection()
 
 
 function formatData(data, domain, datedomain){
-
     var localData = data;
     var formatDate = d3.time.format("%Y-%m-%d");
 
@@ -139,7 +137,7 @@ function updatePollsDomain(data, datedomain){
     updatePollsAxes(data);
 }
 
-function updatePollsAxes(data){
+function updatePollsAxes(data, datedomain){
 
     // Axis Groups
     var xAxisGroup3 = svg3.append("g")
