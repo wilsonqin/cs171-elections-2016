@@ -10,11 +10,7 @@ var centered,
     focusState,
     demographicMap,
     key,
-    legend,
-    lastCountyColor = {
-        L: null,
-        R: null
-    };
+    legend;
 
 // Create projection for map of USA
 var projection = d3.geo.albersUsa()
@@ -56,10 +52,6 @@ var tooltip = d3.select("body").append("div")
 var g = svg.append("g"),
     g2 = svg2.append("g");
 
-
-// data to be populated by loadData
-//var data;
-
 // Create variables that hold values of selected elements
 var selectedDemographicVal = "",
     selectedPartyVal = "";
@@ -96,24 +88,28 @@ function loadData() {
 *  -party (string)
 */
 function getResultsByState(stateCode){
-// TODO: validation that stateCode is valid
 
 var results = window.primaryResults.get(stateCode);
 return results;
 }
-var ordinalScale = d3.scale.category10();
 
-// var x = d3.scale.ordinal()
-//     .domain(["apple", "orange", "banana", "grapefruit"])
-//     .rangePoints([0, width]);
+if (selectedPartyVal == "Republican"){
+    var ordinalScale = d3.scale.ordinal()
+    .domain(["Ted Cruz", "John Kasich", "Donald Trump", "Ben Carson", "Marco Rubio", "N/A"])
+    .range(["#e6550d", "#636363" , "#31a354", "#54B6D6", "#FFF129", "#aaa"]);
+
+}
+else{
+    var ordinalScale = d3.scale.ordinal()
+    .domain(["Clinton", "Sanders", "N/A"])
+    .range(["#3182bd", "#9e9ac8", "#aaa"]);
+}
+
+
+// var ordinalScale = d3.scale.category10();
 
 function updateChoropleth(us) {
-    // if(selectedDemographicVal === "Republican"){
-    // x.domain(["apple", "orange", "banana", "grapefruit"]);
-    // }
-    // else{
-    //     x.domain(["Clinton, Sanders"]);
-    // }
+
     g.selectAll('path').remove();
     g.selectAll('g').remove();
     svg.selectAll('text').remove();
@@ -132,7 +128,8 @@ function updateChoropleth(us) {
         .attr("id", function (d) { return String(d.id);})
         .attr('fill', function(d, i) {
             var results = d.properties.election.get(selectedPartyVal);
-            // if there is a winner, render its color, otherwise missing color is some set default TODO
+            // if there is a winner, render its color, otherwise missing color is some set default
+            // console.log(results ? results[0].candidate : "#aaa");
             var color = results ? ordinalScale(results[0].candidate) : "#aaa";
             return color;
         })
@@ -213,7 +210,6 @@ console.log(d);
     // console.log(d, centered);
     g.selectAll("path")
         .classed("active", function(d) {
-                // console.log(d === centered);
                 return d === centered; });
 
     g.transition()
@@ -338,7 +334,6 @@ function genNewState(d) {
     // Calculate domain for the selected demographic census property for state's counties
     // Then we set a color scale
     var extent = d3.extent(filterCounties, function(d) { return d.properties.census[selectedDemographicVal]; });
-
     var quantize = d3.scale.quantize()
         .domain(extent)
         .range(colorbrewer.Blues[9]);
