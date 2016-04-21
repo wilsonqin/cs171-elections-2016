@@ -67,6 +67,22 @@ var indicator;
     var initialExtent = [min_date, max_date]
 loadData4(initialExtent);
 
+function checkExtent(brushExtent)
+{
+    var localExtent;
+
+    if (brushExtent[1] - brushExtent[0] == 0)
+    {
+        localExtent = initialExtent;
+    }
+    else
+        localExtent = brushExtent;
+
+    loadData4(localExtent);
+
+}
+
+
 function trendsPlaceholderText(){
     svg4.append("text")
         .attr("id", "trendsPlaceholderText")
