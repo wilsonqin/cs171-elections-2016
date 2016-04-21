@@ -189,7 +189,7 @@ function updateTrendsAxes(data) {
 function drawTrendsLines(data){
 
     line = d3.svg.line()
-        .interpolate("linear")
+        .interpolate("bundle")
         .x(function (d) {
             return x2(d.date);
         })

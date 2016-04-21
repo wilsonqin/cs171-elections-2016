@@ -178,8 +178,10 @@ function updatePollsAxes(data){
 function drawPollLines(data){
 
     line = d3.svg.line()
-        .interpolate("linear")
-        .x(function(d) { return x1(d.date); })
+        .interpolate("bundle")
+        .x(function(d) {
+        console.log(d.date); 
+            return x1(d.date); })
         .y(function(d) { return y1(d.rating);});
 
     var politicians = chartBody.selectAll(".politician")
@@ -288,7 +290,7 @@ function showContextUpdateAxes(data) {
 function drawContextLines(data){
 
     line2 = d3.svg.line()
-        .interpolate("linear")
+        .interpolate("bundle")
         .x(function(d) { return x1_2(d.date); })
         .y(function(d) { return y1_2(d.rating);});
 
