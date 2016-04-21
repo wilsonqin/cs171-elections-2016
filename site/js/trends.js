@@ -16,6 +16,30 @@ var svg4 = d3.select("#trends")
 // color scale
 var color = d3.scale.category20();
 
+// stable color scale
+var color5 = d3.scale.ordinal()
+    .domain(["donald trump wife", "donald trump immigration", "make america great again", "donald trump wall",
+  "ted cruz canada", "ted cruz immigration", "ted cruz wife", "ted cruz zodiac killer",
+  "hillary for america", "hillary clinton email", "hillary clinton benghazi", "hillary clinton snl",
+  "feel the bern", "bernie sanders old", "bernie sanders bird", "bernie sanders socialist",
+  "john kasich ohio", "john kasich wife"])
+    .range([
+        //trump
+        "#31a354", "#74c476", "#a1d99b", "#c7e9c0",
+
+        //cruz
+        "#e6550d", "#fd8d3c", "#fdae6b", "#fdd0a2",
+
+        //hillary
+        "#3182bd", "#6baed6", "#9ecae1", "#c6dbef",
+
+        //bernie
+        "#756bb1", "#9e9ac8", "#bcbddc", "#dadaeb",
+
+        //kasich
+        "#636363", "#969696"
+          ]);
+
 // Scales
 var x2 = d3.time.scale()
     .range([0, width4]);
@@ -182,7 +206,7 @@ function drawTrendsLines(data){
         .attr("class", "line")
         .attr("d", function(d){return line(d.values);})
         .attr("data-legend", function(d){return d.name;})
-        .style("stroke", function(d) { return color(d.name); });
+        .style("stroke", function(d) { return color5(d.name); });
 
     if (indicator != 1) {
         legend2 = svg4.append("g")

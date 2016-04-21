@@ -1,11 +1,11 @@
 // margins
-var margin = {top: 20, right:50, bottom:100, left:50};
+var margin = {top: 20, right:50, bottom:140, left:50};
 
 // Sets width and height elements of graphs
 var width3 = $("#polls").parent().width() - margin.left - margin.right,
-    height3 = 310 - margin.top - margin.bottom;
+    height3 = 350 - margin.top - margin.bottom;
 
-var margin2 = {top: 10, right: 50, bottom: 20, left:50};
+var margin2 = {top: 0, right: 50, bottom: 20, left:50};
 
 var height3_2 = 85 - margin2.top - margin2.bottom;
 
@@ -34,9 +34,9 @@ var brush = d3.svg.brush()
     .on("brush", brushed);
 
 // color scale
-var color2 = d3.scale.category10();
-var color3 = d3.scale.category10();
-
+var color4 = d3.scale.ordinal()
+    .domain(["Cruz", "Kasich", "Trump", "Clinton", "Sanders"])
+    .range(["#e6550d", "#636363" , "#31a354", "#3182bd", "#9e9ac8"]);
 
 
 // Initialize Axes for both graphs
@@ -89,6 +89,8 @@ function loadData3(domain, datedomain){
 
 function getCandidateSelection()
 {
+    brush.clear();
+
     var candidateSelection = $(event.target)[0].id;
     var candidateArray2;
 
@@ -98,7 +100,7 @@ function getCandidateSelection()
     }
 
     svg3.selectAll("path").remove();
-    svg3.selectAll("g").remove();
+    //svg3.selectAll("g").remove();
     svg3.selectAll('.legend3').remove();
 
     loadData3(candidateArray2, startDateSpan);
@@ -110,11 +112,9 @@ function formatData(data, domain, datedomain){
     var localData = data;
     var formatDate = d3.time.format("%Y-%m-%d");
 
-    color2.domain(domain);
-
     // color.domain(["Clinton", "Sanders", "Trump", "Cruz", "Kasich"]);
 
-    var politicians = color2.domain().map(function(name){
+    var politicians = domain.map(function(name){
         return{
             name: name,
             values: localData[name].map(function(d){
@@ -124,7 +124,6 @@ function formatData(data, domain, datedomain){
     });
 
     updatePollsDomain(politicians, datedomain);
-
 }
 
 function updatePollsDomain(data, datedomain){
@@ -191,7 +190,7 @@ function drawPollLines(data){
         .attr("class", "line")
         .attr("d", function(d){return line(d.values);})
         .attr("data-legend", function(d){return d.name;})
-        .style("stroke", function(d) { return color2(d.name); });
+        .style("stroke", function(d) { return color4(d.name); });
 
     legend3 = svg3.append("g")
         .attr("class", "legend3")
@@ -211,12 +210,8 @@ function drawPollLines(data){
 function showContext(data, candidateArray) {
     var formatDate = d3.time.format("%Y-%m-%d");
     var localData = data;
-    console.log(localData);
-    console.log(candidateArray);
 
-    color3.domain(candidateArray);
-
-    var politicians = color3.domain().map(function (name) {
+    var politicians = candidateArray.map(function (name) {
         return {
             name: name,
             values: localData[name].map(function (d) {
@@ -261,26 +256,17 @@ function updateContextDomain(data)
 
 function showContextUpdateAxes(data) {
 
-    console.log(data);
-
     context = svg3.append("g")
         .attr("class", "context")
-        .attr("transform", "translate(0, 215)");
+        .attr("transform", "translate(0, 240)");
 
     var xAxisGroup3_2 = context.append("g")
         .attr("class", "x-axis1_2 axis");
-    var yAxisGroup3_2 = context.append("g")
-        .attr("class", "y-axis1_2 axis");
 
     context.select(".x-axis1_2")
         .attr("transform", "translate(0, "+height3_2+")")
         .transition()
         .call(xAxis3_2);
-
-    context.select(".y-axis1_2")
-        .attr("transform", "translate(0, 0)")
-        .transition()
-        .call(yAxis3_2);
 
     context.append("svg:path")
         .datum(data)
@@ -301,7 +287,7 @@ function showContextUpdateAxes(data) {
 function drawContextLines(data){
 
     line2 = d3.svg.line()
-        .interpolate("basis")
+        .interpolate("linear")
         .x(function(d) { return x1_2(d.date); })
         .y(function(d) { return y1_2(d.rating);});
 
@@ -313,11 +299,13 @@ function drawContextLines(data){
     politiciansContext.append("path")
         .attr("class", "line2")
         .attr("d", function(d){return line2(d.values);})
-        .style("stroke", function(d) { return color3(d.name); });
+        .style("stroke", function(d) { return color4(d.name); });
 
 }
 
 function resetVisualization2(){
+
+    brush.clear();
 
     removeEvents();
     svg3.selectAll("path").remove();
@@ -329,6 +317,7 @@ function resetVisualization2(){
 
     svg4.selectAll(".politician").remove();
     svg4.selectAll('.legend2').remove();
+
     document.getElementById("ch1").checked = false;
     document.getElementById("ch2").checked = false;
     document.getElementById("ch3").checked = false;
