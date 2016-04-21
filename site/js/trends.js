@@ -60,7 +60,12 @@ var legend2;
 var indicator;
 
 // initialize data
-loadData4();
+    // max and min date
+    var formatDate = d3.time.format("%Y-%m-%d");
+    var max_date = formatDate.parse("2016-04-01");
+    var min_date = formatDate.parse("2015-10-25");
+    var initialExtent = [min_date, max_date]
+loadData4(initialExtent);
 
 function trendsPlaceholderText(){
     svg4.append("text")
@@ -71,7 +76,8 @@ function trendsPlaceholderText(){
         .text("Select search terms on the right to display more information");
 }
 
-function loadData4(){
+function loadData4(extent){
+    extent = typeof extent !== 'undefined' ? extent : initialExtent;
 
     $.when(window.dataReady.vis2).then(function(){
         if(!vis2 || !window.vis2) console.log("error: dataDriver not intialized before maps.js");
@@ -79,14 +85,13 @@ function loadData4(){
         var data = vis2.search;
         console.log(data);
 
-        getCheckboxSelection(data);
+        getCheckboxSelection(data, extent);
 
     });
 
 }
 
-function getCheckboxSelection(data)
-{
+function getCheckboxSelection(data, extent){
     svg4.selectAll("path").remove();
     svg4.selectAll("g").remove();
     svg4.selectAll('.legend2').remove();
@@ -110,12 +115,11 @@ function getCheckboxSelection(data)
     }
 
 
-    formatData2(localData, checkboxSelection);
+    formatData2(localData, checkboxSelection, extent);
 
 }
 
-function formatData2(data, domain){
-
+function formatData2(data, domain, extent){
     var localData = data;
     var formatDate = d3.time.format("%Y-%m-%d");
 
@@ -136,21 +140,16 @@ function formatData2(data, domain){
         }
     });
 
-    updateTrendsDomain(politicians);
+    updateTrendsDomain(politicians, extent);
 
 }
 
-function updateTrendsDomain(data) {
-
-    var formatDate = d3.time.format("%Y-%m-%d");
+function updateTrendsDomain(data, extent) {
     var politician = data;
 
-    // max and min date
-    var max_date = formatDate.parse("2016-04-01");
-    var min_date = formatDate.parse("2016-01-03");
-
     // update domains
-    x2.domain([min_date, max_date]);
+    console.log(extent);
+    x2.domain(extent);
     y2.domain([
         d3.min(politician, function (p) {
             return d3.min(p.values, function (v) {

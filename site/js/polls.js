@@ -180,7 +180,6 @@ function drawPollLines(data){
     line = d3.svg.line()
         .interpolate("bundle")
         .x(function(d) {
-        console.log(d.date); 
             return x1(d.date); })
         .y(function(d) { return y1(d.rating);});
 
@@ -352,5 +351,6 @@ function brushed() {
     svg3.selectAll('.legend3').remove();
 
     loadData3(candidateArray, newDomain);
+    loadData4(newDomain)
 
 }
