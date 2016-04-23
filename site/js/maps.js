@@ -1,5 +1,5 @@
 // Sets width and height elements of maps
-var margin = {top: 0, right: 0, bottom: 50, left: 0},
+var margin = {top: 50, right: 0, bottom: 50, left: 0},
     width1 = $("#choropleth1").parent().width(),
     width2 = $("#choropleth2").parent().width(),
     height = 500 - margin.bottom;
@@ -171,7 +171,7 @@ function updateChoropleth(us) {
     d3.selectAll('.legend').remove();
     legend = svg.append("g")
         .attr("class","legend")
-        .attr("transform","translate(50,30)")
+        .attr("transform","translate(50,0)")
         .style("font-size","12px")
         .call(d3.legend)
 
@@ -188,7 +188,7 @@ function clicked(d) {
         dy = bounds[1][1] - bounds[0][1],
         x = (bounds[0][0] + bounds[1][0]) / 2,
         y = (bounds[0][1] + bounds[1][1]) / 2,
-        scale = 1 / Math.max(dx / width1, dy / height),
+        scale = .9 / Math.max(dx / width1, dy / height),
         translate = [width1 / 2 - scale * x, height / 2 - scale * y];
 
     if (d) {
@@ -353,7 +353,7 @@ function genNewState(d) {
 
     key = svg2.append("g")
         .attr("class", "key")
-        .attr("transform", "translate(" + 50 + "," + ((height + margin.bottom) / 10 * 9) + ")");
+        .attr("transform", "translate(" + 50 + "," + ((height + margin.bottom) / 20 * 19) + ")");
     key.append("text")
         .attr("class", "caption")
         .attr("y", -6);
@@ -434,7 +434,7 @@ function genNewState(d) {
         dy = bounds[1][1] - bounds[0][1],
         x = (bounds[0][0] + bounds[1][0]) / 2,
         y = (bounds[0][1] + bounds[1][1]) / 2,
-        scale = .9 / Math.max(dx / width2, dy / height),
+        scale = .8 / Math.max(dx / width2, dy / height),
         translate = [width2 / 2 - scale * x, height / 2 - scale * y];
     g2.transition()
         .duration(750)
