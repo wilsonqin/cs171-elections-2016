@@ -250,9 +250,16 @@ function showCountyTooltip (d) {
     var parent = list.parent();
     if (results){
         list.detach().empty().each(function(i){
-            for (var x = 0; x < results.length; x++){
+            var length;
+            if (results.length > 5){
+                length = 5;
+            }
+            else{
+                length = results.length;
+            }
+            for (var x = 0; x < length; x++){
                 $(this).append('<tr><th>' + results[x].candidateName + '</th><td>' + formatPercent(results[x].percent) + '</td></tr>');
-                if (x == results.length - 1){
+                if (x == length - 1){
                     $(this).appendTo(parent);
                 }
             }
