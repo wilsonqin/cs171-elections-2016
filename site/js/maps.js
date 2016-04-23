@@ -259,7 +259,7 @@ function showCountyTooltip (d) {
             }
             for (var x = 0; x < length; x++){
                 $(this).append('<tr><th>' + results[x].candidateName + '</th><td>' + formatPercent(results[x].percent) + '</td></tr>');
-                if (x == length - 1){
+                if (x == flength - 1){
                     $(this).appendTo(parent);
                 }
             }
@@ -389,7 +389,12 @@ function genNewState(d) {
         .tickValues(minRangeThresholds)
         .tickFormat(function(d) {
             var prefix = d3.formatPrefix(d);
-            return Math.round(prefix.scale(d)) + prefix.symbol;
+            if (prefix.symbol == "m"){
+                return Math.round(d)
+            }
+            else{
+                return Math.round(prefix.scale(d)) + prefix.symbol;
+            }
         });
 
     key.selectAll("rect")
