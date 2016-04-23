@@ -177,6 +177,25 @@ a.events
     opacity: 0.09;
 }
 
+.explore_explanation
+{
+    font-size: 13px;
+    text-align: justify;
+    padding: 15px;
+}
+
+.explanation_heading
+{
+    font-size: 18px;
+    text-align: center;
+    padding-right:50px;
+    padding-left:50px;
+}
+
+.eventButtons
+{
+    padding-left: 40px;
+}
 
 /*********************************************************************************/
 /* CSS STYLING FOR WEBSITE IN GENERAL
@@ -239,6 +258,11 @@ a:hover, a:visited, a:active
     margin: 0 auto;
     width: auto;
 
+}
+
+h3
+{
+    font-size: 16px;
 }
 
 /*********************************************************************************/
@@ -304,6 +328,17 @@ h1.section_title
 {
     position: relative;
     height: 550px;
+    padding: 0 0 0 0;
+    background: #ffffff url("http://s14.postimg.org/98gur8j35/lightbanner.jpg") no-repeat center;
+    background-size: cover;
+    display:block;
+    width: auto;
+}
+
+.background_break
+{
+    position: relative;
+    height: 120px;
     padding: 0 0 0 0;
     background: #ffffff url("http://s14.postimg.org/98gur8j35/lightbanner.jpg") no-repeat center;
     background-size: cover;

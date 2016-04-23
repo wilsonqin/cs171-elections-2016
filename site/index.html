@@ -110,31 +110,48 @@ TEAM MEMBERS:	James Curtin
 
     <hr>
 
-    <!-- SECOND VISUALIZATION - POLLS / TRENDS -->
-    <div class="row" id="pollsTrends">
-        <h1 align="center">Polls and Google Searches</h1>
+    <div class="background_break" id="pollsTrends">
+        <h1 align="center">
+            <br>Polls and Google Searches</h1>
+    </div>
 
+    <!-- SECOND VISUALIZATION - POLLS / TRENDS -->
+    <div class="row">
+        <br>
+        <p class="explanation_heading">
+            How does the internet impact elections? Are <b>Google Searches</b> related to a candidate's performance in <b>national polls</b>? Why are searches for politicians' wives so popular?
+            <br>
+            These are some of the questions explored in the following section.
+        </p>
         <!-- Row 1 - explanations -->
         <div class="row">
-
             <!-- Polls + Trends explanations -->
-            <div class="col-md-9">
+
+            <div class="col-md-3">
+            <h3 align="center">Polls, Searches, and Events</h3>
+            <p class="explore_explanation">
+            The top graph shows how candidates performed over time in national polls, while the lower graph shows the volume of Google Search trends of specific phrases related to candidates.
+            Add <b>events</b> in the center to display important milestones during the elections.
+            </p>
+            </div>
+
+            <div class="col-md-6 eventButtons">
                 <!--<img onclick="getDebateSelection()" id="Republican Debate" class="image_button" src="images/republican.jpg">
                 <img onclick="getDebateSelection()" id="Democrat Debate" class="image_button" src="images/democrat.jpg"> -->
-                <p align="center">
                 <form action="" method="get">
                 <input class="invisible" id="show_events" name="checkbox3" type="checkbox" value="Clinton">
                 <a class="button events" id="show" onclick="changeEventsCheckbox()">Show Events</a>
                 <a class="button" onclick="removeEvents()">Remove Events</a>
                 <a href="#pollsTrends" onclick="resetVisualization2()" class="button">Reset Visualization</a>
                 </form>
-                </p>
+
             </div>
 
             <!-- Select Candidate + search terms explanation-->
             <div class="col-md-3">
-            <h3 align="center">Select Candidate</h3>
-            <p>Paragraph explaining how to use this visualization.</p>
+            <h3 align="center">Select Candidates and Search Terms</h3>
+            <p class="explore_explanation">Explore how the five <b>candidates</b> performed in national polls over time by clicking on their image.
+            Then, select some <b>search terms</b> to show on the lower graph. What interesting trends can you find? Is Ted Cruz really the <a href="http://www.gq.com/story/ted-cruz-loves-soup-zodiac-killer-maybe">Zodiac Killer?</a></p>
             </div>
         </div>
 

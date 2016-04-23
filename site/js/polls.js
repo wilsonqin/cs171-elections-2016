@@ -60,6 +60,7 @@ var legend3;
 var clip = svg3.append("svg:clipPath").attr("id", "clip").append("svg:rect")
 var chartBody;
 var context;
+var position;
 
 
 // initialize data
@@ -422,5 +423,4 @@ function brushed() {
     {
         loadData5();
     }
-
 }

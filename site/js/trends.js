@@ -3,7 +3,7 @@ var margin = {top: 20, right:50, bottom:20, left:50};
 
 // Sets width and height elements of graphs
 var width4 = $("#trends").parent().width() - margin.left - margin.right,
-    height4 = 310 - margin.top - margin.bottom;
+    height4 = 290 - margin.top - margin.bottom;
 
 // Initialize SVG elements
 var svg4 = d3.select("#trends")
