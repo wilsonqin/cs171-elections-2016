@@ -4,6 +4,10 @@
 
 function changeEventsCheckbox()
 {
+    chartBody.selectAll(".eventsRectangle").remove();
+    chartBody2.selectAll(".eventsRectangle2").remove();
+    chartBody.selectAll(".eventsBox").remove();
+    chartBody2.selectAll(".eventsBox2").remove();
     $('#show_events').prop('checked', true);
     loadData5();
 }
@@ -42,6 +46,8 @@ function formatData3(data)
 
     chartBody.call(tip);
 
+    console.log(events);
+
     chartBody.selectAll("eventsRectangle")
         .data(events)
         .enter()
@@ -55,7 +61,18 @@ function formatData3(data)
         .attr("x2", function(d){return x1(d.date);})
         .attr("y2", 0)
         .attr("opacity", 0.9)
-        .attr("stroke", "black")
+        .attr("stroke", function(d){
+            if (d.title == "Republican Debate")
+            {
+                return "#DC143C";
+            }
+            else if (d.title == "Democrat Debate")
+            {
+                return "#0000CD";
+            }
+            else
+                return "black";
+        })
         .attr("stroke-width", "1")
         .attr("stroke-dasharray", "3 4");
         //.on('mouseover', tip.show)
@@ -78,11 +95,23 @@ function formatData3(data)
         .attr("height", height3)
         .attr("width", 8)
         .attr("opacity", 0)
+        .attr("fill", function(d){
+            if (d.title == "Republican Debate")
+            {
+                return "#DC143C";
+            }
+            else if (d.title == "Democrat Debate")
+            {
+                return "#0000CD";
+            }
+            else
+                return "black";
+        })
         .on('mouseover', tip.show)
         .on('mouseout', tip.hide);
 
-
-    if(indicator != 1) {
+    var checkboxSelection = $('input[name=checkbox]:checked').map(function () { return this.value; }).toArray();
+    if(checkboxSelection[0] != undefined) {
         chartBody2.selectAll("eventsRectangle2")
             .data(events)
             .enter()
@@ -96,7 +125,18 @@ function formatData3(data)
             .attr("x2", function(d){return x1(d.date);})
             .attr("y2", 0)
             .attr("opacity", 0.9)
-            .attr("stroke", "black")
+            .attr("stroke", function(d){
+                if (d.title == "Republican Debate")
+                {
+                    return "#DC143C";
+                }
+                else if (d.title == "Democrat Debate")
+                {
+                    return "#0000CD";
+                }
+                else
+                    return "black";
+            })
             .attr("stroke-width", "1")
             .attr("stroke-dasharray", "3 4");
 
@@ -111,6 +151,18 @@ function formatData3(data)
             .attr("y", 0)
             .attr("height", height4)
             .attr("width", 8)
+            .attr("fill", function(d){
+                if (d.title == "Republican Debate")
+                {
+                    return "#DC143C";
+                }
+                else if (d.title == "Democrat Debate")
+                {
+                    return "#0000CD";
+                }
+                else
+                    return "black";
+            })
             .attr("opacity", 0)
             .on('mouseover', tip.show)
             .on('mouseout', tip.hide);
