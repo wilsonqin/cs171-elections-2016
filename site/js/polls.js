@@ -413,7 +413,15 @@ function brushed() {
 
     getCandidateSelection(newDomain);
     //loadData3(candidateArray, newDomain);
-    svg4.selectAll('#trendsPlaceholderText').remove()
-    loadData4(newDomain)
+    svg4.selectAll('#trendsPlaceholderText').remove();
+    loadData4(newDomain);
+
+    svg3.selectAll(".eventsRectangle").remove();
+    svg4.selectAll(".eventsRectangle2").remove();
+    var checked = $('#show_events').prop('checked');
+    if (checked == true)
+    {
+        loadData5();
+    }
 
 }

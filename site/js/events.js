@@ -2,28 +2,26 @@
  * Created by annapapp on 4/17/16.
  */
 
-function loadData5(debateSelection){
+function changeEventsCheckbox()
+{
+    $('#show_events').prop('checked', true);
+    loadData5();
+}
+
+function loadData5(){
 
     $.when(window.dataReady.vis2).then(function(){
         if(!vis2 || !window.vis2) console.log("error: dataDriver not intialized before maps.js");
 
         var data = vis2.events;
-        console.log(data);
 
-       formatData3(debateSelection, data);
+       formatData3(data);
 
     });
 
 }
 
-function getDebateSelection()
-{
-    var debateSelection = $(event.target)[0].id;
-    loadData5(debateSelection);
-
-}
-
-function formatData3(debateSelection, data)
+function formatData3(data)
 {
     var localData = data;
     var formatDate = d3.time.format("%Y-%m-%d");
@@ -33,8 +31,6 @@ function formatData3(debateSelection, data)
     localData.forEach(function(d){
         events.push({date: formatDate.parse(d.date), title:d.title} )
     });
-
-    console.log(events);
 
     var tip = d3.tip()
         .attr('class', 'd3-tip')
@@ -102,4 +98,5 @@ function removeEvents()
 {
     svg3.selectAll(".eventsRectangle").remove();
     svg4.selectAll(".eventsRectangle2").remove();
+    $('#show_events').prop('checked', false);
 }
