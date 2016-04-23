@@ -355,7 +355,7 @@ function resetVisualization2(){
     document.getElementById("Cruz_select").checked = false;
     document.getElementById("Trump_select").checked = false;
     document.getElementById("Kasich_select").checked = false;
-    
+
     trendsPlaceholderText();
 }
 
@@ -410,7 +410,15 @@ function brushed() {
 
     getCandidateSelection(newDomain);
     //loadData3(candidateArray, newDomain);
-    svg4.selectAll('#trendsPlaceholderText').remove()
-    loadData4(newDomain)
+    svg4.selectAll('#trendsPlaceholderText').remove();
+    loadData4(newDomain);
+
+    svg3.selectAll(".eventsRectangle").remove();
+    svg4.selectAll(".eventsRectangle2").remove();
+    var checked = $('#show_events').prop('checked');
+    if (checked == true)
+    {
+        loadData5();
+    }
 
 }
