@@ -109,7 +109,6 @@ else{
 // var ordinalScale = d3.scale.category10();
 
 function updateChoropleth(us) {
-
     g.selectAll('path').remove();
     g.selectAll('g').remove();
     svg.selectAll('text').remove();
@@ -174,10 +173,15 @@ function updateChoropleth(us) {
         .attr("transform","translate(50,30)")
         .style("font-size","12px")
         .call(d3.legend)
+
+
+    if (focusState){
+        var selection = d3.select("#state-" + focusState.id)
+        selection.classed("active", true);
+    }
 }
 
 function clicked(d) {
-console.log(d);
     var bounds = path.bounds(d),
         dx = bounds[1][0] - bounds[0][0],
         dy = bounds[1][1] - bounds[0][1],
@@ -188,11 +192,9 @@ console.log(d);
 
     if (d) {
         // Removed from if-statement: '&& centered !== d'
-        console.log("enter the d===true loop");
         centered = d;
-        console.log(d.id);
         d3.select('#state-' + d.id)
-            .classed("active", false);
+            .classed("active", true);
     } else {
         g.selectAll("path")
             .classed("active", false);
@@ -461,10 +463,6 @@ for(var i = 0, max = partyRadios.length; i < max; i++) {
     partyRadios[i].onclick = function() {
         selectedPartyVal = this.value;
         updateChoropleth(topoJSONdata);
-        if (focusState){
-            console.log("there was a focus state");
-            genNewState(focusState);
-        }
     }
 }
 
