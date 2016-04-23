@@ -101,7 +101,7 @@ function loadData4(extent){
         if(!vis2 || !window.vis2) console.log("error: dataDriver not intialized before maps.js");
 
         var data = vis2.search;
-        console.log(data);
+        // console.log(data);
 
         getCheckboxSelection(data, extent);
 
@@ -174,7 +174,7 @@ function updateTrendsDomain(data, extent) {
     var politician = data;
 
     // update domains
-    console.log(extent);
+    // console.log(extent);
     x2.domain(extent);
     y2.domain([
         d3.min(politician, function (p) {
