@@ -386,12 +386,14 @@ function candidateSelection(extent) {
 
     if (checked == false) {
         $(checkId).prop('checked', true);
-        $(checkImgId).css('opacity', 1);
+        d3.select(checkImgId).classed("grey-out", true);
+        // $(checkImgId).css('opacity', 1);
 
     }
     else if (checked == true) {
         $(checkId).prop('checked', false);
-        $(checkImgId).css('opacity', 0.65);
+        d3.select(checkImgId).classed("grey-out", false);
+        // $(checkImgId).css('opacity', 0.65);
     }
 
     var test = $(checkId).prop('checked');
