@@ -128,7 +128,9 @@ function getCheckboxSelection(data, extent){
         if (checked == true)
         {
             chartBody.selectAll(".eventsRectangle").remove();
-            svg4.selectAll(".eventsRectangle2").remove();
+            chartBody2.selectAll(".eventsRectangle2").remove();
+            chartBody.selectAll(".eventsBox").remove();
+            chartBody2.selectAll(".eventsBox2").remove();
             loadData5();
         }
     }

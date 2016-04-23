@@ -167,6 +167,16 @@ a.events
     filter: grayscale(0%);
 }
 
+.eventsBox:hover
+{
+    opacity: 0.09;
+}
+
+.eventsBox2:hover
+{
+    opacity: 0.09;
+}
+
 
 /*********************************************************************************/
 /* CSS STYLING FOR WEBSITE IN GENERAL

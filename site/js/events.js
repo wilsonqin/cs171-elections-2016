@@ -25,6 +25,7 @@ function formatData3(data)
 {
     var localData = data;
     var formatDate = d3.time.format("%Y-%m-%d");
+    var formatDate2 = d3.time.format("%b %_d");
 
     var events = [];
 
@@ -34,9 +35,9 @@ function formatData3(data)
 
     var tip = d3.tip()
         .attr('class', 'd3-tip')
-        .offset([-10, 0])
+        .offset([-5, 0])
         .html(function(d) {
-            return "<strong>Event:</strong> <span style='color:red'>" + d.title + "</span>";
+            return "<strong>" + formatDate2(d.date) + ": </strong> <span style='color:dimgrey'>" + d.title + "</span>";
         });
 
     chartBody.call(tip);
@@ -44,37 +45,73 @@ function formatData3(data)
     chartBody.selectAll("eventsRectangle")
         .data(events)
         .enter()
-        .append("rect")
+        .append("line")
         .attr("class", "eventsRectangle")
         .text(function(d){
             return d.date;
         })
-        .attr("x", function(d){return x1(d.date);})
+        .attr("x1", function(d){return x1(d.date);})
+        .attr("y1", height3)
+        .attr("x2", function(d){return x1(d.date);})
+        .attr("y2", 0)
+        .attr("opacity", 0.9)
+        .attr("stroke", "black")
+        .attr("stroke-width", "1")
+        .attr("stroke-dasharray", "3 4");
+        //.on('mouseover', tip.show)
+        //.on('mouseout', tip.hide);
+        //.attr("width", 2)
+        //.attr("height", height3)
+        //.attr("fill", "red")
+        //.attr("opacity", "0.3")
+        //.attr("border", "2px solid #73AD21")
+
+    chartBody.selectAll("eventsBox")
+        .data(events)
+        .enter()
+        .append("rect")
+        .attr("class", "eventsBox")
+        .text(function(d){
+            return d.date;})
+        .attr("x", function(d){return x1(d.date)-4;})
         .attr("y", 0)
-        .attr("width", 2)
         .attr("height", height3)
-        .attr("fill", "black")
-        .attr("opacity", "0.3")
+        .attr("width", 8)
+        .attr("opacity", 0)
         .on('mouseover', tip.show)
         .on('mouseout', tip.hide);
+
 
     if(indicator != 1) {
         chartBody2.selectAll("eventsRectangle2")
             .data(events)
             .enter()
-            .append("rect")
+            .append("line")
             .attr("class", "eventsRectangle2")
-            .text(function (d) {
+            .text(function(d){
                 return d.date;
             })
-            .attr("x", function (d) {
-                return x1(d.date);
-            })
+            .attr("x1", function(d){return x1(d.date);})
+            .attr("y1", height4)
+            .attr("x2", function(d){return x1(d.date);})
+            .attr("y2", 0)
+            .attr("opacity", 0.9)
+            .attr("stroke", "black")
+            .attr("stroke-width", "1")
+            .attr("stroke-dasharray", "3 4");
+
+        chartBody2.selectAll("eventsBox2")
+            .data(events)
+            .enter()
+            .append("rect")
+            .attr("class", "eventsBox2")
+            .text(function(d){
+                return d.date;})
+            .attr("x", function(d){return x1(d.date)-4;})
             .attr("y", 0)
-            .attr("width", 3)
             .attr("height", height4)
-            .attr("fill", "black")
-            .attr("opacity", "0.3")
+            .attr("width", 8)
+            .attr("opacity", 0)
             .on('mouseover', tip.show)
             .on('mouseout', tip.hide);
     }

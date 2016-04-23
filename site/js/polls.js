@@ -409,6 +409,7 @@ function brushed() {
     svg3.selectAll("path").remove();
     svg3.selectAll("g").remove();
     svg3.selectAll('.legend3').remove();
+    svg4.selectAll('#trendsPlaceholderText').remove();
 
     getCandidateSelection(newDomain);
     //loadData3(candidateArray, newDomain);
@@ -416,6 +417,8 @@ function brushed() {
 
     chartBody.selectAll(".eventsRectangle").remove();
     chartBody2.selectAll(".eventsRectangle2").remove();
+    chartBody.selectAll(".eventsBox").remove();
+    chartBody2.selectAll(".eventsBox2").remove();
     var checked = $('#show_events').prop('checked');
     if (checked == true)
     {
