@@ -344,6 +344,18 @@ function resetVisualization2(){
     document.getElementById("ch17").checked = false;
     document.getElementById("ch18").checked = false;
 
+    $('#Clinton').css('opacity', 0.65);
+    $('#Sanders').css('opacity', 0.65);
+    $('#Cruz').css('opacity', 0.65);
+    $('#Trump').css('opacity', 0.65);
+    $('#Kasich').css('opacity', 0.65);
+
+    document.getElementById("Clinton_select").checked = false;
+    document.getElementById("Sanders_selct").checked = false;
+    document.getElementById("Cruz_select").checked = false;
+    document.getElementById("Trump_select").checked = false;
+    document.getElementById("Kasich_select").checked = false;
+    
     trendsPlaceholderText();
 }
 
