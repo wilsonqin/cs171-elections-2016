@@ -165,6 +165,7 @@
       state.properties.election = dataset.stateWinners.get(state.properties.code);
     });
 
+    // filter out all topoJSON counties that are not 50 US State counties
     usTOPOJSON.objects.counties.geometries = usTOPOJSON.objects.counties.geometries.filter(function(county, i){
       return !fipsNonStateCounty(county.id);
     });
