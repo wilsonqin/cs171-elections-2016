@@ -172,10 +172,10 @@ function updatePollsAxes(data, datedomain){
     chartBody = svg3.append("g")
         .attr("clip-path", "url(#clip)");
 
-    chartBody.append("svg:path")
-        .datum(data)
-        .attr("class", "line")
-        .attr("d", line);
+    // chartBody.append("svg:path")
+    //     .datum(data)
+    //     .attr("class", "line")
+    //     .attr("d", line);
 
     drawPollLines(data);
 }
@@ -275,10 +275,10 @@ function showContextUpdateAxes(data) {
         .transition()
         .call(xAxis3_2);
 
-    context.append("svg:path")
-        .datum(data)
-        .attr("class", "line2")
-        .attr("d", line2);
+    // context.append("svg:path")
+    //     .datum(data)
+    //     .attr("class", "line2")
+    //     .attr("d", line2);
 
     context.append("g")
         .attr("class", "x brush x_brush")
