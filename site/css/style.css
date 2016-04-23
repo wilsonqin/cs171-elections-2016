@@ -335,6 +335,17 @@ h1.section_title
     width: auto;
 }
 
+.background_break
+{
+    position: relative;
+    height: 120px;
+    padding: 0 0 0 0;
+    background: #ffffff url("http://s14.postimg.org/98gur8j35/lightbanner.jpg") no-repeat center;
+    background-size: cover;
+    display:block;
+    width: auto;
+}
+
 #header
 {
     position: relative;
