@@ -86,16 +86,20 @@ function loadData3(domain, datedomain){
 
 }
 
-function getCandidateSelection()
+function getCandidateSelection(extent)
 {
-    brush.clear();
 
-    var candidateSelection = $(event.target)[0].id;
+    var checkboxSelection2 = $('input[name=checkbox2]:checked').map(function () { return this.value; }).toArray();
+    console.log(checkboxSelection2);
+
     var candidateArray2;
 
-    if (candidateSelection != undefined) {
-        candidateArray2 = [];
-        candidateArray2.push(candidateSelection);
+    if (checkboxSelection2 != undefined && checkboxSelection2 != 0 ) {
+        candidateArray2 = checkboxSelection2;
+    }
+    else
+    {
+        candidateArray2 = candidateArray;
     }
 
     svg3.selectAll("path").remove();
@@ -103,7 +107,10 @@ function getCandidateSelection()
     context.selectAll("g").remove();
     svg3.selectAll('.legend3').remove();
 
-    loadData3(candidateArray2, startDateSpan);
+
+    console.log(candidateArray2);
+    loadData3(candidateArray2, extent);
+
 }
 
 
@@ -340,6 +347,43 @@ function resetVisualization2(){
     trendsPlaceholderText();
 }
 
+function checkExtent2(brushExtent)
+{
+    var localExtent;
+
+    if (brushExtent[1] - brushExtent[0] == 0)
+    {
+        localExtent = startDateSpan;
+    }
+    else
+        localExtent = brushExtent;
+
+    candidateSelection(localExtent);
+
+}
+
+function candidateSelection(extent) {
+
+    // check checkbox id
+    var checkId = "#" + $(event.target)[0].id + "_select";
+    console.log(checkId);
+
+    var checked = $(checkId).prop('checked');
+    console.log(checked);
+
+    if (checked == false) {
+        $(checkId).prop('checked', true);
+    }
+    else if (checked == true) {
+        $(checkId).prop('checked', false);
+    }
+
+    var test = $(checkId).prop('checked');
+
+    console.log(test);
+    getCandidateSelection(extent);
+}
+
 function brushed() {
     var newDomain = brush.extent();
     console.log(newDomain);
@@ -348,7 +392,9 @@ function brushed() {
     svg3.selectAll("g").remove();
     svg3.selectAll('.legend3').remove();
 
-    loadData3(candidateArray, newDomain);
+    getCandidateSelection(newDomain);
+    //loadData3(candidateArray, newDomain);
+    svg4.selectAll('#trendsPlaceholderText').remove()
     loadData4(newDomain)
 
 }

@@ -151,12 +151,18 @@ TEAM MEMBERS:	James Curtin
 
                     <form action="" method="get">
                     <div class="col-md-5">
-                        <br>
-                        <img onclick="getCandidateSelection()" id="Clinton" class="image_button" src="images/hillary_button.jpg"><br><br>
-                        <img onclick="getCandidateSelection()" id="Sanders" class="image_button" src="images/bernie_button.jpg"><br><br>
-                        <img onclick="getCandidateSelection()" id="Trump" class="image_button" src="images/trump_button.jpg"><br><br>
-                        <img onclick="getCandidateSelection()" id="Cruz" class="image_button" src="images/cruz_button.jpg"><br><br>
-                        <img onclick="getCandidateSelection()" id="Kasich" class="image_button" src="images/kasich_button.jpg">
+                        <form action="" method="get">
+                        <input class="invisible" id="Clinton_select" name="checkbox2" type="checkbox" value="Clinton">
+                        <img onclick="checkExtent2(brush.extent())" id="Clinton" class="image_button" src="images/hillary_button.jpg"><br>
+                        <input class="invisible" id="Sanders_select" name="checkbox2" type="checkbox" value="Sanders">
+                        <img onclick="checkExtent2(brush.extent())" id="Sanders" class="image_button" src="images/bernie_button.jpg"><br>
+                        <input class="invisible" id="Trump_select" name="checkbox2" type="checkbox" value="Trump">
+                        <img onclick="checkExtent2(brush.extent())" id="Trump" class="image_button" src="images/trump_button.jpg"><br>
+                        <input class="invisible" id="Cruz_select" name="checkbox2" type="checkbox" value="Cruz">
+                        <img onclick="checkExtent2(brush.extent())" id="Cruz" class="image_button" src="images/cruz_button.jpg"><br>
+                        <input class="invisible" id="Kasich_select" name="checkbox2" type="checkbox" value="Kasich">
+                        <img onclick="checkExtent2(brush.extent())" id="Kasich" class="image_button" src="images/kasich_button.jpg">
+                        </form>
                     </div>
                     </form>
 

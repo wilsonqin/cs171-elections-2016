@@ -64,7 +64,7 @@ var indicator;
     var formatDate = d3.time.format("%Y-%m-%d");
     var max_date = formatDate.parse("2016-04-01");
     var min_date = formatDate.parse("2015-10-25");
-    var initialExtent = [min_date, max_date]
+    var initialExtent = [min_date, max_date];
 loadData4(initialExtent);
 
 function checkExtent(brushExtent)
