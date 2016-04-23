@@ -61,11 +61,6 @@ var clip = svg3.append("svg:clipPath").attr("id", "clip").append("svg:rect")
 var chartBody;
 var context;
 
-// initialize Axis Groups
-    var xAxisGroup3 = svg3.append("g")
-        .attr("class", "x-axis1 axis");
-    var yAxisGroup3 = svg3.append("g")
-        .attr("class", "y-axis1 axis");
 
 // initialize data
 var candidateArray = ["Clinton", "Sanders", "Trump", "Cruz", "Kasich"];
@@ -151,6 +146,12 @@ function updatePollsDomain(data, datedomain){
 }
 
 function updatePollsAxes(data, datedomain){
+    // initialize Axis Groups
+    var xAxisGroup3 = svg3.append("g")
+        .attr("class", "x-axis1 axis");
+    var yAxisGroup3 = svg3.append("g")
+        .attr("class", "y-axis1 axis");
+        
     // call axes
     svg3.select(".x-axis1")
         .attr("transform", "translate(0, "+ height3 + ")")
