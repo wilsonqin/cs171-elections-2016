@@ -351,7 +351,7 @@ function resetVisualization2(){
     $('#Kasich').css('opacity', 0.65);
 
     document.getElementById("Clinton_select").checked = false;
-    document.getElementById("Sanders_selct").checked = false;
+    document.getElementById("Sanders_select").checked = false;
     document.getElementById("Cruz_select").checked = false;
     document.getElementById("Trump_select").checked = false;
     document.getElementById("Kasich_select").checked = false;

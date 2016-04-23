@@ -121,6 +121,14 @@ function getCheckboxSelection(data, extent){
     {
         svg4.selectAll('#trendsPlaceholderText').remove();
         indicator = 0;
+
+        var checked = $('#show_events').prop('checked');
+        if (checked == true)
+        {
+            svg3.selectAll(".eventsRectangle").remove();
+            svg4.selectAll(".eventsRectangle2").remove();
+            loadData5();
+        }
     }
 
     else

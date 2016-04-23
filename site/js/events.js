@@ -14,7 +14,6 @@ function loadData5(){
         if(!vis2 || !window.vis2) console.log("error: dataDriver not intialized before maps.js");
 
         var data = vis2.events;
-        console.log(data);
 
        formatData3(data);
 
@@ -32,8 +31,6 @@ function formatData3(data)
     localData.forEach(function(d){
         events.push({date: formatDate.parse(d.date), title:d.title} )
     });
-
-    console.log(events);
 
     var tip = d3.tip()
         .attr('class', 'd3-tip')
