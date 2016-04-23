@@ -313,48 +313,49 @@ function drawContextLines(data){
 function resetVisualization2(){
 
     brush.clear();
-
     removeEvents();
     svg3.selectAll("path").remove();
     svg3.selectAll("g").remove();
     svg3.selectAll('.legend3').remove();
     context.selectAll("g").remove();
+    d3.selectAll(".image_button").classed("grey-out", false);
 
     loadData3(candidateArray, startDateSpan);
 
     svg4.selectAll(".politician").remove();
     svg4.selectAll('.legend2').remove();
 
-    document.getElementById("ch1").checked = false;
-    document.getElementById("ch2").checked = false;
-    document.getElementById("ch3").checked = false;
-    document.getElementById("ch4").checked = false;
-    document.getElementById("ch5").checked = false;
-    document.getElementById("ch6").checked = false;
-    document.getElementById("ch7").checked = false;
-    document.getElementById("ch8").checked = false;
-    document.getElementById("ch9").checked = false;
-    document.getElementById("ch10").checked = false;
-    document.getElementById("ch11").checked = false;
-    document.getElementById("ch12").checked = false;
-    document.getElementById("ch13").checked = false;
-    document.getElementById("ch14").checked = false;
-    document.getElementById("ch15").checked = false;
-    document.getElementById("ch16").checked = false;
-    document.getElementById("ch17").checked = false;
-    document.getElementById("ch18").checked = false;
+    $('input:checkbox').removeAttr('checked');
+    // document.getElementById("ch1").checked = false;
+    // document.getElementById("ch2").checked = false;
+    // document.getElementById("ch3").checked = false;
+    // document.getElementById("ch4").checked = false;
+    // document.getElementById("ch5").checked = false;
+    // document.getElementById("ch6").checked = false;
+    // document.getElementById("ch7").checked = false;
+    // document.getElementById("ch8").checked = false;
+    // document.getElementById("ch9").checked = false;
+    // document.getElementById("ch10").checked = false;
+    // document.getElementById("ch11").checked = false;
+    // document.getElementById("ch12").checked = false;
+    // document.getElementById("ch13").checked = false;
+    // document.getElementById("ch14").checked = false;
+    // document.getElementById("ch15").checked = false;
+    // document.getElementById("ch16").checked = false;
+    // document.getElementById("ch17").checked = false;
+    // document.getElementById("ch18").checked = false;
 
-    $('#Clinton').css('opacity', 0.65);
-    $('#Sanders').css('opacity', 0.65);
-    $('#Cruz').css('opacity', 0.65);
-    $('#Trump').css('opacity', 0.65);
-    $('#Kasich').css('opacity', 0.65);
+    // $('#Clinton').css('opacity', 0.65);
+    // $('#Sanders').css('opacity', 0.65);
+    // $('#Cruz').css('opacity', 0.65);
+    // $('#Trump').css('opacity', 0.65);
+    // $('#Kasich').css('opacity', 0.65);
 
-    document.getElementById("Clinton_select").checked = false;
-    document.getElementById("Sanders_selct").checked = false;
-    document.getElementById("Cruz_select").checked = false;
-    document.getElementById("Trump_select").checked = false;
-    document.getElementById("Kasich_select").checked = false;
+    // document.getElementById("Clinton_select").checked = false;
+    // document.getElementById("Sanders_select").checked = false;
+    // document.getElementById("Cruz_select").checked = false;
+    // document.getElementById("Trump_select").checked = false;
+    // document.getElementById("Kasich_select").checked = false;
     
     trendsPlaceholderText();
 }
