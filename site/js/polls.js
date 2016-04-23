@@ -57,7 +57,7 @@ var yAxis3_2 = d3.svg.axis()
 var line;
 var line2;
 var legend3;
-var clip;
+var clip = svg3.append("svg:clipPath")
 var chartBody;
 var context;
 
@@ -161,8 +161,7 @@ function updatePollsAxes(data, datedomain){
         .transition()
         .call(yAxis3);
 
-    clip = svg3.append("svg:clipPath")
-        .attr("id", "clip")
+        clip.attr("id", "clip")
         .append("svg:rect")
         .attr("x", 0)
         .attr("y", 0)
