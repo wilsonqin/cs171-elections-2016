@@ -15,6 +15,8 @@ var svg4 = d3.select("#trends")
 
 // color scale
 var color = d3.scale.category20();
+var chartBody2;
+var clip2;
 
 // stable color scale
 var color5 = d3.scale.ordinal()
@@ -125,7 +127,7 @@ function getCheckboxSelection(data, extent){
         var checked = $('#show_events').prop('checked');
         if (checked == true)
         {
-            svg3.selectAll(".eventsRectangle").remove();
+            chartBody.selectAll(".eventsRectangle").remove();
             svg4.selectAll(".eventsRectangle2").remove();
             loadData5();
         }
@@ -206,6 +208,17 @@ function updateTrendsAxes(data) {
         .transition()
         .call(yAxis4);
 
+    clip2 = svg4.append("svg:clipPath")
+        .attr("id", "clip2")
+        .append("svg:rect")
+        .attr("x", 0)
+        .attr("y", 0)
+        .attr("width", width4)
+        .attr("height", height4);
+
+    chartBody2 = svg4.append("g")
+        .attr("clip-path", "url(#clip2)");
+
     drawTrendsLines(data);
 }
 
@@ -220,7 +233,7 @@ function drawTrendsLines(data){
             return y2(d.search);
         });
 
-    var politicians = svg4.selectAll(".politician")
+    var politicians = chartBody2.selectAll(".politician")
         .data(data)
         .enter().append("g")
         .attr("class", "politician");

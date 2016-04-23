@@ -39,9 +39,9 @@ function formatData3(data)
             return "<strong>Event:</strong> <span style='color:red'>" + d.title + "</span>";
         });
 
-    svg3.call(tip);
+    chartBody.call(tip);
 
-    svg3.selectAll("eventsRectangle")
+    chartBody.selectAll("eventsRectangle")
         .data(events)
         .enter()
         .append("rect")
@@ -59,7 +59,7 @@ function formatData3(data)
         .on('mouseout', tip.hide);
 
     if(indicator != 1) {
-        svg4.selectAll("eventsRectangle2")
+        chartBody2.selectAll("eventsRectangle2")
             .data(events)
             .enter()
             .append("rect")
