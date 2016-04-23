@@ -365,6 +365,7 @@ function checkExtent2(brushExtent)
 function candidateSelection(extent) {
 
     // check checkbox id
+    var checkImgId = "#" + $(event.target)[0].id;
     var checkId = "#" + $(event.target)[0].id + "_select";
     console.log(checkId);
 
@@ -373,9 +374,12 @@ function candidateSelection(extent) {
 
     if (checked == false) {
         $(checkId).prop('checked', true);
+        $(checkImgId).css('opacity', 1);
+
     }
     else if (checked == true) {
         $(checkId).prop('checked', false);
+        $(checkImgId).css('opacity', 0.65);
     }
 
     var test = $(checkId).prop('checked');
