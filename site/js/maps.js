@@ -259,7 +259,7 @@ function showCountyTooltip (d) {
             }
             for (var x = 0; x < length; x++){
                 $(this).append('<tr><th>' + results[x].candidateName + '</th><td>' + formatPercent(results[x].percent) + '</td></tr>');
-                if (x == flength - 1){
+                if (x == length - 1){
                     $(this).appendTo(parent);
                 }
             }
