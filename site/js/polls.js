@@ -57,9 +57,10 @@ var yAxis3_2 = d3.svg.axis()
 var line;
 var line2;
 var legend3;
-var clip = svg3.append("svg:clipPath")
+var clip = svg3.append("svg:clipPath").attr("id", "clip").append("svg:rect")
 var chartBody;
 var context;
+
 
 // initialize data
 var candidateArray = ["Clinton", "Sanders", "Trump", "Cruz", "Kasich"];
@@ -90,7 +91,7 @@ function getCandidateSelection(extent)
 {
 
     var checkboxSelection2 = $('input[name=checkbox2]:checked').map(function () { return this.value; }).toArray();
-    console.log(checkboxSelection2);
+    // console.log(checkboxSelection2);
 
     var candidateArray2;
 
@@ -108,7 +109,7 @@ function getCandidateSelection(extent)
     svg3.selectAll('.legend3').remove();
 
 
-    console.log(candidateArray2);
+    // console.log(candidateArray2);
     loadData3(candidateArray2, extent);
 
 }
@@ -145,13 +146,12 @@ function updatePollsDomain(data, datedomain){
 }
 
 function updatePollsAxes(data, datedomain){
-
-    // Axis Groups
+    // initialize Axis Groups
     var xAxisGroup3 = svg3.append("g")
         .attr("class", "x-axis1 axis");
     var yAxisGroup3 = svg3.append("g")
         .attr("class", "y-axis1 axis");
-
+        
     // call axes
     svg3.select(".x-axis1")
         .attr("transform", "translate(0, "+ height3 + ")")
@@ -161,9 +161,7 @@ function updatePollsAxes(data, datedomain){
         .transition()
         .call(yAxis3);
 
-        clip.attr("id", "clip")
-        .append("svg:rect")
-        .attr("x", 0)
+        clip.attr("x", 0)
         .attr("y", 0)
         .attr("width", width3)
         .attr("height", height3);
@@ -226,7 +224,7 @@ function showContext(data, candidateArray) {
         }
     });
 
-    console.log(politicians);
+    // console.log(politicians);
 
     updateContextDomain(politicians);
 
@@ -379,10 +377,10 @@ function candidateSelection(extent) {
     // check checkbox id
     var checkImgId = "#" + $(event.target)[0].id;
     var checkId = "#" + $(event.target)[0].id + "_select";
-    console.log(checkId);
+    // console.log(checkId);
 
     var checked = $(checkId).prop('checked');
-    console.log(checked);
+    // console.log(checked);
 
     if (checked == false) {
         $(checkId).prop('checked', true);
@@ -398,13 +396,13 @@ function candidateSelection(extent) {
 
     var test = $(checkId).prop('checked');
 
-    console.log(test);
+    // console.log(test);
     getCandidateSelection(extent);
 }
 
 function brushed() {
     var newDomain = brush.extent();
-    console.log(newDomain);
+    // console.log(newDomain);
 
     svg3.selectAll("path").remove();
     svg3.selectAll("g").remove();
