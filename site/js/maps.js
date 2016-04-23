@@ -132,6 +132,12 @@ function updateChoropleth(us) {
             var color = results ? ordinalScale(results[0].candidate) : "#aaa";
             return color;
         })
+        .attr("data-legend", function(d,i){
+            // console.log(d.properties.election)
+            var results = d.properties.election ? d.properties.election.get(selectedPartyVal) : undefined;
+            var winner = results ? results[0].candidate : "N/A";
+            return winner;
+        })
         .on("click", countyclicked)
         .on("mouseover", showCountyTooltip)
         .on("mouseout", hideTooltip);
@@ -150,11 +156,6 @@ function updateChoropleth(us) {
             // if there is a winner, render its color, otherwise missing color is some set default TODO
             var color = results ? ordinalScale(results.values()[0].candidate) : "#aaa";
             return color;
-        })
-        .attr("data-legend", function(d,i){
-            var results = d.properties.election ? d.properties.election.get(selectedPartyVal) : undefined;
-            var winner = results ? results.values()[0].candidate : "N/A";
-            return winner;
         })
         .on("click", genNewState)
         .on("mouseover", showStateTooltip)
