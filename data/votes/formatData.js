@@ -23,7 +23,6 @@ function processCSV(path){
 function formatCountyFacts(countyFacts){
   var interestedFields = [
     "PST045214", // pop 2014
-    "PST040210",
     "PST120214", 
     "POP010210", // pop 2010
     "RHI125214", // percent white
@@ -38,20 +37,22 @@ function formatCountyFacts(countyFacts){
   var vitalFields = ["fips", "area_name", "state_abbreviation"];
 
   var numberFields = _.intersection(Object.keys(countyFacts[0]), interestedFields);
-  var record;
+  var record,
+      countyRecord;
   var results = [];
 
   countyFacts.forEach(function(d,i){
     record = {};
+    countyRecord = {};
 
     vitalFields.forEach(function(field,ii){
       record[field] = d[field];
     });
 
     numberFields.forEach(function(field,ii){
-      record[field] = Number(d[field]);
+      countyRecord[field] = Number(d[field]);
     });
-
+    record["countyRecords"] = countyRecord;
     results.push(record);
   });
 

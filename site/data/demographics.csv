@@ -1,3 +1,22 @@
-id,name
-POP010210,"Population, 2010 Census"
-PST120214," Population, % change"
+id,name,,,,,,
+POP010210,"Population, 2010 Census",,,,,,
+PST040210,"Population, 2010",,,,,,
+PST045214,"Population, 2014 estimate",,,,,,
+RHI125214,"Percent of population, white",,,,,,
+RHI225214,"Percent of population, black",,,,,,
+RHI425214,"Percent of population, asian",,,,,,
+PST120214," Population, % change 2010-14",,,,,,
+HSG445213,"Homeownership rate, 2009-13",,,,,,
+INC110213,Median household income,,,,,,
+PVY020213,Percent in poverty,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,  ];
