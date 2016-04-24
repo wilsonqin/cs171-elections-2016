@@ -319,7 +319,6 @@ function hideTooltip(d) {
 }
 
 function genNewState(d) {
-    console.log("genNewState called");
     focusState = d;
     clicked(focusState);
 
