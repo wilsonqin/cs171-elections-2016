@@ -83,6 +83,7 @@ function checkExtent(brushExtent)
         localExtent = brushExtent;
 
     loadData4(localExtent);
+    loadData5();
 
 }
 

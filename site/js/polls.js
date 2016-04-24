@@ -422,6 +422,7 @@ function brushed() {
     chartBody.selectAll(".eventsBox").remove();
     chartBody2.selectAll(".eventsBox2").remove();
     var checked = $('#show_events').prop('checked');
+    loadData5();
     if (checked == true)
     {
         loadData5();

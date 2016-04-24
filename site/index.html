@@ -151,17 +151,19 @@ TEAM MEMBERS:	James Curtin
             </div>
 
             <div class="col-md-6">
-                <!--<img onclick="getDebateSelection()" id="Republican Debate" class="image_button" src="images/republican.jpg">
-                <img onclick="getDebateSelection()" id="Democrat Debate" class="image_button" src="images/democrat.jpg"> -->
-                <div class="eventButtons">
                 <form action="" method="get">
-                <input class="invisible" id="show_events" name="checkbox3" type="checkbox" value="Clinton">
-                <a class="button events" id="show" onclick="changeEventsCheckbox()">Show Events</a>
-                <a class="button" onclick="removeEvents()">Remove Events</a>
-                <a href="#pollsTrends" onclick="resetVisualization2()" class="button">Reset Graphs</a>
+                    <div class="eventButtons row">
+                        <div class="col-md-4">
+                            <a class="button" id="show" onclick="changeEventsCheckbox()">Show Events</a>
+                        </div>
+                        <div class="col-md-4">
+                            <a class="button" onclick="removeEvents()">Remove Events</a>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="#pollsTrends" onclick="resetVisualization2()" class="button">Reset Graphs</a>
+                        </div>
+                    </div>
                 </form>
-                </div>
-
             </div>
 
             <!-- Select Candidate + search terms explanation-->
