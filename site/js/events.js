@@ -2,38 +2,34 @@
  * Created by annapapp on 4/17/16.
  */
 
-var eventLines = {
-    'x5':(function(d) { return x1( labl.x ); }),
-    'y5':(function(d) { return y1( maxY ); }),
-    'x6':(function(d) { return x1( labl.x ); }),
-    'y6':(function(d) { return y1( minY) }),
-};
+function changeEventsCheckbox()
+{
+    chartBody.selectAll(".eventsRectangle").remove();
+    chartBody2.selectAll(".eventsRectangle2").remove();
+    chartBody.selectAll(".eventsBox").remove();
+    chartBody2.selectAll(".eventsBox2").remove();
+    $('#show_events').prop('checked', true);
+    loadData5();
+}
 
-function loadData5(debateSelection){
+function loadData5(){
 
     $.when(window.dataReady.vis2).then(function(){
         if(!vis2 || !window.vis2) console.log("error: dataDriver not intialized before maps.js");
 
         var data = vis2.events;
-        console.log(data);
 
-       formatData3(debateSelection, data);
+       formatData3(data);
 
     });
 
 }
 
-function getDebateSelection()
-{
-    var debateSelection = $(event.target)[0].id;
-    loadData5(debateSelection);
-
-}
-
-function formatData3(debateSelection, data)
+function formatData3(data)
 {
     var localData = data;
     var formatDate = d3.time.format("%Y-%m-%d");
+    var formatDate2 = d3.time.format("%b %_d");
 
     var events = [];
 
@@ -41,51 +37,133 @@ function formatData3(debateSelection, data)
         events.push({date: formatDate.parse(d.date), title:d.title} )
     });
 
-    console.log(events);
-
     var tip = d3.tip()
         .attr('class', 'd3-tip')
-        .offset([-10, 0])
+        .offset([-5, 0])
         .html(function(d) {
-            return "<strong>Event:</strong> <span style='color:red'>" + d.title + "</span>";
+            return "<strong>" + formatDate2(d.date) + ": </strong> <span style='color:dimgrey'>" + d.title + "</span>";
         });
 
-    svg3.call(tip);
+    chartBody.call(tip);
 
-    svg3.selectAll("eventsRectangle")
+    console.log(events);
+
+    chartBody.selectAll("eventsRectangle")
         .data(events)
         .enter()
-        .append("rect")
+        .append("line")
         .attr("class", "eventsRectangle")
         .text(function(d){
             return d.date;
         })
-        .attr("x", function(d){return x1(d.date);})
+        .attr("x1", function(d){return x1(d.date);})
+        .attr("y1", height3)
+        .attr("x2", function(d){return x1(d.date);})
+        .attr("y2", 0)
+        .attr("opacity", 0.9)
+        .attr("stroke", function(d){
+            if (d.title == "Republican Debate")
+            {
+                return "#DC143C";
+            }
+            else if (d.title == "Democrat Debate")
+            {
+                return "#0000CD";
+            }
+            else
+                return "black";
+        })
+        .attr("stroke-width", "1")
+        .attr("stroke-dasharray", "3 4");
+        //.on('mouseover', tip.show)
+        //.on('mouseout', tip.hide);
+        //.attr("width", 2)
+        //.attr("height", height3)
+        //.attr("fill", "red")
+        //.attr("opacity", "0.3")
+        //.attr("border", "2px solid #73AD21")
+
+    chartBody.selectAll("eventsBox")
+        .data(events)
+        .enter()
+        .append("rect")
+        .attr("class", "eventsBox")
+        .text(function(d){
+            return d.date;})
+        .attr("x", function(d){return x1(d.date)-4;})
         .attr("y", 0)
-        .attr("width", 3)
         .attr("height", height3)
-        .attr("fill", "black")
-        .attr("opacity", "0.3")
+        .attr("width", 8)
+        .attr("opacity", 0)
+        .attr("fill", function(d){
+            if (d.title == "Republican Debate")
+            {
+                return "#DC143C";
+            }
+            else if (d.title == "Democrat Debate")
+            {
+                return "#0000CD";
+            }
+            else
+                return "black";
+        })
         .on('mouseover', tip.show)
         .on('mouseout', tip.hide);
 
-    if(indicator != 1) {
-        svg4.selectAll("eventsRectangle2")
+    var checkboxSelection = $('input[name=checkbox]:checked').map(function () { return this.value; }).toArray();
+    if(checkboxSelection[0] != undefined) {
+        chartBody2.selectAll("eventsRectangle2")
+            .data(events)
+            .enter()
+            .append("line")
+            .attr("class", "eventsRectangle2")
+            .text(function(d){
+                return d.date;
+            })
+            .attr("x1", function(d){return x1(d.date);})
+            .attr("y1", height4)
+            .attr("x2", function(d){return x1(d.date);})
+            .attr("y2", 0)
+            .attr("opacity", 0.9)
+            .attr("stroke", function(d){
+                if (d.title == "Republican Debate")
+                {
+                    return "#DC143C";
+                }
+                else if (d.title == "Democrat Debate")
+                {
+                    return "#0000CD";
+                }
+                else
+                    return "black";
+            })
+            .attr("stroke-width", "1")
+            .attr("stroke-dasharray", "3 4");
+
+        chartBody2.selectAll("eventsBox2")
             .data(events)
             .enter()
             .append("rect")
-            .attr("class", "eventsRectangle2")
-            .text(function (d) {
-                return d.date;
-            })
-            .attr("x", function (d) {
-                return x1(d.date);
-            })
+            .attr("class", "eventsBox2")
+            .text(function(d){
+                return d.date;})
+            .attr("x", function(d){return x1(d.date)-4;})
             .attr("y", 0)
-            .attr("width", 3)
             .attr("height", height4)
-            .attr("fill", "black")
-            .attr("opacity", "0.3")
+            .attr("width", 8)
+            .attr("fill", function(d){
+                if (d.title == "Republican Debate")
+                {
+                    return "#DC143C";
+                }
+                else if (d.title == "Democrat Debate")
+                {
+                    return "#0000CD";
+                }
+                else
+                    return "black";
+            })
+            .attr("opacity", 0)
             .on('mouseover', tip.show)
             .on('mouseout', tip.hide);
     }
@@ -108,5 +186,8 @@ function formatData3(debateSelection, data)
 function removeEvents()
 {
     svg3.selectAll(".eventsRectangle").remove();
+    svg3.selectAll(".eventsBox").remove();
     svg4.selectAll(".eventsRectangle2").remove();
+    svg4.selectAll(".eventsBox2").remove();
+    $('#show_events').prop('checked', false);
 }
