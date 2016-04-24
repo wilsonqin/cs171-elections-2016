@@ -275,7 +275,7 @@ function showCountyTooltipRight (d) {
     $("#" + d.id + "inset").css("opacity", ".5");
     $("#" + d.id + "inset").css("stroke", "black");
 
-    var censusData = (d.properties.census);
+    var censusData = (d.properties.census.countyRecords);
     var censusKeys = Object.keys(censusData);
     console.log(censusKeys.length);
 
@@ -293,7 +293,7 @@ function showCountyTooltipRight (d) {
     if (censusData){
         list.detach().empty().each(function(i){
             for (var x = 0; x < censusKeys.length; x++){
-                $(this).append('<tr><th>' + censusKeys[x] + '</th><td>' + censusData[censusKeys[x]] + '</td></tr>');
+                $(this).append('<tr><th>' + demographicMap[censusKeys[x]] + '</th><td>' + censusData[censusKeys[x]] + '</td></tr>');
                 if (x == censusKeys.length - 1){
                     $(this).appendTo(parent);
                 }
@@ -344,7 +344,7 @@ function genNewState(d) {
 
     // Calculate domain for the selected demographic census property for state's counties
     // Then we set a color scale
-    var extent = d3.extent(filterCounties, function(d) { return d.properties.census[selectedDemographicVal]; });
+    var extent = d3.extent(filterCounties, function(d) { return d.properties.census.countyRecords[selectedDemographicVal]; });
     var quantize = d3.scale.quantize()
         .domain(extent)
         .range(colorbrewer.Blues[9]);
@@ -435,7 +435,7 @@ function genNewState(d) {
         .attr("id", function (d) {return String(d.id) + "inset";})
         .attr("class", "countyInset")
         .attr("fill", function(d) {
-            return d.properties.census ? quantize(d.properties.census[selectedDemographic.val()]) : "gray";
+            return d.properties.census.countyRecords ? quantize(d.properties.census.countyRecords[selectedDemographic.val()]) : "gray";
         })
         .on("mouseover", showCountyTooltipRight)
         .on("mouseout", hideTooltip)
