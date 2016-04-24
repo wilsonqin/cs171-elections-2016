@@ -23,7 +23,8 @@
   queue()
     .defer(d3.json, "data/county_facts.json")
     .defer(d3.json, "data/us.json")
-    .defer(d3.json, "data/primary_results.json")
+    //.defer(d3.json, "data/primary_results.json")
+    .defer(d3.json, "data/vis1_primary_politico.json")
     .defer(d3.tsv, "data/us-state-names.tsv")
     .defer(d3.tsv, "data/us-county-names.tsv")
     .defer(d3.csv, "data/vis1_county_facts_dictionary.csv")
@@ -38,23 +39,11 @@
         .key(function(d){ return d.fips; })
         .key(function(d){ return d.party; })
         .sortValues(function descending(a, b) {
-          a = a.votes;
-          b = b.votes;
+          a = a.popular;
+          b = b.popular;
           return b < a ? -1 : b > a ? 1 : b >= a ? 0 : NaN;
         })
-        .map(primaryResults, d3.map);
-
-      // primaryResults groupBy state_abbreviation, fips, party
-      var primaryResultsStateFipsParty = d3.nest()
-        .key(function(d){ return d.state_abbreviation; })
-        .key(function(d){ return d.fips; })
-        .key(function(d){ return d.party; })
-        .sortValues(function descending(a, b) {
-          a = a.votes;
-          b = b.votes;
-          return b < a ? -1 : b > a ? 1 : b >= a ? 0 : NaN;
-        })
-        .map(primaryResults, d3.map);
+        .map(primaryResults.counties, d3.map);
 
         var demoraphicLabels = {};
         demographics.forEach(function (d) {
@@ -68,7 +57,6 @@
 
       dataset = {
         countyFacts: factMap,
-        primaryResults: primaryResultsStateFipsParty,
         primaryResultsFipsParty: primaryResultsFipsParty,
         stateNames: stateNames,
         countyNames: countyNames,
@@ -96,24 +84,16 @@
     });
 
   function getStateAggregateMap(primaryResults){
+    console.log(primaryResults.states);
     return d3.nest()
-      .key(function(d){ return d.state_abbreviation; })
+      .key(function(d){ return d.code; })
       .key(function(d){ return d.party; })
-      .key(function(d){ return d.candidate; })
-      .rollup(function(counties){ 
-        var candidate = counties[0].candidate;
-        return {
-          "popular_vote": d3.sum(counties, function(d){ return d.votes; }),
-          "percentage_of_vote": 33.3,
-          "candidate": candidate
-        }; 
-      })
       .sortValues(function descending(a, b) {
           a = a.popular_vote;
           b = b.popular_vote;
           return b < a ? -1 : b > a ? 1 : b >= a ? 0 : NaN;
         })
-      .map(primaryResults, d3.map);
+      .map(primaryResults.states, d3.map);
   }
   
   /********** DATA MODEL METHODS *********/
@@ -165,6 +145,9 @@
       state.properties.election = dataset.stateWinners.get(state.properties.code);
     });
 
+    console.log(dataset.stateWinners);
+
+    // filter out all topoJSON counties that are not 50 US State counties
     usTOPOJSON.objects.counties.geometries = usTOPOJSON.objects.counties.geometries.filter(function(county, i){
       return !fipsNonStateCounty(county.id);
     });

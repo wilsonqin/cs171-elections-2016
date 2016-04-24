@@ -1,0 +1,1 @@
+head -n 52 us-state-names.tsv | tail -n 51 | cut -f 3 | while read state; do casperjs runScrape.js "$state" > data/$state.json; echo $state; done

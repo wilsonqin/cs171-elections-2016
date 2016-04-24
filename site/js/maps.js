@@ -154,7 +154,8 @@ function updateChoropleth(us) {
         .attr("fill", function(d,i){
             var results = d.properties.election ? d.properties.election.get(selectedPartyVal) : undefined;
             // if there is a winner, render its color, otherwise missing color is some set default TODO
-            var color = results ? ordinalScale(results.values()[0].candidate) : "#aaa";
+            console.log(d.properties);
+            var color = results ? ordinalScale(results[0].candidate) : "#aaa";
             return color;
         })
         .on("click", genNewState)
@@ -249,9 +250,16 @@ function showCountyTooltip (d) {
     var parent = list.parent();
     if (results){
         list.detach().empty().each(function(i){
-            for (var x = 0; x < results.length; x++){
-                $(this).append('<tr><th>' + results[x].candidate + '</th><td>' + formatPercent(results[x].fraction_votes) + '</td></tr>');
-                if (x == results.length - 1){
+            var length;
+            if (results.length > 5){
+                length = 5;
+            }
+            else{
+                length = results.length;
+            }
+            for (var x = 0; x < length; x++){
+                $(this).append('<tr><th>' + results[x].candidateName + '</th><td>' + formatPercent(results[x].percent) + '</td></tr>');
+                if (x == length - 1){
                     $(this).appendTo(parent);
                 }
             }
@@ -381,7 +389,12 @@ function genNewState(d) {
         .tickValues(minRangeThresholds)
         .tickFormat(function(d) {
             var prefix = d3.formatPrefix(d);
-            return Math.round(prefix.scale(d)) + prefix.symbol;
+            if (prefix.symbol == "m"){
+                return Math.round(d)
+            }
+            else{
+                return Math.round(prefix.scale(d)) + prefix.symbol;
+            }
         });
 
     key.selectAll("rect")
@@ -468,7 +481,6 @@ for(var i = 0, max = partyRadios.length; i < max; i++) {
 }
 
 function formatPercent(number){
-    number *= 100;
     var arr = number.toFixed(1);
     return String(arr)+"%";
 }
