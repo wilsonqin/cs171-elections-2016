@@ -453,8 +453,8 @@ function createCandidateScale(){
     var scale;
     if (selectedPartyVal == "Republican"){
         scale = d3.scale.ordinal()
-        .domain(["Ted Cruz", "John Kasich", "Donald Trump", "Ben Carson", "Marco Rubio", "N/A"])
-        .range(["#e6550d", "#636363" , "#31a354", "#54B6D6", "#FFF129", "#aaa"]);
+        .domain(["Ted Cruz", "John Kasich", "Donald Trump", "Ben Carson", "Marco Rubio", "Mike Huckabee", "Lindsey Graham", "N/A"])
+        .range(["#e6550d", "#636363" , "#31a354", "#54B6D6", "#FFF129", "#E38CFF", "#F5EE22", "#aaa"]);
     }
     else{
         scale = d3.scale.ordinal()
