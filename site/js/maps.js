@@ -132,7 +132,7 @@ function updateChoropleth(us) {
             var winner = results ? results[0].candidate : "N/A";
             return winner;
         })
-        .on("click", countyclicked)
+        // .on("click", countyclicked)
         .on("mouseover", showCountyTooltip)
         .on("mouseout", hideTooltip);
     
@@ -432,8 +432,8 @@ function genNewState(d) {
             return d.properties.census.countyRecords ? quantize(d.properties.census.countyRecords[selectedDemographic.val()]) : "gray";
         })
         .on("mouseover", showCountyTooltipRight)
-        .on("mouseout", hideTooltip)
-        .on("click", countyclicked);
+        .on("mouseout", hideTooltip);
+        // .on("click", countyclicked);
 
 
     var bounds = path.bounds(d),
