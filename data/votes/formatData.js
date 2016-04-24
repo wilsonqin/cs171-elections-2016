@@ -23,28 +23,36 @@ function processCSV(path){
 function formatCountyFacts(countyFacts){
   var interestedFields = [
     "PST045214", // pop 2014
-    "PST040210",
     "PST120214", 
-    "POP010210" // pop 2010
+    "POP010210", // pop 2010
+    "RHI125214", // percent white
+    "RHI225214", // percent black
+    "RHI425214", // percent asian
+    "HSG445213", // homeownership rate
+    "INC110213", // median household income
+    "PVY020213", // percent in poverty
+    
   ];
 
   var vitalFields = ["fips", "area_name", "state_abbreviation"];
 
   var numberFields = _.intersection(Object.keys(countyFacts[0]), interestedFields);
-  var record;
+  var record,
+      countyRecord;
   var results = [];
 
   countyFacts.forEach(function(d,i){
     record = {};
+    countyRecord = {};
 
     vitalFields.forEach(function(field,ii){
       record[field] = d[field];
     });
 
     numberFields.forEach(function(field,ii){
-      record[field] = Number(d[field]);
+      countyRecord[field] = Number(d[field]);
     });
-
+    record["countyRecords"] = countyRecord;
     results.push(record);
   });
 
@@ -148,12 +156,13 @@ function processPrimaryData(primaryResults){
 }
 
 
+countyFacts = formatCountyFacts(countyFacts);
+console.log(JSON.stringify(countyFacts));
 
-//countyFacts = formatCountyFacts(countyFacts);
 
-//primaryResults = formatPrimaryData(primaryResults);
+// primaryResults = formatPrimaryData(primaryResults);
 
-//primaryResults = processAggregatePrimaryData(primaryResults);
+// primaryResults = processAggregatePrimaryData(primaryResults);
 
 //var tot = processAggregatePrimaryData(primaryResults);
 

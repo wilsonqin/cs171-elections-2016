@@ -3,9 +3,10 @@ var margin = {top: 20, right:50, bottom:20, left:50};
 
 // Sets width and height elements of graphs
 var width4 = $("#trends").parent().width() - margin.left - margin.right,
-    height4 = 310 - margin.top - margin.bottom;
+    height4 = 290 - margin.top - margin.bottom;
 
 // Initialize SVG elements
+
 var svg4 = d3.select("#trends")
     .append("svg")
     .attr("width", width4 + margin.left + margin.right)
@@ -13,8 +14,35 @@ var svg4 = d3.select("#trends")
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+
 // color scale
 var color = d3.scale.category20();
+var chartBody2;
+var clip2;
+
+// stable color scale
+var color5 = d3.scale.ordinal()
+    .domain(["donald trump wife", "donald trump immigration", "make america great again", "donald trump wall",
+  "ted cruz canada", "ted cruz immigration", "ted cruz wife", "ted cruz zodiac killer",
+  "hillary for america", "hillary clinton email", "hillary clinton benghazi", "hillary clinton snl",
+  "feel the bern", "bernie sanders old", "bernie sanders bird", "bernie sanders socialist",
+  "john kasich ohio", "john kasich wife"])
+    .range([
+        //trump
+        "#31a354", "#74c476", "#a1d99b", "#c7e9c0",
+
+        //cruz
+        "#e6550d", "#fd8d3c", "#fdae6b", "#fdd0a2",
+
+        //hillary
+        "#3182bd", "#6baed6", "#9ecae1", "#c6dbef",
+
+        //bernie
+        "#756bb1", "#9e9ac8", "#bcbddc", "#dadaeb",
+
+        //kasich
+        "#636363", "#969696"
+          ]);
 
 // Scales
 var x2 = d3.time.scale()
@@ -36,7 +64,29 @@ var legend2;
 var indicator;
 
 // initialize data
-loadData4();
+    // max and min date
+    var formatDate = d3.time.format("%Y-%m-%d");
+    var max_date = formatDate.parse("2016-04-01");
+    var min_date = formatDate.parse("2015-10-25");
+    var initialExtent = [min_date, max_date];
+loadData4(initialExtent);
+
+function checkExtent(brushExtent)
+{
+    var localExtent;
+
+    if (brushExtent[1] - brushExtent[0] == 0)
+    {
+        localExtent = initialExtent;
+    }
+    else
+        localExtent = brushExtent;
+
+    loadData4(localExtent);
+    loadData5();
+
+}
+
 
 function trendsPlaceholderText(){
     svg4.append("text")
@@ -47,22 +97,22 @@ function trendsPlaceholderText(){
         .text("Select search terms on the right to display more information");
 }
 
-function loadData4(){
+function loadData4(extent){
+    extent = typeof extent !== 'undefined' ? extent : initialExtent;
 
     $.when(window.dataReady.vis2).then(function(){
         if(!vis2 || !window.vis2) console.log("error: dataDriver not intialized before maps.js");
 
         var data = vis2.search;
-        console.log(data);
+        // console.log(data);
 
-        getCheckboxSelection(data);
+        getCheckboxSelection(data, extent);
 
     });
 
 }
 
-function getCheckboxSelection(data)
-{
+function getCheckboxSelection(data, extent){
     svg4.selectAll("path").remove();
     svg4.selectAll("g").remove();
     svg4.selectAll('.legend2').remove();
@@ -76,6 +126,16 @@ function getCheckboxSelection(data)
     {
         svg4.selectAll('#trendsPlaceholderText').remove();
         indicator = 0;
+
+        var checked = $('#show_events').prop('checked');
+        if (checked == true)
+        {
+            chartBody.selectAll(".eventsRectangle").remove();
+            chartBody2.selectAll(".eventsRectangle2").remove();
+            chartBody.selectAll(".eventsBox").remove();
+            chartBody2.selectAll(".eventsBox2").remove();
+            loadData5();
+        }
     }
 
     else
@@ -86,12 +146,11 @@ function getCheckboxSelection(data)
     }
 
 
-    formatData2(localData, checkboxSelection);
+    formatData2(localData, checkboxSelection, extent);
 
 }
 
-function formatData2(data, domain){
-
+function formatData2(data, domain, extent){
     var localData = data;
     var formatDate = d3.time.format("%Y-%m-%d");
 
@@ -112,21 +171,16 @@ function formatData2(data, domain){
         }
     });
 
-    updateTrendsDomain(politicians);
+    updateTrendsDomain(politicians, extent);
 
 }
 
-function updateTrendsDomain(data) {
-
-    var formatDate = d3.time.format("%Y-%m-%d");
+function updateTrendsDomain(data, extent) {
     var politician = data;
 
-    // max and min date
-    var max_date = formatDate.parse("2016-04-01");
-    var min_date = formatDate.parse("2016-01-03");
-
     // update domains
-    x2.domain([min_date, max_date]);
+    // console.log(extent);
+    x2.domain(extent);
     y2.domain([
         d3.min(politician, function (p) {
             return d3.min(p.values, function (v) {
@@ -159,13 +213,24 @@ function updateTrendsAxes(data) {
         .transition()
         .call(yAxis4);
 
+    clip2 = svg4.append("svg:clipPath")
+        .attr("id", "clip2")
+        .append("svg:rect")
+        .attr("x", 0)
+        .attr("y", 0)
+        .attr("width", width4)
+        .attr("height", height4);
+
+    chartBody2 = svg4.append("g")
+        .attr("clip-path", "url(#clip2)");
+
     drawTrendsLines(data);
 }
 
 function drawTrendsLines(data){
 
     line = d3.svg.line()
-        .interpolate("linear")
+        .interpolate("bundle")
         .x(function (d) {
             return x2(d.date);
         })
@@ -173,7 +238,7 @@ function drawTrendsLines(data){
             return y2(d.search);
         });
 
-    var politicians = svg4.selectAll(".politician")
+    var politicians = chartBody2.selectAll(".politician")
         .data(data)
         .enter().append("g")
         .attr("class", "politician");
@@ -182,7 +247,8 @@ function drawTrendsLines(data){
         .attr("class", "line")
         .attr("d", function(d){return line(d.values);})
         .attr("data-legend", function(d){return d.name;})
-        .style("stroke", function(d) { return color(d.name); });
+        .style("stroke", function(d) { return color5(d.name); });
+    
 
     if (indicator != 1) {
         legend2 = svg4.append("g")
@@ -190,6 +256,46 @@ function drawTrendsLines(data){
             .attr("transform", "translate(50,30)")
             .style("font-size", "12px")
             .call(d3.legend);
+    }
+
+    // hover line - polls
+    var hoverLineGroup = chartBody2.append("g")
+        .attr("class", "hover-line");
+    var hoverLine = hoverLineGroup
+        .append("line")
+        .attr("x1", 0).attr("x2", 0)
+        .attr("y1", 0).attr("y2", height4)
+        .attr("stroke", "black");
+    var hoverDate = hoverLineGroup.append('text')
+        .attr("class", "hover-text")
+        .attr('y', 10);
+
+    var checkboxSelection = $('input[name=checkbox]:checked').map(function () { return this.value; }).toArray();
+    if (checkboxSelection[0] != undefined) {
+        d3.select("#trends").on("mouseover", function () {
+            console.log('mouseover');
+            //hoverLineGroup.style("opacity", 1);
+        }).on("mousemove", function () {
+            console.log('mousemove', d3.mouse(this));
+            var mouse_x = d3.mouse(this)[0] - margin.left;
+            var mouse_y = d3.mouse(this)[1];
+            var graph_y = y1.invert(mouse_y);
+            var graph_x = x1.invert(mouse_x);
+            var formatTime = d3.time.format("%b %_d");
+            var graph_x2 = formatTime(graph_x);
+            hoverDate.text("  " + graph_x2);
+            hoverDate.attr('x', mouse_x + 5);
+            //console.log(x1.invert(mouse_x));
+            hoverLine.attr("x1", mouse_x).attr("x2", mouse_x);
+            hoverLineGroup.style("opacity", 1);
+
+        }).on("mouseout", function () {
+            console.log('mouseout');
+            hoverLineGroup.style("opacity", 0);
+            var mouse_x = d3.mouse(this)[0] - margin.left;
+            var mouse_y = d3.mouse(this)[1];
+        });
+        //trendsMouseover(mouse_x, mouse_y, 0);
     }
 
     /*politicians.append("text")
@@ -200,3 +306,37 @@ function drawTrendsLines(data){
         .text(function(d) { return d.name;});*/
 
 }
+
+
+/*
+function trendsMouseover(mouse_x, mouse_y, indicator){
+
+    var graph_y = y2.invert(mouse_y);
+    var graph_x = x2.invert(mouse_x);
+
+    // hover line - trends
+
+    var hoverLineGroup2 = svg5.append("g")
+        .attr("class", "hover-line");
+    var hoverLine2 = hoverLineGroup2
+        .append("line")
+        .attr("x1", 0).attr("x2", 0)
+        .attr("y1", 0).attr("y2", height4)
+        .attr("stroke", "black");
+    var hoverDate2 = hoverLineGroup2.append('text')
+        .attr("class", "hover-text")
+        .attr('y', 10);
+
+    if (indicator == 1) {
+        hoverLine2.attr("x1", mouse_x).attr("x2", mouse_x);
+        hoverLineGroup2.style("opacity", 0.8);
+    }
+
+    else if (indicator == 0)
+    {
+        svg5.selectAll(".hover-line").remove();
+        hoverLineGroup2.style("opacity", 0);
+    }
+}
+*/
+
