@@ -193,11 +193,34 @@ function drawPollLines(data){
         .enter().append("g")
         .attr("class", "politician");
 
+    var politicianLabel;
+
     politicians.append("path")
         .attr("class", "line")
         .attr("d", function(d){return line(d.values);})
         .attr("data-legend", function(d){return d.name;})
-        .style("stroke", function(d) { return color4(d.name); });
+        .style("stroke", function(d) { return color4(d.name); })
+        .on("mouseover", function(){
+            var test = $(this).attr("data-legend");
+            var test2 = test.toString();
+            console.log(test2);
+            var mouse_x = d3.mouse(this)[0] - margin.left + 5;
+            var mouse_y = d3.mouse(this)[1] - 10;
+            politicianLabel = svg3.append("text")
+                .attr("class", "lineText")
+                .attr("x", mouse_x)
+                .attr("y", mouse_y)
+                .attr("dy", ".35em")
+                .text(test2)
+        })
+        .on("mousemove", function(){
+            var mouse_x = d3.mouse(this)[0] - margin.left + 5;
+            var mouse_y = d3.mouse(this)[1] - 10;
+            politicianLabel.attr("x", mouse_x).attr("y", mouse_y);
+        })
+        .on("mouseout", function(){
+            svg3.selectAll(".lineText").remove();
+        });
 
     legend3 = svg3.append("g")
         .attr("class", "legend3")
@@ -222,7 +245,7 @@ function drawPollLines(data){
         //hoverLineGroup.style("opacity", 1);
     }).on("mousemove", function() {
         //console.log('mousemove', d3.mouse(this));
-        var mouse_x = d3.mouse(this)[0] - margin.left;
+        var mouse_x = d3.mouse(this)[0] - margin.left + 3;
         var mouse_y = d3.mouse(this)[1];
         var graph_y = y1.invert(mouse_y);
         var graph_x = x1.invert(mouse_x);
@@ -422,7 +445,6 @@ function brushed() {
     chartBody.selectAll(".eventsBox").remove();
     chartBody2.selectAll(".eventsBox2").remove();
     var checked = $('#show_events').prop('checked');
-    loadData5();
     if (checked == true)
     {
         loadData5();

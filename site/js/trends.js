@@ -83,10 +83,14 @@ function checkExtent(brushExtent)
         localExtent = brushExtent;
 
     loadData4(localExtent);
-    loadData5();
+
+    var indicator = $('#show_events').prop('checked');
+    //console.log(indicator);
+    if (indicator == true) {
+        loadData5();
+    }
 
 }
-
 
 function trendsPlaceholderText(){
     svg4.append("text")
@@ -243,11 +247,35 @@ function drawTrendsLines(data){
         .enter().append("g")
         .attr("class", "politician");
 
+    var politicianLabel;
+
     politicians.append("path")
         .attr("class", "line")
         .attr("d", function(d){return line(d.values);})
         .attr("data-legend", function(d){return d.name;})
-        .style("stroke", function(d) { return color5(d.name); });
+        .style("stroke", function(d) { return color5(d.name); })
+        .on("mouseover", function(){
+            var test = $(this).attr("data-legend");
+            var test2 = test.toString();
+            console.log(test2);
+            var mouse_x = d3.mouse(this)[0] - margin.left + 15;
+            var mouse_y = d3.mouse(this)[1] - 10;
+            politicianLabel = svg4.append("text")
+                .attr("class", "lineText")
+                .attr("x", mouse_x)
+                .attr("y", mouse_y)
+                .attr("text-anchor", "end")
+                .attr("dy", ".35em")
+                .text(test2)
+        })
+        .on("mousemove", function(){
+            var mouse_x = d3.mouse(this)[0] - margin.left + 15;
+            var mouse_y = d3.mouse(this)[1] - 10;
+            politicianLabel.attr("x", mouse_x).attr("y", mouse_y);
+        })
+        .on("mouseout", function(){
+            svg4.selectAll(".lineText").remove();
+        });
     
 
     if (indicator != 1) {
@@ -277,7 +305,7 @@ function drawTrendsLines(data){
             //hoverLineGroup.style("opacity", 1);
         }).on("mousemove", function () {
             console.log('mousemove', d3.mouse(this));
-            var mouse_x = d3.mouse(this)[0] - margin.left;
+            var mouse_x = d3.mouse(this)[0] - margin.left +3;
             var mouse_y = d3.mouse(this)[1];
             var graph_y = y1.invert(mouse_y);
             var graph_x = x1.invert(mouse_x);
@@ -297,14 +325,6 @@ function drawTrendsLines(data){
         });
         //trendsMouseover(mouse_x, mouse_y, 0);
     }
-
-    /*politicians.append("text")
-        .datum(function(d) { return {name: d.name, value: d.values[d.values.length - 1]}; })
-        .attr("transform", function(d) { return "translate(" + x(d.value.date) + "," + y(d.value.search) + ")"; })
-        .attr("x", 3)
-        .attr("dy", ".35em")
-        .text(function(d) { return d.name;});*/
-
 }
 
 
