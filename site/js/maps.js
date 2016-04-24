@@ -65,7 +65,6 @@ var selectedParty = $("input[type='radio'][name='party']:checked");
 demographicPlaceholderText();
 
 loadData();
-ordinalScale = createCandidateScale();
 
 /*
  * loadData waits for the dataDriver to provide visualization 1 data, then prepares data
@@ -88,6 +87,8 @@ function loadData() {
             if (selectedDemographic.length > 0) {
                 selectedDemographicVal = selectedDemographic.val();
             }
+
+            ordinalScale = createCandidateScale();
 
             // then render the chloropleth, once we know jquery dom changes are done
             updateChoropleth(topoJSONdata);
@@ -270,7 +271,6 @@ function showCountyTooltipRight (d) {
 
     var censusData = (d.properties.census);
     var censusKeys = Object.keys(censusData);
-    console.log(censusKeys.length);
 
     tooltip.transition()
         .duration(200)
@@ -286,7 +286,8 @@ function showCountyTooltipRight (d) {
     if (censusData){
         list.detach().empty().each(function(i){
             for (var x = 0; x < censusKeys.length; x++){
-                $(this).append('<tr><th>' + censusKeys[x] + '</th><td>' + censusData[censusKeys[x]] + '</td></tr>');
+                var label = demographicMap[censusKeys[x]] ? demographicMap[censusKeys[x]] : censusKeys[x];
+                $(this).append('<tr><th>' + label + '</th><td>' + censusData[censusKeys[x]] + '</td></tr>');
                 if (x == censusKeys.length - 1){
                     $(this).appendTo(parent);
                 }
@@ -319,6 +320,7 @@ function hideTooltip(d) {
 }
 
 function genNewState(d) {
+    console.log("genNewState called");
     focusState = d;
     clicked(focusState);
 
