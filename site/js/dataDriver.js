@@ -45,12 +45,6 @@
         })
         .map(primaryResults.counties, d3.map);
 
-        var demoraphicLabels = {};
-        demographics.forEach(function (d) {
-            // console.log(d);
-            demoraphicLabels[d.id] = d.name;
-        });
-
       // fips to countyname lookup
       var countyNameLookup = d3.map(primaryResults, function(d){ return d.fips; });
 
@@ -67,24 +61,41 @@
       };
 
       usTOPOJSON = populateTopoAttr(usTOPOJSON, stateNames, countyNames, factMap);
+      var demographicLabels = getDemographicMap(demographics);
 
-
+      // attach completed dataset to the window for global access
       window.vis1 = {
           topoJSONdata: usTOPOJSON,
           getCountyData: getCountyData,
           getStateData: getStateData,
-          demographics: demoraphicLabels
+          demographics: demographicLabels
       };
-
-      // attach completed dataset to the window for global access
-      // window.data = window.data ? window.data : dataset;
 
       // signal that the global data is ready to be accessed
       datasetReady.resolve();
     });
 
+  function getDemographicMap(demographics){
+    var demLabels = {};
+    demographics.forEach(function (d) {
+        // console.log(d);
+        demLabels[d.id] = d.name;
+    });
+
+    demLabels["POP010210"] = "Population 2010";
+    demLabels["PST045214"] = "Population 2014";
+    demLabels["RHI125214"] = "Percent of population, white";
+    demLabels["RHI225214"] = "Percent of population, black";
+    demLabels["RHI425214"] = "Percent of population, asian";
+    demLabels["PST120214"] = "Percent population change, 2010-14";
+    demLabels["HSG445213"] = "Homeownership rate";
+    demLabels["INC110213"] = "Median Household income";
+    demLabels["PVY020213"] = "Percent in poverty";
+
+    return demLabels;
+  }
+
   function getStateAggregateMap(primaryResults){
-    console.log(primaryResults.states);
     return d3.nest()
       .key(function(d){ return d.code; })
       .key(function(d){ return d.party; })
@@ -144,8 +155,6 @@
       state.properties = stateById.get(state.id);
       state.properties.election = dataset.stateWinners.get(state.properties.code);
     });
-
-    console.log(dataset.stateWinners);
 
     // filter out all topoJSON counties that are not 50 US State counties
     usTOPOJSON.objects.counties.geometries = usTOPOJSON.objects.counties.geometries.filter(function(county, i){
