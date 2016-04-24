@@ -84,7 +84,8 @@ function loadData3(domain, datedomain){
         var localDomain = domain;
         formatData(data, localDomain, datedomain);
         showContext(data, candidateArray);
-
+        // hover line - polls
+        drawHoverLine(chartBody);
     });
 
 }
@@ -180,6 +181,63 @@ function updatePollsAxes(data, datedomain){
     drawPollLines(data);
 }
 
+function drawHoverLine(chartBody){
+
+    // main hover line
+    var hoverLineGroupMain = chartBody.append("g")
+        .attr("class", "hover-line");
+    var hoverLine = hoverLineGroupMain
+        .append("line")
+        .attr("x1", 0).attr("x2", 0)
+        .attr("y1", 0).attr("y2", height3)
+        .attr("stroke", "black");
+    var hoverDate = hoverLineGroupMain.append('text')
+        .attr("class", "hover-text")
+        .attr('y', 10);
+
+    // context hover line
+    var hoverLineGroupContext = context.append("g")
+        .attr("class", "hover-line");
+
+    var hoverLine2 = hoverLineGroupContext
+        .append("line")
+        .attr("x1", 0).attr("x2", 0)
+        .attr("y1", 0).attr("y2", height3)
+        .attr("stroke", "black");
+
+    var hoverDate2 = hoverLineGroupContext
+        .append('text')
+        .attr("class", "hover-text")
+        .attr('y', -(margin.top/2));
+
+
+    d3.select("#polls").on("mouseover", function() {
+        //console.log('mouseover');
+        //hoverLineGroupMain.style("opacity", 1);
+    }).on("mousemove", function() {
+        //console.log('mousemove', d3.mouse(this));
+        var mouse_x = d3.mouse(this)[0] - margin.left + 3;
+        var mouse_y = d3.mouse(this)[1];
+        var graph_y = y1.invert(mouse_y);
+        var graph_x = x1.invert(mouse_x);
+        var formatTime = d3.time.format("%b %_d");
+        var graph_x2 = formatTime(graph_x);
+        hoverDate.text("  " + graph_x2);
+        hoverDate.attr('x', mouse_x + 5);
+        hoverDate2.text(" " + graph_x2);
+        hoverDate2.attr('x', mouse_x + 5);
+        //console.log(x1.invert(mouse_x));
+        hoverLine.attr("x1", mouse_x).attr("x2", mouse_x);
+        hoverLine2.attr("x1",mouse_x).attr("x2", mouse_x);
+        hoverLineGroupMain.style("opacity", 1);
+
+    })  .on("mouseout", function() {
+        //console.log('mouseout');
+        hoverLineGroupMain.style("opacity", 0);
+
+    });
+}
+
 function drawPollLines(data){
 
     line = d3.svg.line()
@@ -228,44 +286,8 @@ function drawPollLines(data){
         .style("font-size","12px")
         .call(d3.legend);
 
-// hover line - polls
-    var hoverLineGroup = chartBody.append("g")
-        .attr("class", "hover-line");
-    var hoverLine = hoverLineGroup
-        .append("line")
-        .attr("x1", 0).attr("x2", 0)
-        .attr("y1", 0).attr("y2", height3)
-        .attr("stroke", "black");
-    var hoverDate = hoverLineGroup.append('text')
-        .attr("class", "hover-text")
-        .attr('y', 10);
 
-    d3.select("#polls").on("mouseover", function() {
-        //console.log('mouseover');
-        //hoverLineGroup.style("opacity", 1);
-    }).on("mousemove", function() {
-        //console.log('mousemove', d3.mouse(this));
-        var mouse_x = d3.mouse(this)[0] - margin.left + 3;
-        var mouse_y = d3.mouse(this)[1];
-        var graph_y = y1.invert(mouse_y);
-        var graph_x = x1.invert(mouse_x);
-        var formatTime = d3.time.format("%b %_d");
-        var graph_x2 = formatTime(graph_x);
-        hoverDate.text("  " + graph_x2);
-        hoverDate.attr('x', mouse_x + 5);
-        //console.log(x1.invert(mouse_x));
-        hoverLine.attr("x1", mouse_x).attr("x2", mouse_x);
-        hoverLineGroup.style("opacity", 1);
-
-    })  .on("mouseout", function() {
-        //console.log('mouseout');
-        hoverLineGroup.style("opacity", 0);
-
-    });
-
-
-
-
+    //hover lines used to be here
 }
 
 function showContext(data, candidateArray) {
