@@ -186,6 +186,8 @@ function formatData3(data)
 function removeEvents()
 {
     svg3.selectAll(".eventsRectangle").remove();
+    svg3.selectAll(".eventsBox").remove();
     svg4.selectAll(".eventsRectangle2").remove();
+    svg4.selectAll(".eventsBox2").remove();
     $('#show_events').prop('checked', false);
 }

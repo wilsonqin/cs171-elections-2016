@@ -18,6 +18,7 @@ var svg3 = d3.select("#polls")
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+
 // Scales
 var x1 = d3.time.scale()
     .range([0, width3]);
@@ -168,7 +169,8 @@ function updatePollsAxes(data, datedomain){
         .attr("height", height3);
 
     chartBody = svg3.append("g")
-        .attr("clip-path", "url(#clip)");
+        .attr("clip-path", "url(#clip)")
+        .attr("class", "chartBody");
 
     // chartBody.append("svg:path")
     //     .datum(data)
@@ -203,12 +205,43 @@ function drawPollLines(data){
         .style("font-size","12px")
         .call(d3.legend);
 
-    /*politicians.append("text")
-     .datum(function(d) { return {name: d.name, value: d.values[d.values.length - 1]}; })
-     .attr("transform", function(d) { return "translate(" + x(d.value.date) + "," + y(d.value.rating) + ")"; })
-     .attr("x", 3)
-     .attr("dy", ".35em")
-     .text(function(d) { return d.name;});*/
+// hover line - polls
+    var hoverLineGroup = chartBody.append("g")
+        .attr("class", "hover-line");
+    var hoverLine = hoverLineGroup
+        .append("line")
+        .attr("x1", 0).attr("x2", 0)
+        .attr("y1", 0).attr("y2", height3)
+        .attr("stroke", "black");
+    var hoverDate = hoverLineGroup.append('text')
+        .attr("class", "hover-text")
+        .attr('y', 10);
+
+    d3.select("#polls").on("mouseover", function() {
+        //console.log('mouseover');
+        //hoverLineGroup.style("opacity", 1);
+    }).on("mousemove", function() {
+        //console.log('mousemove', d3.mouse(this));
+        var mouse_x = d3.mouse(this)[0] - margin.left;
+        var mouse_y = d3.mouse(this)[1];
+        var graph_y = y1.invert(mouse_y);
+        var graph_x = x1.invert(mouse_x);
+        var formatTime = d3.time.format("%b %_d");
+        var graph_x2 = formatTime(graph_x);
+        hoverDate.text("  " + graph_x2);
+        hoverDate.attr('x', mouse_x + 5);
+        //console.log(x1.invert(mouse_x));
+        hoverLine.attr("x1", mouse_x).attr("x2", mouse_x);
+        hoverLineGroup.style("opacity", 1);
+
+    })  .on("mouseout", function() {
+        //console.log('mouseout');
+        hoverLineGroup.style("opacity", 0);
+
+    });
+
+
+
 
 }
 
@@ -324,36 +357,6 @@ function resetVisualization2(){
     svg4.selectAll('.legend2').remove();
 
     $('input:checkbox').removeAttr('checked');
-    // document.getElementById("ch1").checked = false;
-    // document.getElementById("ch2").checked = false;
-    // document.getElementById("ch3").checked = false;
-    // document.getElementById("ch4").checked = false;
-    // document.getElementById("ch5").checked = false;
-    // document.getElementById("ch6").checked = false;
-    // document.getElementById("ch7").checked = false;
-    // document.getElementById("ch8").checked = false;
-    // document.getElementById("ch9").checked = false;
-    // document.getElementById("ch10").checked = false;
-    // document.getElementById("ch11").checked = false;
-    // document.getElementById("ch12").checked = false;
-    // document.getElementById("ch13").checked = false;
-    // document.getElementById("ch14").checked = false;
-    // document.getElementById("ch15").checked = false;
-    // document.getElementById("ch16").checked = false;
-    // document.getElementById("ch17").checked = false;
-    // document.getElementById("ch18").checked = false;
-
-    // $('#Clinton').css('opacity', 0.65);
-    // $('#Sanders').css('opacity', 0.65);
-    // $('#Cruz').css('opacity', 0.65);
-    // $('#Trump').css('opacity', 0.65);
-    // $('#Kasich').css('opacity', 0.65);
-
-    // document.getElementById("Clinton_select").checked = false;
-    // document.getElementById("Sanders_select").checked = false;
-    // document.getElementById("Cruz_select").checked = false;
-    // document.getElementById("Trump_select").checked = false;
-    // document.getElementById("Kasich_select").checked = false;
     
     trendsPlaceholderText();
 }

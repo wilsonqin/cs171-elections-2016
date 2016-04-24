@@ -135,15 +135,20 @@ tr:nth-child(even) {background-color: lightgrey}
 
 .line {
     fill: none;
-    stroke: #E96523;
-    stroke-width: 1.5px;
+    stroke-width: 2px;
 }
 
 .line2 {
     fill: none;
-    stroke: #E96523;
-    stroke-width: 1.5px;
+    stroke-width: 1px;
 }
+
+.lineHover {
+    fill: none;
+    stroke: darkgrey;
+    stroke-width: 8px;
+}
+
 
 #trendsPlaceholderText{
     font-size: 1.7em;
@@ -196,6 +201,19 @@ a.events
 {
     width: 79%;
     margin: 0 auto;
+}
+
+
+.hover-line {
+    stroke-width:2px;
+    stroke: black;
+}
+.hover-text {
+    font-size: 12px;
+    opacity: 0.5;
+    text-decoration: none;
+    font-family: "Helvetica Neue";
+    font-weight: 100;
 }
 
 /*********************************************************************************/
