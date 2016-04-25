@@ -106,7 +106,7 @@ function determineWinner(results){
 
 function updateChoropleth(us) {
     ordinalScale = createCandidateScale();
-    
+
     g.selectAll('path').remove();
     g.selectAll('g').remove();
     svg.selectAll('text').remove();
@@ -135,7 +135,7 @@ function updateChoropleth(us) {
             var results = d.properties.election ? d.properties.election.get(selectedPartyVal) : undefined;
             return determineWinner(results);
         })
-        .on("click", countyclicked)
+        //.on("click", countyclicked)
         .on("mouseover", showCountyTooltip)
         .on("mouseout", hideTooltip);
     
