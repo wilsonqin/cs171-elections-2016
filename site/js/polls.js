@@ -838,46 +838,4 @@ function drawTrendsLines(data){
             .style("font-size", "12px")
             .call(d3.legend);
     }
-
-    /*
-    // hover line - polls
-    var hoverLineGroup = chartBody2.append("g")
-        .attr("class", "hover-line");
-    var hoverLine = hoverLineGroup
-        .append("line")
-        .attr("x1", 0).attr("x2", 0)
-        .attr("y1", 0).attr("y2", height4)
-        .attr("stroke", "black");
-    var hoverDate = hoverLineGroup.append('text')
-        .attr("class", "hover-text")
-        .attr('y', 10);
-
-    var checkboxSelection = $('input[name=checkbox]:checked').map(function () { return this.value; }).toArray();
-    if (checkboxSelection[0] != undefined) {
-        d3.select("#trends").on("mouseover", function () {
-            console.log('mouseover');
-            //hoverLineGroup.style("opacity", 1);
-        }).on("mousemove", function () {
-            console.log('mousemove', d3.mouse(this));
-            var mouse_x = d3.mouse(this)[0] - margin3.left +3;
-            var mouse_y = d3.mouse(this)[1];
-            var graph_y = y1.invert(mouse_y);
-            var graph_x = x1.invert(mouse_x);
-            var formatTime = d3.time.format("%b %_d");
-            var graph_x2 = formatTime(graph_x);
-            hoverDate.text("  " + graph_x2);
-            hoverDate.attr('x', mouse_x + 5);
-            //console.log(x1.invert(mouse_x));
-            hoverLine.attr("x1", mouse_x).attr("x2", mouse_x);
-            hoverLineGroup.style("opacity", 1);
-
-        }).on("mouseout", function () {
-            console.log('mouseout');
-            hoverLineGroup.style("opacity", 0);
-            var mouse_x = d3.mouse(this)[0] - margin3.left;
-            var mouse_y = d3.mouse(this)[1];
-        });
-        //trendsMouseover(mouse_x, mouse_y, 0);
-    }
-    */
 }
