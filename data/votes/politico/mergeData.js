@@ -34,6 +34,7 @@ var candidateFullNameLookup = {
   'G. Pataki': "George Pataki",
   'No Preference': 'No Preference',
   'Uncommitted': "Uncommitted",
+  "Other" : "Other"
 };
 
 function transformPartyName(pname){
@@ -62,6 +63,7 @@ function processAllVotes(){
       s.code = stateFacts.code;
       s.name = stateName;
       s.party = transformPartyName(s.party);
+      s.candidateName = candidateFullNameLookup[s.candidate];
     });
     
     allStateResults = allStateResults.concat(stateRecord.state);
