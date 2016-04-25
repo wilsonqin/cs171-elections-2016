@@ -359,4 +359,3 @@ function trendsMouseover(mouse_x, mouse_y, indicator){
     }
 }
 */
-

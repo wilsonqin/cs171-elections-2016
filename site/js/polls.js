@@ -6,7 +6,6 @@ var width3 = $("#polls").parent().width() - margin.left - margin.right,
     height3 = 350 - margin.top - margin.bottom;
 
 var margin2 = {top: 0, right: 50, bottom: 20, left:50};
-
 var height3_2 = 85 - margin2.top - margin2.bottom;
 
 
@@ -202,14 +201,13 @@ function drawHoverLine(chartBody){
     var hoverLine2 = hoverLineGroupContext
         .append("line")
         .attr("x1", 0).attr("x2", 0)
-        .attr("y1", 0).attr("y2", height3)
+        .attr("y1", -5).attr("y2", height3_2)
         .attr("stroke", "black");
 
     var hoverDate2 = hoverLineGroupContext
         .append('text')
         .attr("class", "hover-text")
         .attr('y', -(margin.top/2));
-
 
     d3.select("#polls").on("mouseover", function() {
         //console.log('mouseover');
@@ -220,20 +218,23 @@ function drawHoverLine(chartBody){
         var mouse_y = d3.mouse(this)[1];
         var graph_y = y1.invert(mouse_y);
         var graph_x = x1.invert(mouse_x);
+        var mouse_x2 = x1_2(graph_x);
         var formatTime = d3.time.format("%b %_d");
         var graph_x2 = formatTime(graph_x);
         hoverDate.text("  " + graph_x2);
         hoverDate.attr('x', mouse_x + 5);
         hoverDate2.text(" " + graph_x2);
-        hoverDate2.attr('x', mouse_x + 5);
+        hoverDate2.attr('x', mouse_x2 + 5);
         //console.log(x1.invert(mouse_x));
         hoverLine.attr("x1", mouse_x).attr("x2", mouse_x);
-        hoverLine2.attr("x1",mouse_x).attr("x2", mouse_x);
+        hoverLine2.attr("x1",mouse_x2).attr("x2", mouse_x2);
         hoverLineGroupMain.style("opacity", 1);
+        hoverLineGroupContext.style("opacity", 1);
 
     })  .on("mouseout", function() {
         //console.log('mouseout');
         hoverLineGroupMain.style("opacity", 0);
+        hoverLineGroupContext.style("opacity", 0);
 
     });
 }
