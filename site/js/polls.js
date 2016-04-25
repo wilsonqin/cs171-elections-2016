@@ -257,6 +257,60 @@ function updatePollsAxes(data, datedomain){
     drawPollLines(data);
 }
 
+/*
+ * Attaches hoverLine to the specific anchor element with `anchor` as string css selector
+ */
+function attachHoverLineHandler(anchor, components){
+    var hoverDate = components.hoverDate,
+        hoverLine = components.hoverLine,
+        hoverLineGroupMain = components.hoverLineGroupMain,
+        hoverLineGroupContext = components.hoverLineGroupContext,
+        hoverLineGroupTrends = components.hoverLineGroupTrends,
+        hoverLine2 = components.hoverLine2,
+        hoverDate3 = components.hoverDate3,
+        hoverLine3 = components.hoverLine3;
+
+    d3.select(anchor).on("mouseover", function() {
+        //console.log('mouseover');
+        //hoverLineGroupMain.style("opacity", 1);
+    }).on("mousemove", function() {
+        //console.log('mousemove', d3.mouse(this));
+        var mouse_x = d3.mouse(this)[0] - margin.left + 3;
+        var mouse_y = d3.mouse(this)[1];
+        var graph_y = y1.invert(mouse_y);
+        var graph_x = x1.invert(mouse_x);
+        var mouse_x2 = x1_2(graph_x);
+        var formatTime = d3.time.format("%b %_d");
+        var graph_x2 = formatTime(graph_x);
+        hoverDate.text("  " + graph_x2);
+        hoverDate.attr('x', mouse_x + 5);
+        //hoverDate2.text(" " + graph_x2);
+        //hoverDate2.attr('x', mouse_x2 + 5);
+        //console.log(x1.invert(mouse_x));
+        hoverLine.attr("x1", mouse_x).attr("x2", mouse_x);
+        hoverLine2.attr("x1",mouse_x2).attr("x2", mouse_x2);
+        hoverLineGroupMain.style("opacity", 1);
+        hoverLineGroupContext.style("opacity", 1);
+
+        var checkboxSelection = $('input[name=checkbox]:checked').map(function () { return this.value; }).toArray();
+
+        // only show if search term selected
+        if(checkboxSelection.length > 0){
+            hoverDate3.text(" " + graph_x2);
+            hoverDate3.attr('x', mouse_x + 5);
+            hoverLine3.attr("x1",mouse_x).attr("x2", mouse_x);
+            hoverLineGroupTrends.style("opacity", 1);
+        }
+
+    })  .on("mouseout", function() {
+        //console.log('mouseout');
+        hoverLineGroupMain.style("opacity", 0);
+        hoverLineGroupContext.style("opacity", 0);
+        hoverLineGroupTrends.style("opacity", 0);
+
+    });
+}
+
 function drawHoverLine(chartBody, chartBody2){
 
     chartBody.selectAll(".hover-line").remove();
@@ -303,81 +357,20 @@ function drawHoverLine(chartBody, chartBody2){
         .attr("class", "hover-text")
         .attr('y', 10);
 
-    var checkboxSelection = $('input[name=checkbox]:checked').map(function () { return this.value; }).toArray();
+    var components = {
+        hoverDate: hoverDate,
+        hoverLine: hoverLine,
+        hoverLineGroupMain: hoverLineGroupMain,
+        hoverLineGroupContext: hoverLineGroupContext,
+        hoverLineGroupTrends: hoverLineGroupTrends,
+        hoverLine2: hoverLine2,
+        hoverDate3: hoverDate3,
+        hoverLine3: hoverLine3
+    };
 
-    d3.select("#polls").on("mouseover", function() {
-        //console.log('mouseover');
-        //hoverLineGroupMain.style("opacity", 1);
-    }).on("mousemove", function() {
-        //console.log('mousemove', d3.mouse(this));
-        var mouse_x = d3.mouse(this)[0] - margin.left + 3;
-        var mouse_y = d3.mouse(this)[1];
-        var graph_y = y1.invert(mouse_y);
-        var graph_x = x1.invert(mouse_x);
-        var mouse_x2 = x1_2(graph_x);
-        var formatTime = d3.time.format("%b %_d");
-        var graph_x2 = formatTime(graph_x);
-        hoverDate.text("  " + graph_x2);
-        hoverDate.attr('x', mouse_x + 5);
-        //hoverDate2.text(" " + graph_x2);
-        //hoverDate2.attr('x', mouse_x2 + 5);
-        //console.log(x1.invert(mouse_x));
-        hoverLine.attr("x1", mouse_x).attr("x2", mouse_x);
-        hoverLine2.attr("x1",mouse_x2).attr("x2", mouse_x2);
-        hoverLineGroupMain.style("opacity", 1);
-        hoverLineGroupContext.style("opacity", 1);
+    attachHoverLineHandler("#polls", components);
 
-        // only show if search term selected
-        hoverDate3.text(" " + graph_x2);
-        hoverDate3.attr('x', mouse_x + 5);
-        hoverLine3.attr("x1",mouse_x).attr("x2", mouse_x);
-        hoverLineGroupTrends.style("opacity", 1);
-
-
-    })  .on("mouseout", function() {
-        //console.log('mouseout');
-        hoverLineGroupMain.style("opacity", 0);
-        hoverLineGroupContext.style("opacity", 0);
-        hoverLineGroupTrends.style("opacity", 0);
-
-    });
-
-    d3.select("#trends").on("mouseover", function () {
-            //console.log('mouseover');
-            //hoverLineGroupMain.style("opacity", 1);
-        }).on("mousemove", function () {
-            //console.log('mousemove', d3.mouse(this));
-            var mouse_x = d3.mouse(this)[0] - margin.left + 3;
-            var mouse_y = d3.mouse(this)[1];
-            var graph_y = y1.invert(mouse_y);
-            var graph_x = x1.invert(mouse_x);
-            var mouse_x2 = x1_2(graph_x);
-            var formatTime = d3.time.format("%b %_d");
-            var graph_x2 = formatTime(graph_x);
-            hoverDate.text("  " + graph_x2);
-            hoverDate.attr('x', mouse_x + 5);
-            //hoverDate2.text(" " + graph_x2);
-            //hoverDate2.attr('x', mouse_x2 + 5);
-            //console.log(x1.invert(mouse_x));
-            hoverLine.attr("x1", mouse_x).attr("x2", mouse_x);
-            hoverLine2.attr("x1", mouse_x2).attr("x2", mouse_x2);
-            hoverLineGroupMain.style("opacity", 1);
-            hoverLineGroupContext.style("opacity", 1);
-
-
-                hoverDate3.text(" " + graph_x2);
-                hoverDate3.attr('x', mouse_x + 5);
-                hoverLine3.attr("x1", mouse_x).attr("x2", mouse_x);
-                hoverLineGroupTrends.style("opacity", 1);
-
-
-        }).on("mouseout", function () {
-            //console.log('mouseout');
-            hoverLineGroupMain.style("opacity", 0);
-            hoverLineGroupContext.style("opacity", 0);
-            hoverLineGroupTrends.style("opacity", 0);
-
-        });
+    attachHoverLineHandler("#trends", components);
 
 }
 
