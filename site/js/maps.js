@@ -88,8 +88,6 @@ function loadData() {
                 selectedDemographicVal = selectedDemographic.val();
             }
 
-            ordinalScale = createCandidateScale();
-
             // then render the chloropleth, once we know jquery dom changes are done
             updateChoropleth(topoJSONdata);
 
@@ -99,10 +97,16 @@ function loadData() {
     });
 }
 
+function determineWinner(results){
+    return (results && (results[0].popular > 0)) ? results[0].candidateName : "N/A";
+}
+
 
 // var ordinalScale = d3.scale.category10();
 
 function updateChoropleth(us) {
+    ordinalScale = createCandidateScale();
+
     g.selectAll('path').remove();
     g.selectAll('g').remove();
     svg.selectAll('text').remove();
@@ -123,16 +127,15 @@ function updateChoropleth(us) {
             var results = d.properties.election.get(selectedPartyVal);
             // if there is a winner, render its color, otherwise missing color is some set default
             // console.log(results ? results[0].candidate : "#aaa");
-            var color = results ? ordinalScale(results[0].candidate) : "#aaa";
+            var color = results ? ordinalScale(determineWinner(results)) : "#aaa";
             return color;
         })
         .attr("data-legend", function(d,i){
             // console.log(d.properties.election)
             var results = d.properties.election ? d.properties.election.get(selectedPartyVal) : undefined;
-            var winner = results ? results[0].candidate : "N/A";
-            return winner;
+            return determineWinner(results);
         })
-        .on("click", countyclicked)
+        //.on("click", countyclicked)
         .on("mouseover", showCountyTooltip)
         .on("mouseout", hideTooltip);
     
@@ -149,8 +152,7 @@ function updateChoropleth(us) {
             var results = d.properties.election ? d.properties.election.get(selectedPartyVal) : undefined;
             // if there is a winner, render its color, otherwise missing color is some set default TODO
             console.log(d.properties);
-            var color = results ? ordinalScale(results[0].candidate) : "#aaa";
-            return color;
+            return ordinalScale(determineWinner(results));
         })
         .on("click", genNewState)
         .on("mouseover", showStateTooltip)
@@ -229,7 +231,8 @@ function showCountyTooltip (d) {
     $("#" + d.id + "inset").css("stroke", "black");
 
     var results = d.properties.election.get(selectedPartyVal);
-    var winner = results ? results[0].candidate : "No winner / Data Missing";
+    var winner = determineWinner(results);
+    winner = (winner === "N/A") ? "No winner / Data Missing" : winner;
 
     tooltip.transition()
         .duration(200)
@@ -244,13 +247,8 @@ function showCountyTooltip (d) {
     var parent = list.parent();
     if (results){
         list.detach().empty().each(function(i){
-            var length;
-            if (results.length > 5){
-                length = 5;
-            }
-            else{
-                length = results.length;
-            }
+            // only show Maximum of Top-5 candidates (per county)
+            var length = (results.length > 5) ? 5 : results.length;
             for (var x = 0; x < length; x++){
                 $(this).append('<tr><th>' + results[x].candidateName + '</th><td>' + formatPercent(results[x].percent) + '</td></tr>');
                 if (x == length - 1){
@@ -319,7 +317,6 @@ function hideTooltip(d) {
 }
 
 function genNewState(d) {
-    console.log("genNewState called");
     focusState = d;
     clicked(focusState);
 
@@ -432,8 +429,8 @@ function genNewState(d) {
             return d.properties.census.countyRecords ? quantize(d.properties.census.countyRecords[selectedDemographic.val()]) : "gray";
         })
         .on("mouseover", showCountyTooltipRight)
-        .on("mouseout", hideTooltip)
-        .on("click", countyclicked);
+        .on("mouseout", hideTooltip);
+        // .on("click", countyclicked);
 
 
     var bounds = path.bounds(d),
@@ -454,12 +451,13 @@ function createCandidateScale(){
     var scale;
     if (selectedPartyVal == "Republican"){
         scale = d3.scale.ordinal()
-        .domain(["Ted Cruz", "John Kasich", "Donald Trump", "Ben Carson", "Marco Rubio", "N/A"])
-        .range(["#e6550d", "#636363" , "#31a354", "#54B6D6", "#FFF129", "#aaa"]);
-    }
-    else{
+        //.domain(["Ted Cruz", "John Kasich", "Donald Trump", "Ben Carson", "Marco Rubio", "Mike Huckabee", "Lindsey Graham", "N/A"])
+        //.range(["#e6550d", "#636363" , "#31a354", "#54B6D6", "#FFF129", "#E38CFF", "#1bdffb", "#aaa"]);
+        .domain(["Ted Cruz", "John Kasich", "Donald Trump", "Marco Rubio", "N/A"])
+        .range(["#e6550d", "#636363" , "#31a354", "#54B6D6", "#aaa"]);
+    }else{
         scale = d3.scale.ordinal()
-        .domain(["Clinton", "Sanders", "N/A"])
+        .domain(["Hillary Clinton", "Bernie Sanders", "N/A"])
         .range(["#3182bd", "#9e9ac8", "#aaa"]);
     }
 

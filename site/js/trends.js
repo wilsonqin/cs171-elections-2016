@@ -1,19 +1,32 @@
+/*
+
 // margins
-var margin = {top: 20, right:50, bottom:20, left:50};
+var margin3 = {top: 20, right:50, bottom:20, left:50};
 
 // Sets width and height elements of graphs
-var width4 = $("#trends").parent().width() - margin.left - margin.right,
-    height4 = 290 - margin.top - margin.bottom;
+var width4 = $("#trends").parent().width() - margin3.left - margin3.right,
+    height4 = 290 - margin3.top - margin3.bottom;
 
 // Initialize SVG elements
 
 var svg4 = d3.select("#trends")
     .append("svg")
-    .attr("width", width4 + margin.left + margin.right)
-    .attr("height", height4 + margin.top + margin.bottom)
+    .attr("width", width4 + margin3.left + margin3.right)
+    .attr("height", height4 + margin3.top + margin3.bottom)
     .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    .attr("transform", "translate(" + margin3.left + "," + margin3.top + ")");
 
+//trends hover line
+var hoverLineGroupTrends = svg4.append("g")
+    .attr("class", "hover-line");
+var hoverLine3 = hoverLineGroupTrends
+    .append("line")
+    .attr("x1", 0).attr("x2", 0)
+    .attr("y1", 0).attr("y2", height4)
+    .attr("stroke", "black");
+var hoverDate3 = hoverLineGroupTrends.append('text')
+    .attr("class", "hover-text")
+    .attr('y', 10);
 
 // color scale
 var color = d3.scale.category20();
@@ -59,7 +72,7 @@ var yAxis4 = d3.svg.axis()
     .orient("left");
 
 // initialize line graph
-var line;
+var line3;
 var legend2;
 var indicator;
 
@@ -83,10 +96,14 @@ function checkExtent(brushExtent)
         localExtent = brushExtent;
 
     loadData4(localExtent);
-    loadData5();
+
+    var indicator = $('#show_events').prop('checked');
+    //console.log(indicator);
+    if (indicator == true) {
+        loadData5();
+    }
 
 }
-
 
 function trendsPlaceholderText(){
     svg4.append("text")
@@ -229,7 +246,7 @@ function updateTrendsAxes(data) {
 
 function drawTrendsLines(data){
 
-    line = d3.svg.line()
+    line3 = d3.svg.line()
         .interpolate("bundle")
         .x(function (d) {
             return x2(d.date);
@@ -243,11 +260,35 @@ function drawTrendsLines(data){
         .enter().append("g")
         .attr("class", "politician");
 
+    var politicianLabel;
+
     politicians.append("path")
         .attr("class", "line")
-        .attr("d", function(d){return line(d.values);})
+        .attr("d", function(d){return line3(d.values);})
         .attr("data-legend", function(d){return d.name;})
-        .style("stroke", function(d) { return color5(d.name); });
+        .style("stroke", function(d) { return color5(d.name); })
+        .on("mouseover", function(){
+            var test = $(this).attr("data-legend");
+            var test2 = test.toString();
+            console.log(test2);
+            var mouse_x = d3.mouse(this)[0] - margin3.left + 15;
+            var mouse_y = d3.mouse(this)[1] - 10;
+            politicianLabel = svg4.append("text")
+                .attr("class", "lineText")
+                .attr("x", mouse_x)
+                .attr("y", mouse_y)
+                .attr("text-anchor", "end")
+                .attr("dy", ".35em")
+                .text(test2)
+        })
+        .on("mousemove", function(){
+            var mouse_x = d3.mouse(this)[0] - margin3.left + 15;
+            var mouse_y = d3.mouse(this)[1] - 10;
+            politicianLabel.attr("x", mouse_x).attr("y", mouse_y);
+        })
+        .on("mouseout", function(){
+            svg4.selectAll(".lineText").remove();
+        });
     
 
     if (indicator != 1) {
@@ -277,7 +318,7 @@ function drawTrendsLines(data){
             //hoverLineGroup.style("opacity", 1);
         }).on("mousemove", function () {
             console.log('mousemove', d3.mouse(this));
-            var mouse_x = d3.mouse(this)[0] - margin.left;
+            var mouse_x = d3.mouse(this)[0] - margin3.left +3;
             var mouse_y = d3.mouse(this)[1];
             var graph_y = y1.invert(mouse_y);
             var graph_x = x1.invert(mouse_x);
@@ -292,51 +333,17 @@ function drawTrendsLines(data){
         }).on("mouseout", function () {
             console.log('mouseout');
             hoverLineGroup.style("opacity", 0);
-            var mouse_x = d3.mouse(this)[0] - margin.left;
+            var mouse_x = d3.mouse(this)[0] - margin3.left;
             var mouse_y = d3.mouse(this)[1];
         });
         //trendsMouseover(mouse_x, mouse_y, 0);
     }
-
-    /*politicians.append("text")
-        .datum(function(d) { return {name: d.name, value: d.values[d.values.length - 1]}; })
-        .attr("transform", function(d) { return "translate(" + x(d.value.date) + "," + y(d.value.search) + ")"; })
-        .attr("x", 3)
-        .attr("dy", ".35em")
-        .text(function(d) { return d.name;});*/
-
 }
 
-
-/*
-function trendsMouseover(mouse_x, mouse_y, indicator){
-
-    var graph_y = y2.invert(mouse_y);
-    var graph_x = x2.invert(mouse_x);
-
-    // hover line - trends
-
-    var hoverLineGroup2 = svg5.append("g")
-        .attr("class", "hover-line");
-    var hoverLine2 = hoverLineGroup2
-        .append("line")
-        .attr("x1", 0).attr("x2", 0)
-        .attr("y1", 0).attr("y2", height4)
-        .attr("stroke", "black");
-    var hoverDate2 = hoverLineGroup2.append('text')
-        .attr("class", "hover-text")
-        .attr('y', 10);
-
-    if (indicator == 1) {
-        hoverLine2.attr("x1", mouse_x).attr("x2", mouse_x);
-        hoverLineGroup2.style("opacity", 0.8);
-    }
-
-    else if (indicator == 0)
-    {
-        svg5.selectAll(".hover-line").remove();
-        hoverLineGroup2.style("opacity", 0);
-    }
+function drawHoverLineTrends(mouse_x)
+{
+    hoverLine3.attr("x1", mouse_x).attr("x2", mouse_x);
+    hoverLineGroupTrends.style("opacity", 1);
 }
+
 */
-

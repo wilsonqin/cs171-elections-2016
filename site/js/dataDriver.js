@@ -78,19 +78,8 @@
   function getDemographicMap(demographics){
     var demLabels = {};
     demographics.forEach(function (d) {
-        // console.log(d);
         demLabels[d.id] = d.name;
     });
-
-    demLabels["POP010210"] = "Population 2010";
-    demLabels["PST045214"] = "Population 2014";
-    demLabels["RHI125214"] = "Percent of population, white";
-    demLabels["RHI225214"] = "Percent of population, black";
-    demLabels["RHI425214"] = "Percent of population, asian";
-    demLabels["PST120214"] = "Percent population change, 2010-14";
-    demLabels["HSG445213"] = "Homeownership rate";
-    demLabels["INC110213"] = "Median Household income";
-    demLabels["PVY020213"] = "Percent in poverty";
 
     return demLabels;
   }
