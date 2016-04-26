@@ -1,8 +1,10 @@
 // Sets width and height elements of maps
-var margin = {top: 50, right: 0, bottom: 50, left: 0},
-    width1 = $("#choropleth1").parent().width(),
-    width2 = $("#choropleth2").parent().width(),
-    height = 500 - margin.bottom;
+var _m = {
+    margin : {top: 50, right: 0, bottom: 50, left: 0},
+    width1 : $("#choropleth1").parent().width(),
+    width2 : $("#choropleth2").parent().width()
+};
+_m.height = 500 - _m.margin.bottom;
 
 // Create a number of global variables
 var centered,
@@ -15,7 +17,7 @@ var centered,
 // Create projection for map of USA
 var projection = d3.geo.albersUsa()
     .scale(800)
-    .translate([width1 / 2, height / 2]);
+    .translate([_m.width1 / 2, _m.height / 2]);
 
 var path = d3.geo.path()
     .projection(projection);
@@ -23,26 +25,26 @@ var path = d3.geo.path()
 // Initialize SVG elements
 var svg = d3.select("#choropleth1")
     .append("svg")
-    .attr("width", width1 + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
+    .attr("width", _m.width1 + _m.margin.left + _m.margin.right)
+    .attr("height", _m.height + _m.margin.top + _m.margin.bottom)
     .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+    .attr("transform", "translate(" + _m.margin.left + "," + _m.margin.top + ")")
     .attr("id", "choropleth-svg");
 
 
 // Allows user to click background of map to zoom out
 svg.append("rect")
     .attr("class", "background")
-    .attr("width", width1)
-    .attr("height", height)
+    .attr("width", _m.width1)
+    .attr("height", _m.height)
     .on("click", clicked);
 
 var svg2 = d3.select("#choropleth2")
     .append("svg")
-    .attr("width", width2 + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
+    .attr("width", _m.width2 + _m.margin.left + _m.margin.right)
+    .attr("height", _m.height + _m.margin.top + _m.margin.bottom)
     .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+    .attr("transform", "translate(" + _m.margin.left + "," + _m.margin.top + ")")
     .attr("id", "choropleth-svg2");
 
 var tooltip = d3.select("body").append("div")
@@ -185,8 +187,8 @@ function clicked(d) {
         dy = bounds[1][1] - bounds[0][1],
         x = (bounds[0][0] + bounds[1][0]) / 2,
         y = (bounds[0][1] + bounds[1][1]) / 2,
-        scale = .9 / Math.max(dx / width1, dy / height),
-        translate = [width1 / 2 - scale * x, height / 2 - scale * y];
+        scale = .9 / Math.max(dx / _m.width1, dy / _m.height),
+        translate = [_m.width1 / 2 - scale * x, _m.height / 2 - scale * y];
 
     if (d) {
         // Removed from if-statement: '&& centered !== d'
@@ -352,7 +354,7 @@ function genNewState(d) {
 
     key = svg2.append("g")
         .attr("class", "key")
-        .attr("transform", "translate(" + 50 + "," + ((height + margin.bottom) / 20 * 19) + ")");
+        .attr("transform", "translate(" + 50 + "," + ((_m.height + _m.margin.bottom) / 20 * 17.5) + ")");
     key.append("text")
         .attr("class", "caption")
         .attr("y", -6);
@@ -438,8 +440,8 @@ function genNewState(d) {
         dy = bounds[1][1] - bounds[0][1],
         x = (bounds[0][0] + bounds[1][0]) / 2,
         y = (bounds[0][1] + bounds[1][1]) / 2,
-        scale = .8 / Math.max(dx / width2, dy / height),
-        translate = [width2 / 2 - scale * x, height / 2 - scale * y];
+        scale = .8 / Math.max(dx / _m.width2, dy / _m.height),
+        translate = [_m.width2 / 2 - scale * x, _m.height / 2 - scale * y];
     g2.transition()
         .duration(750)
         .style("stroke-width", .75 / scale + "px")
@@ -469,8 +471,8 @@ function createCandidateScale(){
 function demographicPlaceholderText(){
     svg2.append("text")
         .attr("id", "placeholderText")
-        .attr("x", width2/2)
-        .attr("y", height/2)
+        .attr("x", _m.width2/2)
+        .attr("y", _m.height/2)
         .attr("text-anchor", "middle")
         .text("Select a state to the left to display more information");
 }
