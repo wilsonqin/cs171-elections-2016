@@ -325,7 +325,6 @@ a:hover, a:visited, a:active
     overflow: hidden;
     margin: 0 auto;
     width: auto;
-
 }
 
 h3
@@ -459,6 +458,18 @@ h1.section_title
     height: 450px;
 }
 
+#header-wrapper.subpage_vis
+{
+    height:350px;
+}
+
+.byline
+{
+    font-size: 1.6em;
+    text-align: center;
+    color: #830d19;
+}
+
 /*********************************************************************************/
 /* Logo                                                                          */
 /*********************************************************************************/
@@ -535,6 +546,13 @@ h1.section_title
 #banner .title h2
 {
     font-size: 4em;
+}
+
+h3.banner_county
+{
+    font-size: 3em;
+    text-align: center;
+    padding-top: 2em;
 }
 
 #banner .title .byline
