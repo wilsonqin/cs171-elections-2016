@@ -459,8 +459,8 @@ function createCandidateScale(){
         .range(["#e6550d", "#636363" , "#31a354", "#54B6D6", "#aaa"]);
     }else{
         scale = d3.scale.ordinal()
-        .domain(["Hillary Clinton", "Bernie Sanders", "N/A"])
-        .range(["#3182bd", "#9e9ac8", "#aaa"]);
+        .domain(["Hillary Clinton", "Bernie Sanders", "Uncommitted", "N/A"])
+        .range(["#3182bd", "#9e9ac8", "#FFFB03", "#aaa"]);
     }
 
     return scale;

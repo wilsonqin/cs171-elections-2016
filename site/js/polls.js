@@ -67,8 +67,8 @@ var position;
 var candidateArray = ["Clinton", "Sanders", "Trump", "Cruz", "Kasich"];
 
 var formatDate = d3.time.format("%Y-%m-%d");
-var max_date = formatDate.parse("2016-04-01");
-var min_date = formatDate.parse("2015-10-25");
+var max_date = formatDate.parse("2016-04-30");
+var min_date = formatDate.parse("2015-11-01");
 var startDateSpan = [min_date, max_date];
 
 //******** TRENDS *********************/
@@ -139,8 +139,8 @@ var indicator;
 // initialize data
 // max and min date
 var formatDate2 = d3.time.format("%Y-%m-%d");
-var max_date2 = formatDate2.parse("2016-04-01");
-var min_date2 = formatDate2.parse("2015-10-25");
+var max_date2 = max_date; //formatDate2.parse("2016-04-30");
+var min_date2 = min_date; //formatDate2.parse("2015-10-25");
 var initialExtent = [min_date2, max_date2];
 loadData4(initialExtent);
 
@@ -451,8 +451,8 @@ function updateContextDomain(data)
     var politician = data;
 
     // max and min date
-    var max_date = formatDate.parse("2016-04-01");
-    var min_date = formatDate.parse("2015-10-25");
+    //var max_date = formatDate.parse("2016-04-01");
+    //var min_date = formatDate.parse("2015-10-25");
 
     // update domains
     x1_2.domain([min_date, max_date]);
