@@ -14,6 +14,7 @@ TEAM MEMBERS:	James Curtin
     <link rel="stylesheet" href="css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
 </head>
 <body>
 
@@ -47,8 +48,9 @@ TEAM MEMBERS:	James Curtin
             <span class="byline">More complex relationships in elections data.</span>
         </div>
         <!-- these should not take user to different page but rather to the appropriate visualization -->
+        <a href="#introduction" class="button">Introduction</a>
         <a href="#countyLevel" class="button">County Level Voting Patterns</a>
-        <a href="#pollsTrends" class="button">Polls vs. Google Trends</a>
+        <!-- <a href="#pollsTrends" class="button">Polls vs. Google Trends</a> -->
         <!-- <a href="#" class="button">What's Next?</a> -->
     </div>
 
@@ -59,10 +61,10 @@ TEAM MEMBERS:	James Curtin
 <div class="container-fluid">
 
 
-    <div class="row">
+    <div class="row" style="height:100vh;" id="introduction">
         <h2 align="center" >Introduction to Our Project</h2>
         <br>
-
+<div class="row">
         <div class="col-md-6">
         <!-- VIDEO HERE -->
         <img src="images/screenshot.png" width="560" height="315" style="border: 1px solid black;display: block;margin-left: auto;margin-right: auto;">
@@ -83,11 +85,10 @@ TEAM MEMBERS:	James Curtin
             </div>
 
         </div>
-
+        </div>
+<div class="row" align="center" style="vertical-align: bottom;"><a href="#countyLevel"><i class="fa fa-angle-double-down fa-3x" aria-hidden="true"></i></a></div>
     </div>
-
-    <hr>
-
+<div style="height:100vh;">
     <div class="row intro vis1_intro" id="countyLevel">
         <h2 align="center">Data Explore for States and Counties</h2>
         <br>
@@ -153,6 +154,7 @@ TEAM MEMBERS:	James Curtin
             </div>
         </div>
 
+    </div>
     </div>
 
 
