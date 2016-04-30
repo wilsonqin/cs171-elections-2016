@@ -271,6 +271,15 @@ a.events
                                                               */
 /*********************************************************************************/
 
+/** intro **/
+p.intro
+{
+    padding: 0 20px 20px 20px;
+    font-size: 15px;
+    font-weight: 200;
+    text-align: justify;
+}
+
 /*********************************************************************************/
 /* Body                                                                  */
 /*********************************************************************************/
@@ -365,6 +374,23 @@ h1.section_title
     display: inline-block;
     width: 150px;
     height: 40px;
+    padding: 0.85em 0.85em 0.85em 0.85em;
+    letter-spacing: 0.10em;
+    margin-top: 2em;
+    border: 1px solid #830d19;
+    border-radius: 6px;
+    text-decoration: none;
+    text-align: center;
+    font-weight: 600;
+    font-size: 1em;
+    color: #830d19;
+}
+
+.button3
+{
+    display: inline-block;
+    width: 450px;
+    height: 50px;
     padding: 0.85em 0.85em 0.85em 0.85em;
     letter-spacing: 0.10em;
     margin-top: 2em;
