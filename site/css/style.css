@@ -525,31 +525,35 @@ h1.section_title
 
 #menu
 {
-    position: absolute;
+    /*position: absolute;
     top: 2.9em;
-    right: 1em;
+    right: 1em;*/
 }
 
 #menu ul
 {
-    display: inline-block;
+    /*display: inline-block;*/
 }
 
 #menu li
 {
-    display: block;
+    /*display: block;
     float: left;
-    text-align: center;
+    text-align: center;*/
 }
 
 #menu li a, #menu li span
 {
-    padding: 1em 1em;
+    /*padding: 1em 1em;
     letter-spacing: 1px;
     text-decoration: none;
     text-transform: uppercase;
     font-size: 0.8em;
+    color: #061727;*/
     color: #061727;
+    letter-spacing: 1px;
+    text-decoration: none;
+    text-transform: uppercase;
 }
 
 #menu li:hover a
