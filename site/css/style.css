@@ -88,6 +88,34 @@ th, td {
 tr:nth-child(odd) {background-color: white}
 tr:nth-child(even) {background-color: lightgrey}
 
+
+
+p {
+    font-family: "Helvetica Neue";
+    font-size: 10pt;
+    color: #000000
+}
+p.introduction:first-letter {
+ font-size : 300%;
+ /*font-weight : bold;*/
+ float : left;
+ width : 1em;
+ color : #c00;
+ }
+
+.about-us {
+  /*width: 250px;*/
+  height: 200px;
+  line-height: 200px;
+  /*text-align: center;*/
+}
+
+.about {
+  display: inline-block;
+  vertical-align: middle;
+  line-height: normal;      
+}
+
 /***********************/
 /* Polls and Trends CSS*/
 /**********************/
