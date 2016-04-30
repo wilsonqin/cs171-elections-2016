@@ -503,6 +503,7 @@ function applyFieldListeners(){
 function renderDemographicOptions(dems){
     var doneRendering;
     var fields = [
+        "INC110213",
         "POP010210",
         "PST045214",
         "RHI125214",
@@ -510,7 +511,6 @@ function renderDemographicOptions(dems){
         "RHI425214",
         "PST120214",
         "HSG445213",
-        "INC110213",
         "PVY020213"
     ];
 
