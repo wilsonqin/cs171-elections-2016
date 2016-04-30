@@ -20,17 +20,26 @@ TEAM MEMBERS:	James Curtin
 
 
 <!-- top banner -->
-<div id="header-wrapper" style="height:100vh;text-align:center;">
+<div id="header-wrapper" class="container-fluid" style="text-align:center;">
 
-    <div id="header" class="container">
-        <div id="top_banner">
-            <div id="logo" style="padding-left: 15px;">
-                <a href="index.html"><img src="images/data_inc.png" height="130px"></a>
+    <nav class="row navbar navbar-custom" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
+                    <i class="fa fa-bars"></i>
+                </button>
+                <div id="navbar-brand logo" style="padding-left: 15px;">
+                    <a href="index.html"><img src="images/data_inc.png" height="130px"></a>
+                </div>
             </div>
 
-            <!-- top right menu - leads to videos / motivation description /etc. -->
-            <div id="menu">
-                <ul>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
+                <ul class="nav navbar-nav">
+                    <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
+                    <li class="hidden">
+                        <a href="#page-top"></a>
+                    </li>
                     <li class="active"><a href="index.html" title="">Home</a></li>
                     <li><a href="county_level.html" title="">Data Explorer</a></li>
                     <li><a href="polls_trends.html" title="">Opinion Tracker</a></li>
@@ -38,22 +47,31 @@ TEAM MEMBERS:	James Curtin
                     <li><a href="aboutus.html" title="">About Us</a></li>
                 </ul>
             </div>
+            <!-- /.navbar-collapse -->
         </div>
-    </div>
-    <br><br><br><br>
-    <!-- title + menu for 2/3 visualizations -->
-    <div id="banner" class="container">
-        <div class="title">
-            <h2>The 2016 Presidential Elections</h2>
-            <span class="byline">More complex relationships in elections data.</span>
+        <!-- /.container -->
+    </nav>
+
+    <div style="clear:both;"></div>
+
+    <!-- Intro Header -->
+    <header class="row intro">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="title">
+                <h2>The 2016 Presidential Elections</h2>
+                <span class="byline">More complex relationships in elections data.</span>
+            </div>
+            <!-- these should not take user to different page but rather to the appropriate visualization -->
+            <a href="#introduction" class="button">Introduction</a>
+            <a href="#countyLevel" class="button">Data Visualizations</a>
+            <!-- <a href="#pollsTrends" class="button">Polls vs. Google Trends</a> -->
+            <!-- <a href="#" class="button">What's Next?</a> -->
+            <div style="clear:both;"></div>
+            <a href="#introduction" class="btn btn-circle page-scroll">
+                <i class="fa fa-angle-double-down fa-3x animated"></i>
+            </a>
         </div>
-        <!-- these should not take user to different page but rather to the appropriate visualization -->
-        <a href="#introduction" class="button">Introduction</a>
-        <a href="#countyLevel" class="button">Data Visualizations</a>
-        <!-- <a href="#pollsTrends" class="button">Polls vs. Google Trends</a> -->
-        <!-- <a href="#" class="button">What's Next?</a> -->
-    </div>
-    <div class="row introArrow" style="text-align: center;"><a href="#introduction"><i class="fa fa-angle-double-down fa-3x" aria-hidden="true"></i></a></div>
+    </header>
 </div>
 <!-- end banner -->
 
@@ -61,45 +79,36 @@ TEAM MEMBERS:	James Curtin
 <div class="container-fluid">
 
 
-    <div class="row" style="height:100vh;" id="introduction">
-        <br>
-        <h2 align="center" >Introduction to Our Project</h2>
-        <br><br>
-<div class="row">
-        <div class="col-md-6">
-        <!-- VIDEO HERE -->
-        <h3 align="center">Explanatory Video</h3>
-            <br><br>
-        <img src="images/screenshot.png" width="560" height="315" style="border: 1px solid black;display: block;margin-left: auto;margin-right: auto;">
-
-        </div>
-
-        <div class="col-md-6">
-        <h3 align="center">Motivations and Goals</h3>
-            <br><br>
-            <p class="intro">
-            We present two data tools to visually explore and analyze the <b>2016 presidential election</b> landscape. The media tends to characterize the primary elections as horseraces for the Republican and Democrat parties, as their respective candidates jockey for the lead in delegate totals across their respective primary contests in individual states. However our visualizations dive deeper to explore public opinion through popular vote totals, poll results, internet search trends, and demographics by geography.
-                <br><br>
-                While casual visual inspection is by no means a rigorous analysis tool, our visualizations empower you to use an initial visual approach to finding meaning in voting patterns before a more focused and rigorous analysis with statistical tools.
-                <br><br>
-                We hope you enjoy our project!
-                <br><br>
-
-            </p>
-
-            <div align="center">
-                <img class="miniPhotos" src="images/anna.png">
-                <img class="miniPhotos" src="images/james.png">
-                <img class="miniPhotos" src="images/wilson.png">
+    <div class="row" style="" id="introduction">
+        <h2 align="center">Introduction to Our Project</h2>
+        <div style="clear:both;">
+        <div class="row">
+            <div class="col-md-6">
+                <!-- VIDEO HERE -->
+                <h3 align="center">Explanatory Video</h3>
+                <img src="images/screenshot.png" style="max-width:100%;">
             </div>
 
-
-        </div>
+            <div class="col-md-6">
+                <h3 align="center">Motivations and Goals</h3>
+                <br><br>
+                <p class="intro">
+                We present two data tools to visually explore and analyze the <b>2016 presidential election</b> landscape. The media tends to characterize the primary elections as horseraces for the Republican and Democrat parties, as their respective candidates jockey for the lead in delegate totals across their respective primary contests in individual states. However our visualizations dive deeper to explore public opinion through popular vote totals, poll results, internet search trends, and demographics by geography.
+                    <br><br>
+                    While casual visual inspection is by no means a rigorous analysis tool, our visualizations empower you to use an initial visual approach to finding meaning in voting patterns before a more focused and rigorous analysis with statistical tools.
+                    <br><br>
+                    We hope you enjoy our project!
+                </p>
+                <div align="center">
+                    <img class="miniPhotos" style="max-width:50px;" src="images/anna.png">
+                    <img class="miniPhotos" style="max-width:50px;" src="images/james.png">
+                    <img class="miniPhotos" style="max-width:50px;" src="images/wilson.png">
+                </div>
+            </div>
         </div>
         <br>
-<div class="row" align="center" style="vertical-align: bottom;"><a href="#countyLevel"><i class="fa fa-angle-double-down fa-3x" aria-hidden="true"></i></a></div>
+        <div class="row" align="center" style=""><a href="#countyLevel"><i class="fa fa-angle-double-down fa-3x" aria-hidden="true"></i></a></div>
     </div>
-<div style="height:100vh;">
     <div class="row intro vis1_intro" id="countyLevel">
         <h2 align="center">Data Explore for States and Counties</h2>
         <br>
@@ -162,7 +171,6 @@ TEAM MEMBERS:	James Curtin
             </div>
         </div>
 
-    </div>
     </div>
 
 
