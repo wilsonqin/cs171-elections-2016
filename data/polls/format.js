@@ -14,6 +14,8 @@ for(; i < 50; i++){
   polls = polls.concat(require("./huff-poll-page-"+i.toString()+".json"));
 }
 
+var formatDate =  d3.time.format("%Y-%m-%d");
+
 var records = [];
 
 polls.forEach(function(d){
@@ -23,7 +25,7 @@ polls.forEach(function(d){
     var responses = repNational.subpopulations[0].responses;
     for(i in responses){
       var response = responses[i];
-      response.date = d.end_date;
+      response.date = d.start_date;
       response.pollster = d.pollster;
       records.push(response);
     }
@@ -37,14 +39,15 @@ var aggregatePolls = d3.nest()
     polls[0].value = d3.mean(polls, function(p){ return p.value; });
     return polls[0];
   })
-  .sortValues(function(d){ return d3.descending(a.date, b.date); })
   .map(records, d3.map);
 
 var candidates = ["Trump", "Kasich", "Cruz", "Clinton", "Sanders"];
 
 var results = {};
 candidates.forEach(function(candidate){
-  results[candidate] = aggregatePolls.get(candidate).values();
+  results[candidate] = aggregatePolls.get(candidate).values().sort(function(a,b){
+    return a.date.localeCompare(b.date);
+  });
 });
 
 console.log(JSON.stringify(results))
