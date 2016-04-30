@@ -7,7 +7,7 @@ var d3 = require('d3');
 var fs = require('fs');
 var _ = require('underscore');
 
-var trends = processCSV("terms-2016-01-03_2016-04-09.csv");
+var trends = processCSV("terms-2015-08-02_2016-04-30.csv");
 
 var results = {};
 
