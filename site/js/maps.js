@@ -129,7 +129,7 @@ function updateChoropleth(us) {
             var results = d.properties.election.get(selectedPartyVal);
             // if there is a winner, render its color, otherwise missing color is some set default
             // console.log(results ? results[0].candidate : "#aaa");
-            var color = results ? ordinalScale(determineWinner(results)) : "#aaa";
+            var color = results ? ordinalScale(determineWinner(results)) : "#c7c7c7";
             return color;
         })
         .attr("data-legend", function(d,i){
@@ -428,7 +428,7 @@ function genNewState(d) {
         .attr("id", function (d) {return String(d.id) + "inset";})
         .attr("class", "countyInset")
         .attr("fill", function(d) {
-            return d.properties.census.countyRecords ? quantize(d.properties.census.countyRecords[selectedDemographic.val()]) : "gray";
+            return d.properties.census.countyRecords ? quantize(d.properties.census.countyRecords[selectedDemographic.val()]) : "#c7c7c7";
         })
         .on("mouseover", showCountyTooltipRight)
         .on("mouseout", hideTooltip);
@@ -456,11 +456,11 @@ function createCandidateScale(){
         //.domain(["Ted Cruz", "John Kasich", "Donald Trump", "Ben Carson", "Marco Rubio", "Mike Huckabee", "Lindsey Graham", "N/A"])
         //.range(["#e6550d", "#636363" , "#31a354", "#54B6D6", "#FFF129", "#E38CFF", "#1bdffb", "#aaa"]);
         .domain(["Ted Cruz", "John Kasich", "Donald Trump", "Marco Rubio", "N/A"])
-        .range(["#e6550d", "#636363" , "#31a354", "#54B6D6", "#aaa"]);
+        .range(["#ebd077", "#bf2942" , "#d95b44", "#542537", "#c7c7c7"]);
     }else{
         scale = d3.scale.ordinal()
         .domain(["Hillary Clinton", "Bernie Sanders", "Uncommitted", "N/A"])
-        .range(["#3182bd", "#9e9ac8", "#FFFB03", "#aaa"]);
+        .range(["#1f5167", "#4699b7", "#94cfc9", "#c7c7c7"]);
     }
 
     return scale;

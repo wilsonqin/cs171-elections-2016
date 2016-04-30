@@ -11,7 +11,7 @@
     stroke: lightgrey;
 }
 #focusState{
-    fill: lightgrey;
+    fill: "#c7c7c7";
     stroke: black;
 }
 .state {
