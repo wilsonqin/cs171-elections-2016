@@ -2,9 +2,174 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Data, Inc. Final Project</title>
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+
+<div id="header-wrapper" class="subpage_vis">
+
+    <div id="header" class="container">
+        <div id="top_banner">
+
+            <!-- "logo" saying Data, Inc. -->
+            <div id="logo">
+                <h1>Data, Inc.</h1>
+            </div>
+            <!-- top right menu -- leads to videos / motivation description /etc. -->
+            <div id="menu">
+                <ul>
+                    <li><a href="index.html" title="">Home</a></li>
+                    <li><a href="overview.html" title="">Project Overview</a></li>
+                    <li><a href="sources.html" title="">Sources</a></li>
+                    <li><a href="aboutus.html" title="">About Us</a></li>
+                </ul>
+            </div>
+            <h3 class="banner_county">Public Opinion Tracker</h3>
+            <div class="byline">The Nation's Attention through Time.</div>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="container-fluid">
+    <!-- SECOND VISUALIZATION - POLLS / TRENDS -->
+    <div class="row">
+        <br>
+        <p class="explanation_heading">
+            How does the internet impact elections? Are <b>Google Searches</b> related to a candidate's performance in <b>national polls</b>? Why are searches for politicians' wives so popular?
+            These are some of the questions explored in the following section.
+        </p>
+        <!-- Row 1 - explanations -->
+        <div class="row">
+            <!-- Polls + Trends explanations -->
+
+            <div class="col-md-3">
+                <h3 align="center">Polls, Searches, and Events</h3>
+                <p class="explore_explanation">
+                    The top graph shows how candidates performed over time in national polls, while the lower graph shows the volume of Google Search trends of specific phrases related to candidates.
+                    Add <b>events</b> in the center to display important milestones during the elections.
+                </p>
+            </div>
+
+            <div class="col-md-6">
+                <form action="" method="get">
+                    <div class="eventButtons row">
+                        <div class="col-md-4">
+                            <input type="checkbox" id="show_events" class="invisible">
+                            <br>
+                            <a class="button2" id="show" onclick="changeEventsCheckbox()">Show Events</a>
+                        </div>
+                        <div class="col-md-4">
+                            <br>
+                            <a class="button2" onclick="removeEvents()">Remove Events</a>
+                        </div>
+                        <div class="col-md-4">
+                            <br>
+                            <a href="#pollsTrends" onclick="resetVisualization2()" class="button2">Reset Graphs</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Select Candidate + search terms explanation-->
+            <div class="col-md-3">
+                <h3 align="center">Select Candidates and Search Terms</h3>
+                <p class="explore_explanation">Explore how the five <b>candidates</b> performed in national polls over time by clicking on their image.
+                    Then, select some <b>search terms</b> to show on the lower graph. What interesting trends can you find? Is Ted Cruz really the <a href="http://www.gq.com/story/ted-cruz-loves-soup-zodiac-killer-maybe">Zodiac Killer?</a></p>
+            </div>
+        </div>
+
+        <!-- Row 2 - visualizations -->
+        <div class="row">
+
+            <!-- Column 1 - visualizations -->
+            <div class="col-md-9">
+                <!-- Visualization placeholders -->
+                <div id="polls"></div>
+                <div id="trends"></div>
+            </div>
+
+            <!-- Column 2 select candidate / searchbox-->
+            <div class="col-md-3">
+                <div class="row">
+
+                    <form action="" method="get">
+                        <div class="col-md-5">
+                            <form action="" method="get">
+                                <input class="invisible" id="Clinton_select" name="checkbox2" type="checkbox" value="Clinton">
+                                <img onclick="checkExtent2(brush.extent())" id="Clinton" class="image_button" src="images/hillary_button.jpg"><br>
+                                <input class="invisible" id="Sanders_select" name="checkbox2" type="checkbox" value="Sanders">
+                                <img onclick="checkExtent2(brush.extent())" id="Sanders" class="image_button" src="images/bernie_button.jpg"><br>
+                                <input class="invisible" id="Trump_select" name="checkbox2" type="checkbox" value="Trump">
+                                <img onclick="checkExtent2(brush.extent())" id="Trump" class="image_button" src="images/trump_button.jpg"><br>
+                                <input class="invisible" id="Cruz_select" name="checkbox2" type="checkbox" value="Cruz">
+                                <img onclick="checkExtent2(brush.extent())" id="Cruz" class="image_button" src="images/cruz_button.jpg"><br>
+                                <input class="invisible" id="Kasich_select" name="checkbox2" type="checkbox" value="Kasich">
+                                <img onclick="checkExtent2(brush.extent())" id="Kasich" class="image_button" src="images/kasich_button.jpg">
+                            </form>
+                        </div>
+                    </form>
+
+                    <div class="col-md-7 search_select">
+                        <form action="" method="get">
+                            <br>
+                            <h5>Hillary Clinton: </h5>
+                            <input id="ch1" name="checkbox" onclick="checkExtent(brush.extent())" type="checkbox" value="hillary for america"> "Hillary for America"<br>
+                            <input id="ch2" name="checkbox" onclick="checkExtent(brush.extent())" type="checkbox" value="hillary clinton email"> E-mail <br>
+                            <input id="ch3" name="checkbox" onclick="checkExtent(brush.extent())" type="checkbox" value="hillary clinton benghazi"> Benghazi <br>
+                            <input id="ch4" name="checkbox" onclick="checkExtent(brush.extent())" type="checkbox" value="hillary clinton snl"> SNL <br>
+                            <br>
+                            <h5>Bernie Sanders: </h5>
+                            <input id="ch5" name="checkbox" onclick="checkExtent(brush.extent())" type="checkbox" value="feel the bern"> "Feel the Bern" <br>
+                            <input id="ch6" name="checkbox" onclick="checkExtent(brush.extent())" type="checkbox" value="bernie sanders socialist"> Socialist <br>
+                            <input id="ch7" name="checkbox" onclick="checkExtent(brush.extent())" type="checkbox" value="bernie sanders old"> Old <br>
+                            <input id="ch8" name="checkbox" onclick="checkExtent(brush.extent())" type="checkbox" value="bernie sanders bird"> Bird <br>
+                            <br>
+                            <h5>Donald Trump: </h5>
+                            <input id="ch9" name="checkbox" onclick="checkExtent(brush.extent())" type="checkbox" value="make america great again"> "Make America Great Again"<br>
+                            <input id="ch10" name="checkbox" onclick="checkExtent(brush.extent())" type="checkbox" value="donald trump immigration"> Immigration<br>
+                            <input id="ch11" name="checkbox" onclick="checkExtent(brush.extent())" type="checkbox" value="donald trump wife"> Wife<br>
+                            <input id="ch12" name="checkbox" onclick="checkExtent(brush.extent())" type="checkbox" value="donald trump wall"> Wall<br>
+                            <br>
+                            <h5>Ted Cruz: </h5>
+                            <input id="ch13" name="checkbox" onclick="checkExtent(brush.extent())" type="checkbox" value="ted cruz canada"> Canada<br>
+                            <input id="ch14" name="checkbox" onclick="checkExtent(brush.extent())" type="checkbox" value="ted cruz immigration"> Immigration<br>
+                            <input id="ch15" name="checkbox" onclick="checkExtent(brush.extent())" type="checkbox" value="ted cruz wife"> Wife<br>
+                            <input id="ch16" name="checkbox" onclick="checkExtent(brush.extent())" type="checkbox" value="ted cruz zodiac killer"> Zodiac Killer<br>
+                            <br>
+                            <h5>John Kasich: </h5>
+                            <input id="ch17" name="checkbox" onclick="checkExtent(brush.extent())" type="checkbox" value="john kasich ohio"> Ohio<br>
+                            <input id="ch18" name="checkbox" onclick="checkExtent(brush.extent())" type="checkbox" value="john kasich wife"> Wife<br>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="js/d3.min.js"></script>
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/d3-queue.min.js"></script>
+<script src="js/queue.min.js"></script>
+<script src="js/d3.legend.js"></script>
+<script src="js/topojson.js"></script>
+<script src="js/colorbrewer.js"></script>
+<script src="js/smoothScroll.js"></script>
+<script src="js/dataDriver.js"></script>
+<script src="js/main.js"></script>
+<script src="js/maps.js"></script>
+<script src="js/polls.js"></script>
+<script src="js/trends.js"></script>
+<script src="js/d3.tip.v0.6.3.js"></script>
+<script src="js/events.js"></script>
+<script src="js/prediction.js"></script>
 
 </body>
 </html>
