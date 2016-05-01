@@ -230,6 +230,13 @@ function updatePollsAxes(data, datedomain){
         .attr("class", "x-axis1 axis");
     var yAxisGroup3 = svg3.append("g")
         .attr("class", "y-axis1 axis");
+
+    yAxisGroup3.append("text")
+        .text("% Support")
+        .attr("text-anchor", "end")
+        .attr("transform", "rotate(-90)")
+        .attr("y", -30)
+        .attr("x", -(height3 / 3));
         
     // call axes
     svg3.select(".x-axis1")
@@ -753,6 +760,13 @@ function updateTrendsAxes(data) {
         .attr("class", "x-axis axis g2");
     var yAxisGroup4 = svg4.append("g")
         .attr("class", "y-axis axis g2");
+
+    yAxisGroup4.append("text")
+        .text("Google Trends Score")
+        .attr("text-anchor", "end")
+        .attr("transform", "rotate(-90)")
+        .attr("y", -30)
+        .attr("x", -(height4 / 3));
 
     // call axes
     svg4.select(".x-axis")
