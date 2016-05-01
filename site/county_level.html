@@ -9,18 +9,27 @@
 </head>
 <body>
 
+<!-- top banner -->
+<div id="header-wrapper" class="container-fluid" style="text-align:center;">
 
-<div id="header-wrapper" class="subpage_vis">
-
-    <div id="header" class="container">
-        <div id="top_banner">
-
-            <div id="logo" style="padding-left: 15px;">
-                <a href="index.html"><img src="images/data_inc.png" height="130px"></a>
+    <nav class="row navbar navbar-custom" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
+                    <i class="fa fa-bars"></i>
+                </button>
+                <div id="navbar-brand logo" style="padding-left: 15px;">
+                    <a href="index.html"><img src="images/data_inc.png" height="130px"></a>
+                </div>
             </div>
-            <!-- top right menu -- leads to videos / motivation description /etc. -->
-            <div id="menu">
-                <ul>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div id="menu" class="collapse navbar-collapse navbar-right navbar-main-collapse">
+                <ul class="nav navbar-nav">
+                    <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
+                    <li class="hidden">
+                        <a href="#page-top"></a>
+                    </li>
                     <li><a href="index.html" title="">Home</a></li>
                     <li class="active"><a href="county_level.html" title="">Data Explorer</a></li>
                     <li><a href="polls_trends.html" title="">Opinion Tracker</a></li>
@@ -28,18 +37,34 @@
                     <li><a href="aboutus.html" title="">About Us</a></li>
                 </ul>
             </div>
-            <h3 class="banner_county">Data Explorer for States and Counties</h3>
-            <div class="byline">Geography, Demography, and Voter Choices</div>
+            <!-- /.navbar-collapse -->
         </div>
+        <!-- /.container -->
+    </nav>
 
-    </div>
+    <div style="clear:both;"></div>
 
+    <!-- Intro Header -->
+    <header class="row" id="banner">
+        <div class="col-md-10 col-md-offset-1">
+            <div class="title">
+                <h3 class="banner_county">Data Explorer for States and Counties</h3>
+                <div class="byline">Geography, Demography, and Voter Choices</div>
+            </div>
+        </div>
+    </header>
 </div>
 
-<div class="container-fluid" style="height:100vh;">
+<div class="container-fluid">
 
 <!-- FIRST VISUALIZATION - CHOROPLETH -->
 <div class="row vis1 topOfPage">
+    <div class="row">
+        <p class="explanation_heading">
+            How does geography and demographics impact voters' decisions across the nation? Can you spot visual voting patterns? Do higher income counties favor certain candidates while poorer ones favor others? Which candidates seem to campaign more in metropolitan areas? 
+            These are some of the questions explored in the following section.
+        </p>
+    </div>
     <!-- Column 1 -->
     <div class="col-md-6">
         <div>

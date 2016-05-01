@@ -391,6 +391,7 @@ h1.section_title
     font-weight: 600;
     font-size: 1em;
     color: #830d19;
+    cursor: pointer;
 }
 
 .button3
@@ -587,7 +588,6 @@ h3.banner_county
 {
     font-size: 3em;
     text-align: center;
-    padding-top: 2em;
 }
 
 #banner .title .byline
