@@ -8,7 +8,7 @@ var fs = require('fs');
 var _ = require('underscore');
 
 var countyFacts = processCSV("vis1_county_facts.csv");
-var primaryResults = processCSV("vis1_primary_results.csv");
+//var primaryResults = processCSV("vis1_primary_results.csv");
 
 function processCSV(path){
   var data = fs.readFileSync(path).toString();
