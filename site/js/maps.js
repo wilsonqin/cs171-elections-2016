@@ -252,7 +252,7 @@ function showCountyTooltip (d) {
             // only show Maximum of Top-5 candidates (per county)
             var length = (results.length > 5) ? 5 : results.length;
             for (var x = 0; x < length; x++){
-                $(this).append('<tr><th>' + results[x].candidateName + '</th><td>' + formatPercent(results[x].percent) + '</td></tr>');
+                $(this).append('<tr><th>' + (results[x].candidateName ? results[x].candidateName : results[x].candidate) + '</th><td>' + formatPercent(results[x].percent) + '</td></tr>');
                 if (x == length - 1){
                     $(this).appendTo(parent);
                 }
