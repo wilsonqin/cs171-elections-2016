@@ -27,6 +27,7 @@ function formatCountyFacts(countyFacts){
     "POP010210", // pop 2010
     "RHI125214", // percent white
     "RHI225214", // percent black
+    "RHI725214", // percent latino
     "RHI425214", // percent asian
     "HSG445213", // homeownership rate
     "INC110213", // median household income

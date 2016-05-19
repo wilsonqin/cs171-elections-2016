@@ -508,6 +508,7 @@ function renderDemographicOptions(dems){
         "PST045214",
         "RHI125214",
         "RHI225214",
+        "RHI725214",
         "RHI425214",
         "PST120214",
         "HSG445213",
